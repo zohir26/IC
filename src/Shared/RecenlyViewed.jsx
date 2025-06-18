@@ -7,22 +7,23 @@ const recentlyViewedItems = [
     id: 1,
     name: "UMultilink",
     description: "Universal Multilink Development Interface",
-    image: "/api/placeholder/80/80",
+    image: "https://i.ibb.co/m5CcLqzw/u-multilink-removebg-preview.png",
     link: "/products/umultilink"
   },
   {
     id: 2,
     name: "i.MX-RT600",
     description: "i.MX RT600 Crossover MCU with Arm® Cortex®-M33",
-    image: "/api/placeholder/80/80",
+    image: "https://i.ibb.co/hRTpZ8LB/i-mx-RT600-removebg-preview.png",
     link: "/products/imx-rt600"
+  
   },
   {
     id: 3,
     name: "LPC1224FBD48",
     description: "32 KB Flash, 4 KB SRAM, LQFP48 Package",
-    image: "/api/placeholder/80/80",
-    link: "/products/lpc1224fbd48"
+    image: "https://i.ibb.co/YTNfVFVH/LPC1224-FBD48-removebg-preview.png",
+    ink: "/products/lpc1224fbd48"
   }
 ];
 
@@ -50,7 +51,7 @@ export default function RecentlyViewed() {
                   />
                 </div>
                 <div className="flex-1">
-                  <Link href={item.link}>
+                  <Link href={`item.link`}>
                     <h3 className="text-xl font-bold text-blue-600 hover:text-blue-800 mb-2">
                       {item.name}
                     </h3>

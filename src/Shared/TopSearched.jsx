@@ -11,7 +11,7 @@ const searchedItems = [
     status: "ACTIVE",
     description: "15V Zener diode in SC-70 package",
     price: "1ku | 0.02",
-    icon: "/api/placeholder/60/60"
+    icon: "https://i.ibb.co/BKZ2d6Dr/diodes-removebg-preview.png"
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const searchedItems = [
     status: "ACTIVE",
     description: "Automotive low-power comparator with rail-to-rail inputs",
     price: "1ku | 0.65",
-    icon: "/api/placeholder/60/60"
+    icon: "https://i.ibb.co/S4VyNBS0/connector-removebg-preview.png"
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const searchedItems = [
     status: "ACTIVE",
     description: "Automotive 12V/24V, 40V max, 4A peak three-phase motor driver with integrated current sensing",
     price: "1ku | 1.50",
-    icon: "/api/placeholder/60/60"
+    icon: "https://i.ibb.co/jkdfC6dB/drivers-removebg-preview.png"
   },
   {
     id: 4,
@@ -38,7 +38,7 @@ const searchedItems = [
     status: "ACTIVE",
     description: "High-performance ARM Cortex-M4 32-bit RISC core",
     price: "1ku | 8.45",
-    icon: "/api/placeholder/60/60"
+    icon: "https://i.ibb.co/chk7G2xR/microcontroller-removebg-preview.png"
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ const searchedItems = [
     status: "ACTIVE",
     description: "Simple Switcher Power Converter 150 kHz 3A Step-Down Voltage Regulator",
     price: "1ku | 2.30",
-    icon: "/api/placeholder/60/60"
+    icon: "https://i.ibb.co/b5ZnCw66/power-management-removebg-preview.png"
   },
   {
     id: 6,
@@ -56,7 +56,7 @@ const searchedItems = [
     status: "ACTIVE",
     description: "WiFi+BT+BLE MCU Module",
     price: "1ku | 3.20",
-    icon: "/api/placeholder/60/60"
+    icon: "https://i.ibb.co/spvQf45V/modules-removebg-preview.png"
   }
 ];
 
@@ -84,11 +84,11 @@ export default function TopSearched() {
         {/* Section Headers */}
         <div className="flex flex-col md:flex-row gap-8 mb-12">
           {/* Recently Added */}
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <div className="bg-blue-800 text-white px-8 py-4 inline-block transform -skew-x-12">
               <h2 className="text-xl md:text-2xl font-bold transform skew-x-12">RECENTLY ADDED</h2>
             </div>
-          </div>
+          </div> */}
           
           {/* Top Searched */}
           <div className="flex-1">

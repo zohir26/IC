@@ -5,73 +5,73 @@ const categories = [
   {
     id: 1,
     name: "Integrated Circuits (ICs)",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/jkcJ05dg/IC-removebg-preview.png",
     link: "/category/integrated-circuits"
   },
   {
     id: 2,
     name: "Discrete Semiconductors",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/svrpNMjH/discrete-semicondutor-removebg-preview.png",
     link: "/category/discrete-semiconductors"
   },
   {
     id: 3,
     name: "Passive Components",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/HTJYxCfm/passive-components-removebg-preview.png",
     link: "/category/passive-components"
   },
   {
     id: 4,
     name: "Electromechanical",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/zWHmtW96/electromechanical-removebg-preview.png",
     link: "/category/electromechanical"
   },
   {
     id: 5,
     name: "Connectors",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/JjLtCz05/connectors-removebg-preview.png",
     link: "/category/connectors"
   },
   {
     id: 6,
     name: "Test Equipment",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/cKznKTk8/test-equipment-of-semicondutor-removebg-preview.png",
     link: "/category/test-equipment"
   },
   {
     id: 7,
     name: "Tools and Supplies",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/C5g9mPLM/tools-removebg-preview.png",
     link: "/category/tools-supplies"
   },
   {
     id: 8,
     name: "Sensors",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/tTxyPDRH/sensors-removebg-preview.png",
     link: "/category/sensors"
   },
   {
     id: 9,
     name: "Optoelectronics",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/39jmj8xc/optoelectronics-removebg-preview.png",
     link: "/category/optoelectronics"
   },
   {
     id: 10,
     name: "Circuit Protection",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/5WL2Nbgq/circuit-protection-removebg-preview.png",
     link: "/category/circuit-protection"
   },
   {
     id: 11,
     name: "Power Products",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/LDrJRzmw/power-removebg-preview.png",
     link: "/category/power-products"
   },
   {
     id: 12,
     name: "Cables and Wire",
-    icon: "/api/placeholder/60/60",
+    icon: "https://i.ibb.co/whvgkXQw/cables-and-wires-removebg-preview.png",
     link: "/category/cables-wire"
   }
 ];

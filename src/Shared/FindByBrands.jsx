@@ -2,27 +2,27 @@
 import Link from 'next/link';
 
 const brands = [
-  { id: 1, name: "muRata", logo: "/api/placeholder/140/80", link: "/brands/murata" },
-  { id: 2, name: "Positronic", logo: "/api/placeholder/140/80", link: "/brands/positronic" },
-  { id: 3, name: "Microchip", logo: "/api/placeholder/140/80", link: "/brands/microchip" },
-  { id: 4, name: "Littelfuse", logo: "/api/placeholder/140/80", link: "/brands/littelfuse" },
-  { id: 5, name: "Diodes", logo: "/api/placeholder/140/80", link: "/brands/diodes" },
-  { id: 6, name: "Allegro", logo: "/api/placeholder/140/80", link: "/brands/allegro" },
-  { id: 7, name: "NXP", logo: "/api/placeholder/140/80", link: "/brands/nxp" },
-  { id: 8, name: "OuDevices", logo: "/api/placeholder/140/80", link: "/brands/oudevices" },
-  { id: 9, name: "Toshiba", logo: "/api/placeholder/140/80", link: "/brands/toshiba" },
-  { id: 10, name: "Advantech", logo: "/api/placeholder/140/80", link: "/brands/advantech" },
-  { id: 11, name: "Analog Devices", logo: "/api/placeholder/140/80", link: "/brands/analog-devices" },
-  { id: 12, name: "Texas Instruments", logo: "/api/placeholder/140/80", link: "/brands/texas-instruments" },
-  { id: 13, name: "ST", logo: "/api/placeholder/140/80", link: "/brands/st" },
-  { id: 14, name: "Onsemi", logo: "/api/placeholder/140/80", link: "/brands/onsemi" },
-  { id: 15, name: "ROHM", logo: "/api/placeholder/140/80", link: "/brands/rohm" },
-  { id: 16, name: "Renesas", logo: "/api/placeholder/140/80", link: "/brands/renesas" },
-  { id: 17, name: "Sgmicro", logo: "/api/placeholder/140/80", link: "/brands/sgmicro" },
-  { id: 18, name: "Brocade", logo: "/api/placeholder/140/80", link: "/brands/brocade" },
-  { id: 19, name: "Kemet", logo: "/api/placeholder/140/80", link: "/brands/kemet" },
-  { id: 20, name: "Vishay", logo: "/api/placeholder/140/80", link: "/brands/vishay" },
-  { id: 21, name: "Apex", logo: "/api/placeholder/140/80", link: "/brands/apex" }
+  { id: 1, name: "muRata", logo: "https://i.ibb.co/BVjnJ1Gn/muratea-removebg-preview.png", link: "/brands/murata" },
+  { id: 2, name: "Positronic", logo: "https://i.ibb.co/XkdXc5Y9/Positronic.png", link: "/brands/positronic" },
+  { id: 3, name: "Microchip", logo: "https://i.ibb.co/TM8qdZLN/microchip-removebg-preview.png", link: "/brands/microchip" },
+  { id: 4, name: "Littelfuse", logo: "https://i.ibb.co/9Hx7xKMK/lettelfuse-removebg-preview.png", link: "/brands/littelfuse" },
+  { id: 5, name: "Diodes", logo: "https://i.ibb.co/BKZ2d6Dr/diodes-removebg-preview.png", link: "/brands/diodes" },
+  { id: 6, name: "Allegro", logo: "https://i.ibb.co/VYK54kRJ/allergo-removebg-preview.png", link: "/brands/allegro" },
+  { id: 7, name: "NXP", logo: "https://i.ibb.co/HfzDSJ0v/nxp-removebg-preview.png", link: "/brands/nxp" },
+  { id: 8, name: "CuDevices", logo: "https://i.ibb.co/JJDz9Pq/CUdevices-removebg-preview.png", link: "/brands/oudevices" },
+  { id: 9, name: "Toshiba", logo: "https://i.ibb.co/tT9PDsHM/tosibha-removebg-preview.png", link: "/brands/toshiba" },
+  { id: 10, name: "Advantech", logo: "https://i.ibb.co/CpT6HPLX/adhntech-removebg-preview.png", link: "/brands/advantech" },
+  { id: 11, name: "Analog Devices", logo: "https://i.ibb.co/60qszrR9/analog-devies-removebg-preview.png", link: "/brands/analog-devices" },
+  { id: 12, name: "Texas Instruments", logo: "https://i.ibb.co/nGjLhhd/texas-removebg-preview.png", link: "/brands/texas-instruments" },
+  { id: 13, name: "ST", logo: "https://i.ibb.co/9kYDg4F5/ST-removebg-preview.png", link: "/brands/st" },
+  { id: 14, name: "Onsemi", logo: "https://i.ibb.co/0VKfQRXz/onsemi-removebg-preview.png", link: "/brands/onsemi" },
+  { id: 15, name: "ROHM", logo: "https://i.ibb.co/PvSBvCd2/rohm-removebg-preview.png", link: "/brands/rohm" },
+  { id: 16, name: "Renesas", logo: "https://i.ibb.co/wFw0N0f0/renesas-removebg-preview.png", link: "/brands/renesas" },
+  { id: 17, name: "Sgmicro", logo: "https://i.ibb.co/fY1P85N6/sgmicro-removebg-preview.png", link: "/brands/sgmicro" },
+  { id: 18, name: "Brocade", logo: "https://i.ibb.co/vCdnG5jq/brocade-removebg-preview.png", link: "/brands/brocade" },
+  { id: 19, name: "Kemet", logo: "https://i.ibb.co/sz47NJH/kemet-removebg-preview.png", link: "/brands/kemet" },
+  { id: 20, name: "Vishay", logo: "https://i.ibb.co/XfZRYSdZ/vishay-removebg-preview.png", link: "/brands/vishay" },
+  { id: 21, name: "Apex", logo: "https://i.ibb.co/LdSCPzCC/apex-removebg-preview.png", link: "/brands/apex" }
 ];
 
 export default function FindByBrands() {

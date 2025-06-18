@@ -15,8 +15,11 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
+              {/* <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
                 <span className="text-white font-bold text-lg">NS</span>
+              </div> */}
+              <div className="w-12 h-12  rounded-lg flex items-center justify-center mr-3 shadow-md">
+                <img src="https://i.ibb.co/mCSM4kNj/Ic-Logo.png" alt="logo" />
               </div>
               <span className="text-lg font-bold text-gray-800 leading-tight">
                 NEURAL SEMICONDUCTOR
@@ -133,8 +136,8 @@ export default function Footer() {
               CONTACT INFORMATION
             </h3>
             <div className="space-y-4">
-              <div className="flex items-start">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+              <div className="flex items-center text-center  ">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex text-center items-center align-middle justify-center mr-3 mt-1 flex-shrink-0">
                   <FiPhone className="text-white" size={14} />
                 </div>
                 <Link 
@@ -145,7 +148,7 @@ export default function Footer() {
                 </Link>
               </div>
               
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
                   <FiMapPin className="text-white" size={14} />
                 </div>

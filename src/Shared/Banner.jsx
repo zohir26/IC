@@ -14,7 +14,7 @@ export default function Banner() {
   };
 
   return (
-    <section className="relative min-h-[600px] lg:min-h-[570px] overflow-hidden">
+    <section className="relative min-h-[600px] lg:min-h-[700px] overflow-hidden">
       {/* Background with gradient overlay */}
       {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700"> */}
       <div className="absolute inset-0 bg-center bg-cover" style={{backgroundImage: "url('/IC banner.jpg')"}}>
@@ -31,11 +31,11 @@ export default function Banner() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 container mx-auto px-4 py-16 lg:py-24">
+      <div className="relative z-10 container mx-auto px-4 py-16 lg:py-24 flex justify-center items-center">
         <div className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto">
           
           {/* Heading */}
-          <div className="space-y-4">
+          <div className="space-y-4 flex flex-col justify-center items-center py-10">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
               Unlock the Best Chips for Your{' '}
               <span className="bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent">
