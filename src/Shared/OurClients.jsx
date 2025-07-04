@@ -57,7 +57,7 @@ export default function OurClients() {
                         {/* Left Side - Experience */}
                         <div className="text-center md:text-left">
                             <div className="mb-6 h-10 ">
-                                <img src="https://i.ibb.co/c4CKkh8/18-year-removebg-preview.png" class="h-30 w-32 -mt-12" alt="" />
+                                <img src="https://i.ibb.co/c4CKkh8/18-year-removebg-preview.png" className="h-30 w-32 -mt-12" alt="" />
 
                                 <p className="text-lg md:text-xl text-gray-600 mt-2 font-bold">
                                     Years of Experience

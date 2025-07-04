@@ -9,19 +9,27 @@ import OurClients from "@/Shared/OurClients";
 import Footer from "@/Shared/Footer";
 import CompareSection from "@/Shared/Compare";
 import RecentlyViewed from "@/Shared/RecenlyViewed";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions)
   return (
-    <div>
-        <Navbar></Navbar>
-        <Banner></Banner>
-        <CompareSection></CompareSection>
-        <RecentlyViewed></RecentlyViewed>
-        <TopCategory></TopCategory>
-        <FindByBrands></FindByBrands>
-        <TopSearched></TopSearched>
-        <OurClients></OurClients>
-        <Footer></Footer>
-    </div>
+    <>
+
+      <div>
+        <Navbar session={session}>
+        </Navbar>
+      </div>
+      <Banner></Banner>
+      <CompareSection></CompareSection>
+      <RecentlyViewed></RecentlyViewed>
+      <TopCategory></TopCategory>
+      <FindByBrands></FindByBrands>
+      <TopSearched></TopSearched>
+      <OurClients></OurClients>
+      <Footer></Footer>
+
+    </>
   );
 }
