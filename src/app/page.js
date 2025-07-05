@@ -1,16 +1,17 @@
-import Banner from "@/Shared/Banner";
-import Navbar from "@/Shared/Navbar";
+import Banner from "@/app/Shared/Banner";
+import Navbar from "@/app/Shared/Navbar";
 import '../app/globals.css'
 
-import TopCategory from "@/Shared/TopCategory";
-import FindByBrands from "@/Shared/FindByBrands";
-import TopSearched from "@/Shared/TopSearched";
-import OurClients from "@/Shared/OurClients";
-import Footer from "@/Shared/Footer";
-import CompareSection from "@/Shared/Compare";
-import RecentlyViewed from "@/Shared/RecenlyViewed";
+import TopCategory from "@/app/Shared/TopCategory";
+import FindByBrands from "@/app/Shared/FindByBrands";
+import TopSearched from "@/app/Shared/TopSearched";
+import OurClients from "@/app/Shared/OurClients";
+import Footer from "@/app/Shared/Footer";
+import CompareSection from "@/app/Shared/Compare";
+import RecentlyViewed from "@/app/Shared/RecenlyViewed";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -29,7 +30,7 @@ export default async function Home() {
       <TopSearched></TopSearched>
       <OurClients></OurClients>
       <Footer></Footer>
-
+      
     </>
   );
 }

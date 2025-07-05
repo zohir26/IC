@@ -9,6 +9,13 @@ export const metadata = {
 export default function SignInLayout({ children }) {
   // This layout is a simple wrapper for the children (your SignInPage)
   // You can add any shared UI for the sign-in route here if needed.
+//   layout.js wraps both /signin and /signin/otp
+
+// Inside layout.js, { children } will dynamically render:
+
+// <SignInPage /> for /signin
+
+// <OtpPage /> for /signin/otp
   return (
     <>
       {children}
