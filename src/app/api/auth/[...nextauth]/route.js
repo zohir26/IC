@@ -3,6 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // The file should be named route.js and located in app/api/auth/[...nextauth]/
 
+// export const metadata = {
+//   title: 'Admin | Login',
+// };
+
 export const authOptions = {
   providers: [
     CredentialsProvider({

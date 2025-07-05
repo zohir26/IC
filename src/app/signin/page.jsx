@@ -2,7 +2,8 @@
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState } from "react";;
+
 
 export default function SignInPage() {
   const [username, setUsername] = useState("");
@@ -45,6 +46,7 @@ export default function SignInPage() {
       });
     }
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 px-4">

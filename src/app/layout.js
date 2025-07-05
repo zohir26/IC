@@ -12,8 +12,10 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'IC',
+  title: "Home | IC",
 };
+
+
 
 export default function RootLayout({ children }) {
   return (
