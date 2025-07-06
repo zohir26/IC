@@ -11,6 +11,9 @@ import CompareSection from "@/app/Shared/Compare";
 import RecentlyViewed from "@/app/Shared/RecenlyViewed";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import Blogs from "@/app/Shared/Blogs";
+
+
 
 
 export default async function Home() {
@@ -29,6 +32,7 @@ export default async function Home() {
       <FindByBrands></FindByBrands>
       <TopSearched></TopSearched>
       <OurClients></OurClients>
+       <Blogs></Blogs>
       <Footer></Footer>
       
     </>
