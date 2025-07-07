@@ -329,9 +329,9 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer">
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-              <span className="text-blue-800 font-bold text-lg">NS</span>
+              <span className="text-blue-800 font-bold text-lg"><Link href="/">NS</Link></span>
             </div>
-            <span className="text-white font-bold text-xl hidden sm:block">Neural Semiconductor</span>
+            <span className="text-white font-bold text-xl hidden sm:block"><Link href="/">Neural Semiconductor</Link></span>
           </div>
 
           {/* Desktop Navigation */}
