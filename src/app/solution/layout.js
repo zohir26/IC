@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Solutions | IC',
-  description: 'Log in to your IC account.',
+  description: 'One Stop IC related Solutions',
 };
 
 export default function solutions({ children }) {
