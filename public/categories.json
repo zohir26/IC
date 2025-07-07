@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "name": "Integrated Circuits (ICs)",
+    "icon": "https://i.ibb.co/jkcJ05dg/IC-removebg-preview.png",
+    "link": "/category/integrated-circuits",
+    "details": {
+      "description": "Integrated Circuits (ICs) are the foundation of modern electronics, containing thousands to billions of transistors on a single chip. These semiconductor devices perform various functions from simple logic operations to complex processing tasks.",
+      "applications": [
+        "Microprocessors and microcontrollers",
+        "Memory chips (RAM, ROM, Flash)",
+        "Digital signal processors (DSPs)",
+        "Application-specific integrated circuits (ASICs)",
+        "Field-programmable gate arrays (FPGAs)"
+      ],
+      "keyFeatures": [
+        "High integration density",
+        "Low power consumption",
+        "Reliable performance",
+        "Cost-effective for mass production",
+        "Wide operating temperature range"
+      ],
+      "marketInfo": "The global IC market is valued at over $500 billion and continues to grow with advancements in AI, IoT, and 5G technologies."
+    }
+  },
+  {
+    "id": 2,
+    "name": "Discrete Semiconductors",
+    "icon": "https://i.ibb.co/svrpNMjH/discrete-semicondutor-removebg-preview.png",
+    "link": "/category/discrete-semiconductors",
+    "details": {
+      "description": "Discrete semiconductors are individual electronic components that perform a single function, unlike integrated circuits. They include diodes, transistors, thyristors, and other power devices essential for circuit design.",
+      "applications": [
+        "Power supplies and converters",
+        "Motor control circuits",
+        "RF amplifiers",
+        "Voltage regulation",
+        "Signal switching and routing"
+      ],
+      "keyFeatures": [
+        "High power handling capability",
+        "Excellent thermal performance",
+        "Simple integration",
+        "Cost-effective for specific applications",
+        "Wide variety of package options"
+      ],
+      "marketInfo": "The discrete semiconductor market is driven by automotive electronics, renewable energy, and industrial automation sectors."
+    }
+  },
+  {
+    "id": 3,
+    "name": "Passive Components",
+    "icon": "https://i.ibb.co/HTJYxCfm/passive-components-removebg-preview.png",
+    "link": "/category/passive-components",
+    "details": {
+      "description": "Passive components are fundamental building blocks that don't require external power to operate. They include resistors, capacitors, inductors, and transformers that control, store, or transform electrical energy.",
+      "applications": [
+        "Signal filtering and conditioning",
+        "Energy storage",
+        "Impedance matching",
+        "Voltage division",
+        "Current limiting"
+      ],
+      "keyFeatures": [
+        "No external power required",
+        "High reliability",
+        "Wide temperature stability",
+        "Various tolerance options",
+        "Multiple form factors available"
+      ],
+      "marketInfo": "The passive components market is experiencing growth due to miniaturization trends and increased demand in consumer electronics."
+    }
+  },
+  {
+    "id": 4,
+    "name": "Electromechanical",
+    "icon": "https://i.ibb.co/zWHmtW96/electromechanical-removebg-preview.png",
+    "link": "/category/electromechanical",
+    "details": {
+      "description": "Electromechanical components combine electrical and mechanical processes, including relays, switches, motors, and actuators. They provide the interface between electronic control systems and physical mechanisms.",
+      "applications": [
+        "Industrial automation",
+        "Automotive systems",
+        "Home appliances",
+        "HVAC controls",
+        "Safety systems"
+      ],
+      "keyFeatures": [
+        "High current/voltage switching capability",
+        "Mechanical isolation",
+        "Long operational life",
+        "Various actuation methods",
+        "Wide range of configurations"
+      ],
+      "marketInfo": "The electromechanical market is growing with Industry 4.0 adoption and smart home technology integration."
+    }
+  },
+  {
+    "id": 5,
+    "name": "Connectors",
+    "icon": "https://i.ibb.co/JjLtCz05/connectors-removebg-preview.png",
+    "link": "/category/connectors",
+    "details": {
+      "description": "Connectors are electromechanical devices that join electrical circuits together. They range from simple wire-to-board connectors to complex high-speed data connectors for telecommunications and computing.",
+      "applications": [
+        "Board-to-board connections",
+        "Cable assemblies",
+        "Power distribution",
+        "Data communication",
+        "Audio/video interfaces"
+      ],
+      "keyFeatures": [
+        "Multiple contact configurations",
+        "Various mating styles",
+        "High durability ratings",
+        "Environmental sealing options",
+        "High-speed signal integrity"
+      ],
+      "marketInfo": "The connector market is driven by data center expansion, 5G infrastructure, and electric vehicle adoption."
+    }
+  },
+  {
+    "id": 6,
+    "name": "Test Equipment",
+    "icon": "https://i.ibb.co/cKznKTk8/test-equipment-of-semicondutor-removebg-preview.png",
+    "link": "/category/test-equipment",
+    "details": {
+      "description": "Test equipment encompasses instruments and tools used to measure, analyze, and verify the performance of electronic circuits and semiconductor devices. This includes oscilloscopes, multimeters, spectrum analyzers, and specialized semiconductor testers.",
+      "applications": [
+        "Circuit debugging and troubleshooting",
+        "Production testing",
+        "Quality assurance",
+        "Research and development",
+        "Compliance testing"
+      ],
+      "keyFeatures": [
+        "High measurement accuracy",
+        "Multiple test capabilities",
+        "Automated testing options",
+        "Data logging and analysis",
+        "Industry-standard interfaces"
+      ],
+      "marketInfo": "The test equipment market is expanding with the complexity of modern electronics and stringent quality requirements."
+    }
+  },
+  {
+    "id": 7,
+    "name": "Tools and Supplies",
+    "icon": "https://i.ibb.co/C5g9mPLM/tools-removebg-preview.png",
+    "link": "/category/tools-supplies",
+    "details": {
+      "description": "Tools and supplies include hand tools, soldering equipment, cleaning materials, and consumables essential for electronic assembly, repair, and maintenance. These products ensure proper handling and processing of sensitive electronic components.",
+      "applications": [
+        "PCB assembly and rework",
+        "Component handling",
+        "ESD protection",
+        "Cleaning and maintenance",
+        "Prototyping and development"
+      ],
+      "keyFeatures": [
+        "Ergonomic design",
+        "ESD-safe materials",
+        "Precision engineering",
+        "Durability and reliability",
+        "Compliance with industry standards"
+      ],
+      "marketInfo": "The tools and supplies market grows with electronics manufacturing and the maker movement."
+    }
+  },
+  {
+    "id": 8,
+    "name": "Sensors",
+    "icon": "https://i.ibb.co/tTxyPDRH/sensors-removebg-preview.png",
+    "link": "/category/sensors",
+    "details": {
+      "description": "Sensors detect and respond to physical phenomena, converting them into electrical signals. They include temperature, pressure, motion, light, and chemical sensors that enable smart systems and IoT applications.",
+      "applications": [
+        "Industrial automation",
+        "Automotive systems",
+        "Environmental monitoring",
+        "Medical devices",
+        "Consumer electronics"
+      ],
+      "keyFeatures": [
+        "High sensitivity and accuracy",
+        "Low power consumption",
+        "Digital and analog outputs",
+        "Miniature form factors",
+        "Environmental robustness"
+      ],
+      "marketInfo": "The sensor market is experiencing rapid growth driven by IoT, autonomous vehicles, and smart city initiatives."
+    }
+  },
+  {
+    "id": 9,
+    "name": "Optoelectronics",
+    "icon": "https://i.ibb.co/39jmj8xc/optoelectronics-removebg-preview.png",
+    "link": "/category/optoelectronics",
+    "details": {
+      "description": "Optoelectronic devices convert between light and electrical signals. This category includes LEDs, laser diodes, photodetectors, optocouplers, and displays that enable visual interfaces and optical communication.",
+      "applications": [
+        "Display technology",
+        "Optical communication",
+        "Lighting systems",
+        "Optical sensing",
+        "Machine vision"
+      ],
+      "keyFeatures": [
+        "High efficiency",
+        "Fast response times",
+        "Wide spectral range",
+        "Long operational life",
+        "Compact packaging"
+      ],
+      "marketInfo": "The optoelectronics market is booming with LED adoption, display technology advances, and optical communication expansion."
+    }
+  },
+  {
+    "id": 10,
+    "name": "Circuit Protection",
+    "icon": "https://i.ibb.co/5WL2Nbgq/circuit-protection-removebg-preview.png",
+    "link": "/category/circuit-protection",
+    "details": {
+      "description": "Circuit protection devices safeguard electronic systems from overcurrent, overvoltage, and other electrical hazards. They include fuses, circuit breakers, TVS diodes, and surge protectors essential for system reliability.",
+      "applications": [
+        "Power supply protection",
+        "Data line protection",
+        "Motor protection",
+        "Battery management",
+        "Lightning protection"
+      ],
+      "keyFeatures": [
+        "Fast response time",
+        "Precise trip characteristics",
+        "Resettable options",
+        "Minimal circuit impact",
+        "Wide voltage/current ratings"
+      ],
+      "marketInfo": "The circuit protection market grows with increasing electronic content in vehicles and renewable energy systems."
+    }
+  },
+  {
+    "id": 11,
+    "name": "Power Products",
+    "icon": "https://i.ibb.co/LDrJRzmw/power-removebg-preview.png",
+    "link": "/category/power-products",
+    "details": {
+      "description": "Power products include voltage regulators, power management ICs, DC-DC converters, and power modules that efficiently convert and control electrical power in electronic systems.",
+      "applications": [
+        "Power supplies",
+        "Battery charging",
+        "Motor drives",
+        "Renewable energy systems",
+        "Electric vehicle infrastructure"
+      ],
+      "keyFeatures": [
+        "High efficiency conversion",
+        "Thermal management",
+        "Multiple output options",
+        "Protection features",
+        "Compact designs"
+      ],
+      "marketInfo": "The power products market is driven by energy efficiency requirements and the transition to renewable energy."
+    }
+  },
+  {
+    "id": 12,
+    "name": "Cables and Wire",
+    "icon": "https://i.ibb.co/whvgkXQw/cables-and-wires-removebg-preview.png",
+    "link": "/category/cables-wire",
+    "details": {
+      "description": "Cables and wires provide electrical connections between components and systems. They range from simple hookup wire to complex multi-conductor cables for data transmission and power distribution.",
+      "applications": [
+        "Power distribution",
+        "Signal transmission",
+        "Data communication",
+        "Automotive wiring",
+        "Industrial control"
+      ],
+      "keyFeatures": [
+        "Various conductor materials",
+        "Multiple insulation types",
+        "Shielding options",
+        "Temperature ratings",
+        "Flexibility options"
+      ],
+      "marketInfo": "The cable and wire market is expanding with infrastructure development and high-speed data requirements."
+    }
+  }
+]

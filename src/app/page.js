@@ -2,7 +2,7 @@ import Banner from "@/app/Shared/Banner";
 import Navbar from "@/app/Shared/Navbar";
 import '../app/globals.css'
 
-import TopCategory from "@/app/Shared/TopCategory";
+import TopCategory from "@/app/topCategories/page";
 import FindByBrands from "@/app/Shared/FindByBrands";
 import TopSearched from "@/app/Shared/TopSearched";
 import OurClients from "@/app/Shared/OurClients";
