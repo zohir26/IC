@@ -345,7 +345,7 @@ export default function Navbar() {
                 {activeMenu === item.itemId && renderMegaMenu(item)}
               </div>
             ))}
-            <Link href="/solutions" className="px-4 py-2 text-white hover:text-blue-200">Solutions</Link>
+            <Link href="/solution" className="px-4 py-2 text-white hover:text-blue-200">Solutions</Link>
             <Link href="/support" className="px-4 py-2 text-white hover:text-blue-200">Support</Link>
             <Link href="/resources" className="px-4 py-2 text-white hover:text-blue-200">Resources</Link>
             <Link href="/about" className="px-4 py-2 text-white hover:text-blue-200">About</Link>

@@ -1,0 +1,277 @@
+{
+  "nodeList": [
+    {
+      "name": "Products",
+      "imageURL": "https://img.icons8.com/48/000000/microchip.png",
+      "itemId": "products",
+      "nodes": [
+        {
+          "name": "Integrated Circuits",
+          "imageURL": "https://img.icons8.com/color/48/000000/processor.png",
+          "nodes": [
+            {
+              "name": "Microcontrollers",
+              "nodes": [
+                { "name": "8-bit MCU" },
+                { "name": "16-bit MCU" },
+                { "name": "32-bit MCU" },
+                { "name": "ARM Cortex" }
+              ]
+            },
+            {
+              "name": "Processors",
+              "nodes": [
+                { "name": "Digital Signal Processors" },
+                { "name": "Application Processors" },
+                { "name": "Graphics Processors" }
+              ]
+            },
+            {
+              "name": "Memory ICs",
+              "nodes": [
+                { "name": "SRAM" },
+                { "name": "DRAM" },
+                { "name": "Flash Memory" },
+                { "name": "EEPROM" }
+              ]
+            },
+            {
+              "name": "Power Management ICs",
+              "nodes": [
+                { "name": "Voltage Regulators" },
+                { "name": "DC-DC Converters" },
+                { "name": "Battery Management" }
+              ]
+            },
+            {
+              "name": "Sensors",
+              "nodes": [
+                { "name": "Temperature Sensors" },
+                { "name": "Pressure Sensors" },
+                { "name": "Motion Sensors" },
+                { "name": "Optical Sensors" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Passive Components",
+          "nodes": [
+            {
+              "name": "Resistors",
+              "nodes": [
+                { "name": "Fixed Resistors" },
+                { "name": "Variable Resistors" },
+                { "name": "Current Sense Resistors" }
+              ]
+            },
+            {
+              "name": "Capacitors",
+              "nodes": [
+                { "name": "Ceramic Capacitors" },
+                { "name": "Electrolytic Capacitors" },
+                { "name": "Film Capacitors" }
+              ]
+            },
+            {
+              "name": "Inductors",
+              "nodes": [
+                { "name": "Power Inductors" },
+                { "name": "RF Inductors" },
+                { "name": "Common Mode Chokes" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Discrete Semiconductors",
+          "nodes": [
+            {
+              "name": "Diodes",
+              "nodes": [
+                { "name": "Rectifier Diodes" },
+                { "name": "Zener Diodes" },
+                { "name": "Schottky Diodes" },
+                { "name": "LED" }
+              ]
+            },
+            {
+              "name": "Transistors",
+              "nodes": [
+                { "name": "MOSFET" },
+                { "name": "BJT" },
+                { "name": "IGBT" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "All Brands",
+      "imageURL": "https://img.icons8.com/48/000000/company.png",
+      "itemId": "brands",
+      "nodes": [
+        {
+          "name": "Major Semiconductor Companies",
+          "nodes": [
+            {
+              "name": "Intel",
+              "nodes": [
+                { "name": "Processors" },
+                { "name": "FPGAs" },
+                { "name": "Memory" }
+              ]
+            },
+            {
+              "name": "Texas Instruments",
+              "nodes": [
+                { "name": "Analog ICs" },
+                { "name": "Microcontrollers" },
+                { "name": "Power Management" }
+              ]
+            },
+            {
+              "name": "Microchip Technology",
+              "nodes": [
+                { "name": "PIC Microcontrollers" },
+                { "name": "AVR Microcontrollers" },
+                { "name": "dsPIC DSCs" }
+              ]
+            },
+            {
+              "name": "STMicroelectronics",
+              "nodes": [
+                { "name": "STM32 MCUs" },
+                { "name": "Power Discretes" },
+                { "name": "MEMS Sensors" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Memory Manufacturers",
+          "nodes": [
+            {
+              "name": "Samsung",
+              "nodes": [
+                { "name": "DRAM" },
+                { "name": "NAND Flash" },
+                { "name": "SSD Controllers" }
+              ]
+            },
+            {
+              "name": "Micron Technology",
+              "nodes": [
+                { "name": "DRAM" },
+                { "name": "NAND Flash" },
+                { "name": "NOR Flash" }
+              ]
+            },
+            { "name": "SK Hynix", "nodes": [] },
+            { "name": "Western Digital", "nodes": [] }
+          ]
+        },
+        {
+          "name": "Analog & Mixed Signal",
+          "nodes": [
+            {
+              "name": "Analog Devices",
+              "nodes": [
+                { "name": "Data Converters" },
+                { "name": "Amplifiers" },
+                { "name": "RF Components" }
+              ]
+            },
+            {
+              "name": "Maxim Integrated",
+              "nodes": [
+                { "name": "Power Management" },
+                { "name": "Interface ICs" },
+                { "name": "Sensors" }
+              ]
+            },
+            { "name": "Linear Technology", "nodes": [] },
+            { "name": "Intersil", "nodes": [] }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Manufacturers",
+      "imageURL": "https://img.icons8.com/48/000000/factory.png",
+      "itemId": "manufacturers",
+      "nodes": [
+        {
+          "name": "Foundries",
+          "nodes": [
+            {
+              "name": "TSMC",
+              "nodes": [
+                { "name": "7nm Process" },
+                { "name": "5nm Process" },
+                { "name": "3nm Process" }
+              ]
+            },
+            {
+              "name": "GlobalFoundries",
+              "nodes": [
+                { "name": "14nm Process" },
+                { "name": "12nm Process" },
+                { "name": "Specialty Technologies" }
+              ]
+            },
+            { "name": "UMC", "nodes": [] },
+            { "name": "SMIC", "nodes": [] }
+          ]
+        },
+        {
+          "name": "Assembly & Test",
+          "nodes": [
+            {
+              "name": "ASE Group",
+              "nodes": [
+                { "name": "IC Packaging" },
+                { "name": "Testing Services" },
+                { "name": "System-in-Package" }
+              ]
+            },
+            {
+              "name": "Amkor Technology",
+              "nodes": [
+                { "name": "Advanced Packaging" },
+                { "name": "Automotive Solutions" },
+                { "name": "5G Solutions" }
+              ]
+            },
+            { "name": "JCET", "nodes": [] },
+            { "name": "Powertech Technology", "nodes": [] }
+          ]
+        },
+        {
+          "name": "Equipment Suppliers",
+          "nodes": [
+            {
+              "name": "Applied Materials",
+              "nodes": [
+                { "name": "Deposition Equipment" },
+                { "name": "Etch Equipment" },
+                { "name": "Metrology" }
+              ]
+            },
+            {
+              "name": "ASML",
+              "nodes": [
+                { "name": "EUV Lithography" },
+                { "name": "DUV Lithography" },
+                { "name": "Metrology & Inspection" }
+              ]
+            },
+            { "name": "Lam Research", "nodes": [] },
+            { "name": "KLA Corporation", "nodes": [] }
+          ]
+        }
+      ]
+    }
+  ]
+}
