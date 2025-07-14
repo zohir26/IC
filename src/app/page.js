@@ -1,5 +1,5 @@
 import Banner from "@/app/Shared/Banner";
-import Navbar from "@/app/Shared/Navbar";
+import Navbar from "@/Components/Navbar/Navbar";
 import '../app/globals.css'
 
 import TopCategory from "@/app/topCategories/page";
@@ -11,7 +11,9 @@ import CompareSection from "@/app/Shared/Compare";
 import RecentlyViewed from "@/app/Shared/RecenlyViewed";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import Blogs from "@/app/Shared/Blogs";
+import BlogsPage from "./blogs/page";
+
+
 
 
 
@@ -32,7 +34,7 @@ export default async function Home() {
       <FindByBrands></FindByBrands>
       <TopSearched></TopSearched>
       <OurClients></OurClients>
-       <Blogs></Blogs>
+       <BlogsPage></BlogsPage>
       <Footer></Footer>
       
     </>

@@ -11,7 +11,7 @@ import {
   ArrowRight,
   Check
 } from 'lucide-react';
-import Navbar from '../Shared/Navbar';
+import Navbar from '../../Components/Navbar/Navbar';
 import Footer from '../Shared/Footer';
 
 const solutions = () => {
@@ -147,7 +147,7 @@ const solutions = () => {
       </section>
 
       {/* Solutions Grid */}
-      <section className="py-20">
+      {/* <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
@@ -204,10 +204,10 @@ const solutions = () => {
             ))}
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+      {/* <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -239,10 +239,10 @@ const solutions = () => {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features Comparison */}
-      <section className="py-20">
+      {/* <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -295,7 +295,7 @@ const solutions = () => {
             ))}
           </motion.div>
         </div>
-      </section>
+      </section> */}
     </div>
     <Footer></Footer>
     </>

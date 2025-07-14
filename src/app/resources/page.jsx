@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Download, Video, Book, ExternalLink, Search, Filter, ChevronRight, Link } from 'lucide-react';
 import Footer from '../Shared/Footer';
-import Navbar from '../Shared/Navbar';
+import Navbar from '../../Components/Navbar/Navbar';
 
 const ResourcesPage = () => {
   const [searchTerm, setSearchTerm] = useState('');

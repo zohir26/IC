@@ -23,7 +23,7 @@ import {
   Send
 } from 'lucide-react';
 import Footer from '../Shared/Footer';
-import Navbar from '../Shared/Navbar';
+import Navbar from '../../Components/Navbar/Navbar';
 
 const Support = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -247,7 +247,7 @@ const Support = () => {
       </section>
 
       {/* Knowledge Base */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -292,7 +292,7 @@ const Support = () => {
             ))}
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQs */}
       <section className="py-16">

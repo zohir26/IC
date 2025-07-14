@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, Users, Target, Zap, Globe, Shield, ChevronRight, CheckCircle } from 'lucide-react';
-import Navbar from '../Shared/Navbar';
+import Navbar from '../../Components/Navbar/Navbar';
 import Footer from '../Shared/Footer';
 
 const AboutPage = () => {

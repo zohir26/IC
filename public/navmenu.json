@@ -8,99 +8,112 @@
         {
           "name": "Integrated Circuits",
           "imageURL": "https://img.icons8.com/color/48/000000/processor.png",
+          "id": "integrated-circuits",
           "nodes": [
             {
               "name": "Microcontrollers",
+              "id": "microcontrollers",
               "nodes": [
-                { "name": "8-bit MCU" },
-                { "name": "16-bit MCU" },
-                { "name": "32-bit MCU" },
-                { "name": "ARM Cortex" }
+                { "name": "8-bit MCU", "id": "8-bit-mcu" },
+                { "name": "16-bit MCU", "id": "16-bit-mcu" },
+                { "name": "32-bit MCU", "id": "32-bit-mcu" },
+                { "name": "ARM Cortex", "id": "arm-cortex" }
               ]
             },
             {
               "name": "Processors",
+              "id": "processors",
               "nodes": [
-                { "name": "Digital Signal Processors" },
-                { "name": "Application Processors" },
-                { "name": "Graphics Processors" }
+                { "name": "Digital Signal Processors", "id": "digital-signal-processors" },
+                { "name": "Application Processors", "id": "application-processors" },
+                { "name": "Graphics Processors", "id": "graphics-processors" }
               ]
             },
             {
               "name": "Memory ICs",
+              "id": "memory-ics",
               "nodes": [
-                { "name": "SRAM" },
-                { "name": "DRAM" },
-                { "name": "Flash Memory" },
-                { "name": "EEPROM" }
+                { "name": "SRAM", "id": "sram" },
+                { "name": "DRAM", "id": "dram" },
+                { "name": "Flash Memory", "id": "flash-memory" },
+                { "name": "EEPROM", "id": "eeprom" }
               ]
             },
             {
               "name": "Power Management ICs",
+              "id": "power-management-ics",
               "nodes": [
-                { "name": "Voltage Regulators" },
-                { "name": "DC-DC Converters" },
-                { "name": "Battery Management" }
+                { "name": "Voltage Regulators", "id": "voltage-regulators" },
+                { "name": "DC-DC Converters", "id": "dc-dc-converters" },
+                { "name": "Battery Management", "id": "battery-management" }
               ]
             },
             {
               "name": "Sensors",
+              "id": "sensors",
               "nodes": [
-                { "name": "Temperature Sensors" },
-                { "name": "Pressure Sensors" },
-                { "name": "Motion Sensors" },
-                { "name": "Optical Sensors" }
+                { "name": "Temperature Sensors", "id": "temperature-sensors" },
+                { "name": "Pressure Sensors", "id": "pressure-sensors" },
+                { "name": "Motion Sensors", "id": "motion-sensors" },
+                { "name": "Optical Sensors", "id": "optical-sensors" }
               ]
             }
           ]
         },
         {
           "name": "Passive Components",
+          "id": "passive-components",
           "nodes": [
             {
               "name": "Resistors",
+              "id": "resistors",
               "nodes": [
-                { "name": "Fixed Resistors" },
-                { "name": "Variable Resistors" },
-                { "name": "Current Sense Resistors" }
+                { "name": "Fixed Resistors", "id": "fixed-resistors" },
+                { "name": "Variable Resistors", "id": "variable-resistors" },
+                { "name": "Current Sense Resistors", "id": "current-sense-resistors" }
               ]
             },
             {
               "name": "Capacitors",
+              "id": "capacitors",
               "nodes": [
-                { "name": "Ceramic Capacitors" },
-                { "name": "Electrolytic Capacitors" },
-                { "name": "Film Capacitors" }
+                { "name": "Ceramic Capacitors", "id": "ceramic-capacitors" },
+                { "name": "Electrolytic Capacitors", "id": "electrolytic-capacitors" },
+                { "name": "Film Capacitors", "id": "film-capacitors" }
               ]
             },
             {
               "name": "Inductors",
+              "id": "inductors",
               "nodes": [
-                { "name": "Power Inductors" },
-                { "name": "RF Inductors" },
-                { "name": "Common Mode Chokes" }
+                { "name": "Power Inductors", "id": "power-inductors" },
+                { "name": "RF Inductors", "id": "rf-inductors" },
+                { "name": "Common Mode Chokes", "id": "common-mode-chokes" }
               ]
             }
           ]
         },
         {
           "name": "Discrete Semiconductors",
+          "id": "discrete-semiconductors",
           "nodes": [
             {
               "name": "Diodes",
+              "id": "diodes",
               "nodes": [
-                { "name": "Rectifier Diodes" },
-                { "name": "Zener Diodes" },
-                { "name": "Schottky Diodes" },
-                { "name": "LED" }
+                { "name": "Rectifier Diodes", "id": "rectifier-diodes" },
+                { "name": "Zener Diodes", "id": "zener-diodes" },
+                { "name": "Schottky Diodes", "id": "schottky-diodes" },
+                { "name": "LED", "id": "led" }
               ]
             },
             {
               "name": "Transistors",
+              "id": "transistors",
               "nodes": [
-                { "name": "MOSFET" },
-                { "name": "BJT" },
-                { "name": "IGBT" }
+                { "name": "MOSFET", "id": "mosfet" },
+                { "name": "BJT", "id": "bjt" },
+                { "name": "IGBT", "id": "igbt" }
               ]
             }
           ]
@@ -114,85 +127,96 @@
       "nodes": [
         {
           "name": "Major Semiconductor Companies",
+          "id": "major-semiconductor-companies",
           "nodes": [
             {
               "name": "Intel",
+              "id": "intel",
               "nodes": [
-                { "name": "Processors" },
-                { "name": "FPGAs" },
-                { "name": "Memory" }
+                { "name": "Processors", "id": "intel-processors" },
+                { "name": "FPGAs", "id": "intel-fpgas" },
+                { "name": "Memory", "id": "intel-memory" }
               ]
             },
             {
               "name": "Texas Instruments",
+              "id": "texas-instruments",
               "nodes": [
-                { "name": "Analog ICs" },
-                { "name": "Microcontrollers" },
-                { "name": "Power Management" }
+                { "name": "Analog ICs", "id": "ti-analog-ics" },
+                { "name": "Microcontrollers", "id": "ti-microcontrollers" },
+                { "name": "Power Management", "id": "ti-power-management" }
               ]
             },
             {
               "name": "Microchip Technology",
+              "id": "microchip-technology",
               "nodes": [
-                { "name": "PIC Microcontrollers" },
-                { "name": "AVR Microcontrollers" },
-                { "name": "dsPIC DSCs" }
+                { "name": "PIC Microcontrollers", "id": "pic-microcontrollers" },
+                { "name": "AVR Microcontrollers", "id": "avr-microcontrollers" },
+                { "name": "dsPIC DSCs", "id": "dspic-dscs" }
               ]
             },
             {
               "name": "STMicroelectronics",
+              "id": "stmicroelectronics",
               "nodes": [
-                { "name": "STM32 MCUs" },
-                { "name": "Power Discretes" },
-                { "name": "MEMS Sensors" }
+                { "name": "STM32 MCUs", "id": "stm32-mcus" },
+                { "name": "Power Discretes", "id": "st-power-discretes" },
+                { "name": "MEMS Sensors", "id": "st-mems-sensors" }
               ]
             }
           ]
         },
         {
           "name": "Memory Manufacturers",
+          "id": "memory-manufacturers",
           "nodes": [
             {
               "name": "Samsung",
+              "id": "samsung",
               "nodes": [
-                { "name": "DRAM" },
-                { "name": "NAND Flash" },
-                { "name": "SSD Controllers" }
+                { "name": "DRAM", "id": "samsung-dram" },
+                { "name": "NAND Flash", "id": "samsung-nand-flash" },
+                { "name": "SSD Controllers", "id": "samsung-ssd-controllers" }
               ]
             },
             {
               "name": "Micron Technology",
+              "id": "micron-technology",
               "nodes": [
-                { "name": "DRAM" },
-                { "name": "NAND Flash" },
-                { "name": "NOR Flash" }
+                { "name": "DRAM", "id": "micron-dram" },
+                { "name": "NAND Flash", "id": "micron-nand-flash" },
+                { "name": "NOR Flash", "id": "micron-nor-flash" }
               ]
             },
-            { "name": "SK Hynix", "nodes": [] },
-            { "name": "Western Digital", "nodes": [] }
+            { "name": "SK Hynix", "id": "sk-hynix", "nodes": [] },
+            { "name": "Western Digital", "id": "western-digital", "nodes": [] }
           ]
         },
         {
           "name": "Analog & Mixed Signal",
+          "id": "analog-mixed-signal",
           "nodes": [
             {
               "name": "Analog Devices",
+              "id": "analog-devices",
               "nodes": [
-                { "name": "Data Converters" },
-                { "name": "Amplifiers" },
-                { "name": "RF Components" }
+                { "name": "Data Converters", "id": "adi-data-converters" },
+                { "name": "Amplifiers", "id": "adi-amplifiers" },
+                { "name": "RF Components", "id": "adi-rf-components" }
               ]
             },
             {
               "name": "Maxim Integrated",
+              "id": "maxim-integrated",
               "nodes": [
-                { "name": "Power Management" },
-                { "name": "Interface ICs" },
-                { "name": "Sensors" }
+                { "name": "Power Management", "id": "maxim-power-management" },
+                { "name": "Interface ICs", "id": "maxim-interface-ics" },
+                { "name": "Sensors", "id": "maxim-sensors" }
               ]
             },
-            { "name": "Linear Technology", "nodes": [] },
-            { "name": "Intersil", "nodes": [] }
+            { "name": "Linear Technology", "id": "linear-technology", "nodes": [] },
+            { "name": "Intersil", "id": "intersil", "nodes": [] }
           ]
         }
       ]
@@ -204,71 +228,80 @@
       "nodes": [
         {
           "name": "Foundries",
+          "id": "foundries",
           "nodes": [
             {
               "name": "TSMC",
+              "id": "tsmc",
               "nodes": [
-                { "name": "7nm Process" },
-                { "name": "5nm Process" },
-                { "name": "3nm Process" }
+                { "name": "7nm Process", "id": "tsmc-7nm-process" },
+                { "name": "5nm Process", "id": "tsmc-5nm-process" },
+                { "name": "3nm Process", "id": "tsmc-3nm-process" }
               ]
             },
             {
               "name": "GlobalFoundries",
+              "id": "globalfoundries",
               "nodes": [
-                { "name": "14nm Process" },
-                { "name": "12nm Process" },
-                { "name": "Specialty Technologies" }
+                { "name": "14nm Process", "id": "gf-14nm-process" },
+                { "name": "12nm Process", "id": "gf-12nm-process" },
+                { "name": "Specialty Technologies", "id": "gf-specialty-technologies" }
               ]
             },
-            { "name": "UMC", "nodes": [] },
-            { "name": "SMIC", "nodes": [] }
+            { "name": "UMC", "id": "umc", "nodes": [] },
+            { "name": "SMIC", "id": "smic", "nodes": [] }
           ]
         },
         {
           "name": "Assembly & Test",
+          "id": "assembly-test",
           "nodes": [
             {
               "name": "ASE Group",
+              "id": "ase-group",
               "nodes": [
-                { "name": "IC Packaging" },
-                { "name": "Testing Services" },
-                { "name": "System-in-Package" }
+                { "name": "IC Packaging", "id": "ase-ic-packaging" },
+                { "name": "Testing Services", "id": "ase-testing-services" },
+                { "name": "System-in-Package", "id": "ase-system-in-package" }
               ]
             },
             {
               "name": "Amkor Technology",
+              "id": "amkor-technology",
               "nodes": [
-                { "name": "Advanced Packaging" },
-                { "name": "Automotive Solutions" },
-                { "name": "5G Solutions" }
+                { "name": "Advanced Packaging", "id": "amkor-advanced-packaging" },
+                { "name": "Automotive Solutions", "id": "amkor-automotive-solutions" },
+                { "name": "5G Solutions", "id": "amkor-5g-solutions" }
               ]
             },
-            { "name": "JCET", "nodes": [] },
-            { "name": "Powertech Technology", "nodes": [] }
+            { "name": "JCET", "id": "jcet", "nodes": [] },
+            { "name": "Powertech Technology", "id": "powertech-technology", "nodes": [] }
           ]
         },
         {
           "name": "Equipment Suppliers",
+          "id": "equipment-suppliers",
           "nodes": [
             {
               "name": "Applied Materials",
+              "id": "applied-materials",
               "nodes": [
-                { "name": "Deposition Equipment" },
-                { "name": "Etch Equipment" },
-                { "name": "Metrology" }
+                { "name": "Deposition Equipment", "id": "amat-deposition-equipment" },
+                { "name": "Etch Equipment", "id": "amat-etch-equipment" },
+                { "name": "Metrology", "id": "amat-metrology" }
               ]
             },
             {
               "name": "ASML",
+              "id": "asml",
               "nodes": [
-                { "name": "EUV Lithography" },
-                { "name": "DUV Lithography" },
-                { "name": "Metrology & Inspection" }
+                { "name": "EUV Lithography", "id": "asml-euv-lithography" },
+                { "name": "DUV Lithography", "id": "asml-duv-lithography" },
+                { "name": "Metrology & Inspection", "id": "asml-metrology-inspection" }
               ]
             },
-            { "name": "Lam Research", "nodes": [] },
-            { "name": "KLA Corporation", "nodes": [] }
+            { "name": "Lam Research", "id": "lam-research", "nodes": [] },
+            { "name": "KLA Corporation", "id": "kla-corporation", "nodes": [] }
           ]
         }
       ]
