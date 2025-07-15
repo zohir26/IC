@@ -12,12 +12,6 @@ import RecentlyViewed from "@/app/Shared/RecenlyViewed";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import BlogsPage from "./blogs/page";
-
-
-
-
-
-
 export default async function Home() {
   const session = await getServerSession(authOptions)
   return (

@@ -18,7 +18,6 @@ export default function Navbar() {
     const fetchNavData = async () => {
       try {
         setLoading(true);
-        // Update the path to be relative to the public directory
         const response = await fetch('/navmenu.json');
         if (!response.ok) {
           throw new Error('Failed to fetch navigation data');
@@ -47,6 +46,43 @@ export default function Navbar() {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleUserBubble = () => setShowUserBubble((prev) => !prev);
 
+  // Generate dynamic URLs based on navigation structure
+  const generateProductUrl = (item, category, sub, subItem) => {
+    const mainItem = item.itemId; // products, brands, manufacturers
+    
+    if (mainItem === 'products') {
+      // For products, route by category hierarchy
+      if (subItem) {
+        return `/products/${subItem.id}?type=${subItem.id}&category=${sub.id}&parentCategory=${category.id}`;
+      } else if (sub) {
+        return `/products/${sub.id}?category=${sub.id}&parentCategory=${category.id}`;
+      } else {
+        return `/products/${category.id}?parentCategory=${category.id}`;
+      }
+    } else if (mainItem === 'brands') {
+      // For brands, route to brand-specific page
+      if (subItem) {
+        return `/products/brands/${sub.id}?brand=${sub.id}&category=${subItem.id}`;
+      } else if (sub) {
+        return `/products/brands/${sub.id}?brand=${sub.id}`;
+      } else {
+        return `/products/brands/${category.id}?brand=${category.id}`;
+      }
+    } else if (mainItem === 'manufacturers') {
+      // For manufacturers, route to manufacturer-specific page
+      if (subItem) {
+        return `/products/manufacturers/${sub.id}?manufacturer=${sub.id}&category=${subItem.id}`;
+      } else if (sub) {
+        return `/products/manufacturers/${sub.id}?manufacturer=${sub.id}`;
+      } else {
+        return `/products/manufacturers/${category.id}?manufacturer=${category.id}`;
+      }
+    }
+    
+    // Fallback
+    return `/products?search=${encodeURIComponent(subItem?.name || sub?.name || category?.name)}`;
+  };
+
   const renderMegaMenu = (item) => {
     if (!item.nodes) return null;
     return (
@@ -59,7 +95,10 @@ export default function Navbar() {
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-[600px] max-w-[900px]">
             {item.nodes.map((category, index) => (
               <div key={index} className="space-y-2">
-                <h3 className="text-gray-800 font-semibold border-b pb-1 text-sm">
+                <Link 
+                  href={generateProductUrl(item, category)}
+                  className="text-gray-800 font-semibold border-b pb-1 text-sm hover:text-blue-600 block"
+                >
                   {category.imageURL && (
                     <img 
                       src={category.imageURL} 
@@ -68,12 +107,12 @@ export default function Navbar() {
                     />
                   )}
                   {category.name}
-                </h3>
+                </Link>
                 <ul className="space-y-1">
                   {category.nodes && category.nodes.map((sub, idx) => (
                     <li key={idx}>
                       <Link 
-                        href={`/products/${sub.id || sub.name.toLowerCase().replace(/\s+/g, '-')}`}
+                        href={generateProductUrl(item, category, sub)}
                         className="text-gray-600 hover:text-blue-600 cursor-pointer text-sm block py-1 hover:bg-gray-50 px-2 rounded transition-colors"
                       >
                         {sub.name}
@@ -83,7 +122,7 @@ export default function Navbar() {
                           {sub.nodes.map((subItem, subIdx) => (
                             <li key={subIdx}>
                               <Link 
-                                href={`/products/${subItem.id || subItem.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                href={generateProductUrl(item, category, sub, subItem)}
                                 className="text-gray-500 hover:text-blue-500 cursor-pointer text-xs block py-0.5 hover:bg-gray-50 px-2 rounded transition-colors"
                               >
                                 {subItem.name}
@@ -116,13 +155,19 @@ export default function Navbar() {
               <div className="pl-4 space-y-1">
                 {item.nodes.map((category, idx) => (
                   <div key={idx} className="py-1">
-                    <span className="text-blue-200 text-sm font-medium">{category.name}</span>
+                    <Link 
+                      href={generateProductUrl(item, category)}
+                      className="text-blue-200 text-sm font-medium hover:text-white block"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {category.name}
+                    </Link>
                     {category.nodes && (
                       <div className="pl-4 mt-1 space-y-1">
                         {category.nodes.map((sub, subIdx) => (
                           <Link 
                             key={subIdx}
-                            href={`/products/${sub.id || sub.name.toLowerCase().replace(/\s+/g, '-')}`}
+                            href={generateProductUrl(item, category, sub)}
                             className="block text-blue-100 text-sm py-1 hover:text-white"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
@@ -196,13 +241,6 @@ export default function Navbar() {
                   className="relative"
                 >
                   <div className={`flex items-center px-4 py-2 text-white hover:text-blue-200 hover:bg-white/10 rounded-lg cursor-pointer transition-colors ${activeMenu === item.itemId ? "bg-white/10" : ""}`}>
-                    {/* {item.imageURL && (
-                      <img 
-                        src={item.imageURL} 
-                        alt={item.name} 
-                        className="w-5 h-5 mr-2"
-                      />
-                    )} */}
                     {item.name}
                     <FiChevronDown className="ml-1 w-4 h-4" />
                   </div>

@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 
 // This function fetches data on the server side.
