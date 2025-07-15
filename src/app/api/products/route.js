@@ -1,154 +1,365 @@
+// import { NextResponse } from 'next/server';
+// import dbConnect from '@/lib/dbConnect';
+// import Product from '@/models/Product';
+
+// export async function GET(request) {
+//   try {
+//     await dbConnect();
+    
+//     const { searchParams } = new URL(request.url);
+    
+//     // Extract query parameters
+//     const type = searchParams.get('type');
+//     const category = searchParams.get('category');
+//     const parentCategory = searchParams.get('parentCategory');
+//     const brand = searchParams.getAll('brand'); // Use getAll for arrays
+//     const manufacturer = searchParams.getAll('manufacturer'); // Use getAll for arrays
+//     const search = searchParams.get('search');
+//     const page = parseInt(searchParams.get('page')) || 1;
+//     const limit = parseInt(searchParams.get('limit')) || 20;
+//     const minPrice = parseFloat(searchParams.get('minPrice'));
+//     const maxPrice = parseFloat(searchParams.get('maxPrice'));
+//     const features = searchParams.getAll('features'); // Use getAll for arrays
+    
+//     // Build query
+//     const query = { isActive: { $ne: false } };
+    
+//     if (type) {
+//       query.type = type;
+//     }
+    
+//     if (category) {
+//       query.category = category;
+//     }
+    
+//     if (parentCategory) {
+//       query.parentCategory = parentCategory;
+//     }
+    
+//     // Handle brand filter (array)
+//     if (brand && brand.length > 0) {
+//       query.$or = [
+//         { brand: { $in: brand } },
+//         { brandName: { $in: brand } }
+//       ];
+//     }
+    
+//     // Handle manufacturer filter (array)
+//     if (manufacturer && manufacturer.length > 0) {
+//       // If we already have $or from brand, we need to combine them
+//       if (query.$or) {
+//         query.$and = [
+//           { $or: query.$or },
+//           { $or: [
+//             { manufacturer: { $in: manufacturer } },
+//             { manufacturerName: { $in: manufacturer } }
+//           ]}
+//         ];
+//         delete query.$or;
+//       } else {
+//         query.$or = [
+//           { manufacturer: { $in: manufacturer } },
+//           { manufacturerName: { $in: manufacturer } }
+//         ];
+//       }
+//     }
+    
+//     // Handle price range
+//     if (!isNaN(minPrice) || !isNaN(maxPrice)) {
+//       query.unitPrice = {};
+//       if (!isNaN(minPrice)) {
+//         query.unitPrice.$gte = minPrice;
+//       }
+//       if (!isNaN(maxPrice)) {
+//         query.unitPrice.$lte = maxPrice;
+//       }
+//     }
+    
+//     // Handle features filter (array)
+//     if (features && features.length > 0) {
+//       query.features = { $in: features };
+//     }
+    
+//     // Handle search
+//     if (search) {
+//       const searchRegex = { $regex: search, $options: 'i' };
+//       const searchConditions = [
+//         { productCode: searchRegex },
+//         { description: searchRegex },
+//         { brand: searchRegex },
+//         { brandName: searchRegex },
+//         { manufacturer: searchRegex },
+//         { manufacturerName: searchRegex },
+//         { category: searchRegex },
+//         { type: searchRegex }
+//       ];
+      
+//       // Combine with existing conditions
+//       if (query.$and) {
+//         query.$and.push({ $or: searchConditions });
+//       } else if (query.$or) {
+//         query.$and = [
+//           { $or: query.$or },
+//           { $or: searchConditions }
+//         ];
+//         delete query.$or;
+//       } else {
+//         query.$or = searchConditions;
+//       }
+//     }
+    
+//     console.log('Final query:', JSON.stringify(query, null, 2));
+    
+//     // Calculate skip for pagination
+//     const skip = (page - 1) * limit;
+    
+//     // Execute query with pagination
+//     const [products, totalCount] = await Promise.all([
+//       Product.find(query)
+//         .skip(skip)
+//         .limit(limit)
+//         .sort({ productCode: 1 })
+//         .lean(),
+//       Product.countDocuments(query)
+//     ]);
+    
+//     console.log(`Found ${products.length} products out of ${totalCount} total`);
+    
+//     // Sample log of first product to check structure
+//     if (products.length > 0) {
+//       console.log('Sample product:', {
+//         _id: products[0]._id,
+//         productCode: products[0].productCode,
+//         brand: products[0].brand,
+//         brandName: products[0].brandName,
+//         category: products[0].category,
+//         type: products[0].type,
+//         unitPrice: products[0].unitPrice
+//       });
+//     }
+    
+//     return NextResponse.json({
+//       success: true,
+//       products,
+//       pagination: {
+//         page,
+//         limit,
+//         totalPages: Math.ceil(totalCount / limit),
+//         totalCount
+//       }
+//     });
+    
+//   } catch (error) {
+//     console.error('Error fetching products:', error);
+//     return NextResponse.json(
+//       { 
+//         success: false,
+//         error: 'Failed to fetch products',
+//         details: error.message
+//       },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Product from '@/models/Product';
 
-
 export async function GET(request) {
   try {
     await dbConnect();
-    
     const { searchParams } = new URL(request.url);
-    
-    // Base filter for active products
-    let filter = { 
-      isActive: { $ne: false }, // Handle both true and null/undefined as active
-      isAvailable: { $ne: false } // Also check availability if field exists
-    };
-    
-    // Use getAll to correctly handle multiple selections for a filter
-    const types = searchParams.getAll('type');
-    const categories = searchParams.getAll('category');
-    const parentCategories = searchParams.getAll('parentCategory');
-    const brands = searchParams.getAll('brand');
-    const manufacturers = searchParams.getAll('manufacturer');
+
+    // Extract query parameters
+    const type = searchParams.get('type');
+    const category = searchParams.get('category');
+    const parentCategory = searchParams.get('parentCategory');
+    const brand = searchParams.getAll('brand');
+    const manufacturer = searchParams.getAll('manufacturer');
+    const search = searchParams.get('search');
+    const page = parseInt(searchParams.get('page')) || 1;
+    const limit = parseInt(searchParams.get('limit')) || 20;
+    const minPrice = parseFloat(searchParams.get('minPrice'));
+    const maxPrice = parseFloat(searchParams.get('maxPrice'));
     const features = searchParams.getAll('features');
-    
-    // Build filter object using MongoDB's $in for arrays
-    if (types.length > 0) {
-      filter.type = { $in: types };
-    }
-    if (categories.length > 0) {
-      filter.category = { $in: categories };
-    }
-    if (parentCategories.length > 0) {
-      filter.parentCategory = { $in: parentCategories };
-    }
-    if (brands.length > 0) {
-      // Handle both brand and brandName fields
-      filter.$or = [
-        { brand: { $in: brands } },
-        { brandName: { $in: brands } }
+    const sort = searchParams.get('sort') || 'name'; // Default sort by name
+    const order = searchParams.get('order') || 'asc'; // Default ascending
+
+    // Build query
+    const query = {};
+
+    if (type) query.type = type;
+    if (category) query.category = category;
+    if (parentCategory) query.parentCategory = parentCategory;
+
+    if (brand.length > 0) {
+      query.$or = [
+        { brand: { $in: brand } },
+        { brandName: { $in: brand } },
       ];
     }
-    if (manufacturers.length > 0) {
-      // Handle both manufacturer and manufacturerName fields
-      if (filter.$or) {
-        filter.$and = [
-          { $or: filter.$or },
-          { $or: [
-            { manufacturer: { $in: manufacturers } },
-            { manufacturerName: { $in: manufacturers } }
-          ]}
+
+    if (manufacturer.length > 0) {
+      if (query.$or) {
+        query.$and = [
+          { $or: query.$or },
+          { $or: [{ manufacturer: { $in: manufacturer } }, { manufacturerName: { $in: manufacturer } }] },
         ];
-        delete filter.$or;
+        delete query.$or;
       } else {
-        filter.$or = [
-          { manufacturer: { $in: manufacturers } },
-          { manufacturerName: { $in: manufacturers } }
+        query.$or = [
+          { manufacturer: { $in: manufacturer } },
+          { manufacturerName: { $in: manufacturer } },
         ];
       }
     }
+
+    if (!isNaN(minPrice) || !isNaN(maxPrice)) {
+      query.price = {};
+      if (!isNaN(minPrice)) query.price.$gte = minPrice;
+      if (!isNaN(maxPrice)) query.price.$lte = maxPrice;
+    }
+
     if (features.length > 0) {
-      filter.features = { $in: features };
+      query.features = { $all: features };
     }
-    
-    // Price range filter
-    const minPrice = searchParams.get('minPrice');
-    const maxPrice = searchParams.get('maxPrice');
-    if (minPrice || maxPrice) {
-      filter.price = {};
-      if (minPrice) filter.price.$gte = parseFloat(minPrice);
-      if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
-    }
-    
-    // Text search
-    const search = searchParams.get('search');
+
     if (search) {
-      filter.$text = { $search: search };
+      const searchRegex = { $regex: search, $options: 'i' };
+      const searchConditions = [
+        { name: searchRegex },
+        { brand: searchRegex },
+        { brandName: searchRegex },
+        { manufacturer: searchRegex },
+        { manufacturerName: searchRegex },
+        { category: searchRegex },
+        { type: searchRegex },
+      ];
+      if (query.$and) {
+        query.$and.push({ $or: searchConditions });
+      } else if (query.$or) {
+        query.$and = [{ $or: query.$or }, { $or: searchConditions }];
+        delete query.$or;
+      } else {
+        query.$or = searchConditions;
+      }
     }
-    
-    // Pagination
-    const page = parseInt(searchParams.get('page')) || 1;
-    const limit = Math.min(parseInt(searchParams.get('limit')) || 20, 100); // Cap at 100
+
+    console.log('Final query:', JSON.stringify(query, null, 2));
+
     const skip = (page - 1) * limit;
-    
-    // Sorting
-    const sortBy = searchParams.get('sortBy') || 'name';
-    const sortOrder = searchParams.get('sortOrder') === 'desc' ? -1 : 1;
-    const sortObj = {};
-    
-    // Handle different sort options
-    switch (sortBy) {
-      case 'price':
-        sortObj.price = sortOrder;
-        break;
-      case 'rating':
-        sortObj.rating = sortOrder;
-        break;
-      case 'date':
-        sortObj.createdAt = sortOrder;
-        break;
-      default:
-        sortObj.name = sortOrder;
+    const sortOption = { [sort]: order === 'asc' ? 1 : -1 };
+
+    const [products, totalCount] = await Promise.all([
+      Product.find(query).skip(skip).limit(limit).sort(sortOption).lean(),
+      Product.countDocuments(query),
+    ]);
+
+    console.log(`Found ${products.length} products out of ${totalCount} total`);
+
+    if (products.length > 0) {
+      console.log('Sample product:', {
+        _id: products[0]._id,
+        name: products[0].name,
+        brand: products[0].brand,
+        brandName: products[0].brandName,
+        category: products[0].category,
+        type: products[0].type,
+        price: products[0].price,
+      });
     }
-    
-    // Add text search score sorting if searching
-    if (search) {
-      sortObj.score = { $meta: 'textScore' };
-    }
-    
-    console.log('Products filter:', JSON.stringify(filter, null, 2));
-    
-    // Execute query
-    const products = await Product
-      .find(filter)
-      .sort(sortObj)
-      .skip(skip)
-      .limit(limit)
-      .lean()
-      .select('-__v'); // Exclude version field
-    
-    // Get total count for pagination
-    const totalCount = await Product.countDocuments(filter);
-    
-    // Calculate pagination info
-    const totalPages = Math.ceil(totalCount / limit);
-    
+
     return NextResponse.json({
       success: true,
       products,
       pagination: {
-        currentPage: page,
-        totalPages,
-        totalCount,
+        page,
         limit,
-        hasNext: page < totalPages,
+        totalPages: Math.ceil(totalCount / limit),
+        totalCount,
+        hasNext: page < Math.ceil(totalCount / limit),
         hasPrev: page > 1,
-        skip
       },
-      filter: filter // Include filter in response for debugging
     });
-    
   } catch (error) {
     console.error('Error fetching products:', error);
     return NextResponse.json(
-      { 
-        success: false,
-        error: 'Failed to fetch products', 
-        details: error.message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-      },
+      { success: false, error: 'Failed to fetch products', details: error.message },
       { status: 500 }
     );
   }
 }
+
+// app/api/products/route.js
+// import { NextResponse } from 'next/server';
+// import { MongoClient } from 'mongodb';
+
+// const uri = process.env.MONGODB_URL || 'mongodb://localhost:27017';
+// let client;
+// let clientPromise;
+
+// if (!global._mongoClientPromise) {
+//   client = new MongoClient(uri);
+//   global._mongoClientPromise = client.connect();
+// }
+// clientPromise = global._mongoClientPromise;
+
+// export async function GET(request) {
+//   try {
+//     const mongoClient = await clientPromise;
+//     const db = mongoClient.db('IC');
+//     const collection = db.collection('products');
+
+//     const { searchParams } = new URL(request.url);
+//     const filter = {};
+//     const page = parseInt(searchParams.get('page') || '1', 10);
+//     const limit = parseInt(searchParams.get('limit') || '10', 10);
+//     const skip = (page - 1) * limit;
+
+//     // Build the filter object based on query parameters
+//     const category = searchParams.get('category');
+//     const brand = searchParams.get('brand');
+//     const manufacturer = searchParams.get('manufacturer');
+
+//     if (category) {
+//       filter.category = category;
+//     }
+//     if (brand) {
+//       filter.brand = brand;
+//     }
+//     if (manufacturer) {
+//       filter.manufacturer = manufacturer;
+//     }
+//     // You can add more filters here, for example:
+//     // const search = searchParams.get('q');
+//     // if (search) {
+//     //   filter.$text = { $search: search };
+//     // }
+
+//     // Get total count for pagination
+//     const totalCount = await collection.countDocuments(filter);
+
+//     const products = await collection.find(filter)
+//       .skip(skip)
+//       .limit(limit)
+//       .toArray();
+
+//     return NextResponse.json({
+//       products,
+//       pagination: {
+//         totalCount,
+//         totalPages: Math.ceil(totalCount / limit),
+//         currentPage: page,
+//         limit,
+//       },
+//     });
+
+//   } catch (error) {
+//     console.error('Error fetching products:', error);
+//     return NextResponse.json(
+//       { error: 'Failed to fetch products' },
+//       { status: 500 }
+//     );
+//   }
+// }

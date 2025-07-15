@@ -7,7 +7,7 @@ import FindByBrands from "@/app/Shared/FindByBrands";
 import TopSearched from "@/app/Shared/TopSearched";
 import OurClients from "@/app/Shared/OurClients";
 import Footer from "@/app/Shared/Footer";
-import CompareSection from "@/app/Shared/Compare";
+import CompareSection from "@/Components/CompareSection";
 import RecentlyViewed from "@/app/Shared/RecenlyViewed";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
