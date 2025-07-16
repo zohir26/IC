@@ -62,13 +62,13 @@ export default function Navbar() {
         // Main category: /products/category/[category]
         return `/products/category/${category.id}`;
       }
-    } else if (mainItem === 'brands') {
-      // For brands: /products/brand/[brandId]
-      // The category here is actually the brand object
-      if (category && (category.id || category.name)) {
-        const brandId = category.id || category.name.toLowerCase().replace(/\s+/g, '-');
-        return `/products/brand/${brandId}`;
-      }
+    // } else if (mainItem === 'brands') {
+    //   // For brands: /products/brand/[brandId]
+    //   // The category here is actually the brand object
+    //   if (category && (category.id || category.name)) {
+    //     const brandId = category.id || category.name.toLowerCase().replace(/\s+/g, '-');
+    //     return `/products/brand/${brandId}`;
+    //   }
     } else if (mainItem === 'manufacturers') {
       // For manufacturers: /products/manufacturer/[manufacturerId]
       // The category here is actually the manufacturer object
@@ -184,7 +184,7 @@ export default function Navbar() {
         <div className="border-t border-blue-700 pt-2 space-y-2">
           <Link href="/solution" className="block py-2 text-white hover:text-blue-200">Solutions</Link>
           <Link href="/support" className="block py-2 text-white hover:text-blue-200">Support</Link>
-          <Link href="/resources" className="block py-2 text-white hover:text-blue-200">Resources</Link>
+          {/* <Link href="/resources" className="block py-2 text-white hover:text-blue-200">Resources</Link> */}
           <Link href="/about" className="block py-2 text-white hover:text-blue-200">About</Link>
         </div>
       </div>
@@ -248,7 +248,7 @@ export default function Navbar() {
               ))}
               <Link href="/solution" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">Solutions</Link>
               <Link href="/support" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">Support</Link>
-              <Link href="/resources" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">Resources</Link>
+              {/* <Link href="/resources" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">Resources</Link> */}
               <Link href="/about" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">About</Link>
             </div>
 
