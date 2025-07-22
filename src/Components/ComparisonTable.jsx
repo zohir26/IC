@@ -8,12 +8,17 @@ export default function ComparisonTable({ products }) {
     return null;
   }
 
+  const getColumnWidth = () => {
+    if (products.length === 3) return 'min-w-40';
+    return 'min-w-48';
+  };
+
   const renderSpecificationRow = (key, label) => (
     <tr key={key} className="border-b hover:bg-gray-50">
-      <td className="px-6 py-4 font-medium text-gray-900 bg-gray-50">{label}</td>
+      <td className="px-4 py-4 font-medium text-gray-900 bg-gray-50 sticky left-0 z-10">{label}</td>
       {products.map((product) => (
-        <td key={product._id} className="px-6 py-4 text-gray-700">
-          {product.specifications[key] || '-'}
+        <td key={product._id} className={`px-4 py-4 text-gray-700 ${getColumnWidth()}`}>
+          {product.specifications?.[key] || '-'}
         </td>
       ))}
     </tr>
@@ -21,9 +26,9 @@ export default function ComparisonTable({ products }) {
 
   const renderGeneralRow = (key, label, formatter = (val) => val) => (
     <tr key={key} className="border-b hover:bg-gray-50">
-      <td className="px-6 py-4 font-medium text-gray-900 bg-gray-50">{label}</td>
+      <td className="px-4 py-4 font-medium text-gray-900 bg-gray-50 sticky left-0 z-10">{label}</td>
       {products.map((product) => (
-        <td key={product._id} className="px-6 py-4 text-gray-700">
+        <td key={product._id} className={`px-4 py-4 text-gray-700 ${getColumnWidth()}`}>
           {formatter(product[key]) || '-'}
         </td>
       ))}
@@ -32,11 +37,11 @@ export default function ComparisonTable({ products }) {
 
   const renderArrayRow = (key, label) => (
     <tr key={key} className="border-b hover:bg-gray-50">
-      <td className="px-6 py-4 font-medium text-gray-900 bg-gray-50">{label}</td>
+      <td className="px-4 py-4 font-medium text-gray-900 bg-gray-50 sticky left-0 z-10">{label}</td>
       {products.map((product) => (
-        <td key={product._id} className="px-6 py-4 text-gray-700">
+        <td key={product._id} className={`px-4 py-4 text-gray-700 ${getColumnWidth()}`}>
           {product[key] && product[key].length > 0 ? (
-            <ul className="list-disc list-inside">
+            <ul className="list-disc list-inside space-y-1">
               {product[key].map((item, index) => (
                 <li key={index} className="text-sm">{item}</li>
               ))}
@@ -69,6 +74,9 @@ export default function ComparisonTable({ products }) {
                   ? 'border-b-2 border-blue-500 text-blue-600 bg-white'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`tabpanel-${tab.id}`}
             >
               {tab.label}
             </button>
@@ -81,43 +89,59 @@ export default function ComparisonTable({ products }) {
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">
+              <th className="px-4 py-4 text-left text-sm font-medium text-gray-900 sticky left-0 z-20 bg-gray-50">
                 Property
               </th>
-              {products.map((product) => (
-                <th key={product._id} className="px-6 py-4 text-left text-sm font-medium text-gray-900 min-w-48">
+              {products.map((product, index) => (
+                <th 
+                  key={product._id} 
+                  className={`px-4 py-4 text-left text-sm font-medium text-gray-900 ${getColumnWidth()}`}
+                >
                   <div className="flex items-center space-x-2">
                     <img 
                       src={product.image} 
                       alt={product.name}
-                      className="w-8 h-8 object-contain"
+                      className="w-8 h-8 object-contain flex-shrink-0"
                     />
-                    <div>
-                      <p className="font-semibold">{product.name}</p>
-                      <p className="text-xs text-gray-500">{product.brandName}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-sm truncate" title={product.name}>
+                        {product.name}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate" title={product.brandName}>
+                        {product.brandName}
+                      </p>
                     </div>
                   </div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody role="tabpanel" id={`tabpanel-${activeTab}`}>
             {activeTab === 'general' && (
               <>
                 {renderGeneralRow('name', 'Product Name')}
                 {renderGeneralRow('brandName', 'Brand')}
                 {renderGeneralRow('category', 'Category')}
                 {renderGeneralRow('type', 'Type')}
-                {renderGeneralRow('price', 'Price', (price) => `$${price}`)}
+                {renderGeneralRow('price', 'Price', (price) => price ? `$${price}` : '-')}
                 {renderGeneralRow('availability', 'Availability')}
                 {renderGeneralRow('manufacturerName', 'Manufacturer')}
+                {renderGeneralRow('stock', 'Stock', (stock) => stock ? `${stock} units` : '-')}
               </>
             )}
             
             {activeTab === 'specifications' && (
               <>
-                {allSpecKeys.map((key) => 
-                  renderSpecificationRow(key, key.charAt(0).toUpperCase() + key.slice(1))
+                {allSpecKeys.length > 0 ? (
+                  allSpecKeys.map((key) => 
+                    renderSpecificationRow(key, key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1'))
+                  )
+                ) : (
+                  <tr>
+                    <td colSpan={products.length + 1} className="px-4 py-8 text-center text-gray-500">
+                      No specifications available for comparison
+                    </td>
+                  </tr>
                 )}
               </>
             )}
@@ -125,17 +149,28 @@ export default function ComparisonTable({ products }) {
             {activeTab === 'features' && (
               <>
                 {renderArrayRow('features', 'Features')}
+                {/* Add more feature-related rows if needed */}
               </>
             )}
             
             {activeTab === 'applications' && (
               <>
                 {renderArrayRow('applications', 'Applications')}
+                {/* Add more application-related rows if needed */}
               </>
             )}
           </tbody>
         </table>
       </div>
+
+      {/* Mobile-friendly scroll indicator */}
+      {products.length >= 3 && (
+        <div className="md:hidden bg-gray-50 px-4 py-2 text-center">
+          <p className="text-xs text-gray-500">
+            ← Scroll horizontally to view all products →
+          </p>
+        </div>
+      )}
     </div>
   );
 }

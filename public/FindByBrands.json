@@ -1,0 +1,2224 @@
+[
+{
+    "brandId": 1,
+    "name": "muRata",
+    "logo": "https://i.ibb.co/BVjnJ1Gn/muratea-removebg-preview.png",
+    "description": "muRata is a leading manufacturer of electronic components including capacitors, inductors, and sensors.",
+    "website": "https://www.murata.com",
+    "products": [
+      {
+        "productId": "MUR001",
+        "name": "GRM155R71C104KA88D",
+        "category": "Ceramic Capacitor",
+        "description": "0402 size 100nF ceramic capacitor with X7R dielectric",
+        "specifications": {
+          "capacitance": "100nF",
+          "voltage": "16V",
+          "tolerance": "±10%",
+          "temperature": "-55°C to +125°C",
+          "package": "0402"
+        },
+        "price": 0.15,
+        "stock": 5000,
+        "image": "https://via.placeholder.com/300x200?text=GRM155R71C104KA88D",
+        "datasheet": "murata_grm155_datasheet.pdf",
+        "applications": ["Mobile phones", "Tablets", "IoT devices"],
+        "relatedProducts": ["MUR002", "MUR003"],
+        "alternativeProducts": [
+          {
+            "productId": "KEM001",
+            "name": "C1206C104K5RACTU",
+            "brandName": "Kemet",
+            "category": "Ceramic Capacitor",
+            "price": 0.12,
+            "stock": 18000,
+            "image": "https://via.placeholder.com/300x200?text=C1206C104K5RACTU"
+          },
+          {
+            "productId": "VIS001",
+            "name": "CRCW08051K00FKEA",
+            "brandName": "Vishay",
+            "category": "Thick Film Resistor",
+            "price": 0.02,
+            "stock": 50000,
+            "image": "https://via.placeholder.com/300x200?text=CRCW08051K00FKEA"
+          }
+        ]
+      },
+      {
+        "productId": "MUR002",
+        "name": "LQG15HS2N2S02D",
+        "category": "Inductor",
+        "description": "0402 size 2.2nH wire wound inductor",
+        "specifications": {
+          "inductance": "2.2nH",
+          "tolerance": "±0.3nH",
+          "current": "600mA",
+          "resistance": "0.22Ω",
+          "package": "0402"
+        },
+        "price": 0.25,
+        "stock": 3000,
+        "image": "https://via.placeholder.com/300x200?text=LQG15HS2N2S02D",
+        "datasheet": "murata_lqg15_datasheet.pdf",
+        "applications": ["RF circuits", "Impedance matching", "Filtering"],
+        "relatedProducts": ["MUR001", "MUR003"],
+        "alternativeProducts": [
+          {
+            "productId": "TI002",
+            "name": "TL431CP",
+            "brandName": "Texas Instruments",
+            "category": "Voltage Reference",
+            "price": 0.35,
+            "stock": 12000,
+            "image": "https://via.placeholder.com/300x200?text=TL431CP"
+          }
+        ]
+      },
+      {
+        "productId": "MUR003",
+        "name": "SCL3300-D01",
+        "category": "Sensor",
+        "description": "3-axis MEMS inclinometer with SPI interface",
+        "specifications": {
+          "axes": "3-axis (X, Y, Z)",
+          "range": "±90°",
+          "resolution": "0.004°",
+          "interface": "SPI",
+          "voltage": "3.3V"
+        },
+        "price": 12.50,
+        "stock": 500,
+        "image": "https://via.placeholder.com/300x200?text=SCL3300-D01",
+        "datasheet": "murata_scl3300_datasheet.pdf",
+        "applications": ["Automotive", "Industrial machinery", "Robotics"],
+        "relatedProducts": ["MUR001", "MUR002"],
+        "alternativeProducts": [
+          {
+            "productId": "VIS003",
+            "name": "VEML7700-TT",
+            "brandName": "Vishay",
+            "category": "Light Sensor",
+            "price": 1.85,
+            "stock": 4200,
+            "image": "https://via.placeholder.com/300x200?text=VEML7700-TT"
+          },
+          {
+            "productId": "ALL003",
+            "name": "A1301KUA-T",
+            "brandName": "Allegro",
+            "category": "Hall Sensor",
+            "price": 1.15,
+            "stock": 9200,
+            "image": "https://via.placeholder.com/300x200?text=A1301KUA-T"
+          }
+        ]
+      }
+    ]
+  },
+{
+    "brandId": 2,
+    "name": "Positronic",
+    "logo": "https://i.ibb.co/XkdXc5Y9/Positronic.png",
+    "description": "Positronic specializes in high-reliability connectors for aerospace, defense, and industrial applications.",
+    "website": "https://www.positronic.com",
+    "products": [
+      {
+        "productId": "POS001",
+        "name": "P50-2040-09-018",
+        "category": "D-Sub Connector",
+        "description": "50-pin high-density D-sub connector with solder cup termination",
+        "specifications": {
+          "pins": "50",
+          "spacing": "1.27mm",
+          "current": "1A per pin",
+          "voltage": "250V",
+          "temperature": "-55°C to +125°C"
+        },
+        "price": 15.75,
+        "stock": 800,
+        "image": "https://via.placeholder.com/300x200?text=P50-2040-09-018",
+        "datasheet": "positronic_p50_datasheet.pdf",
+        "applications": ["Aerospace", "Defense systems", "Industrial controls"],
+        "relatedProducts": ["POS002", "POS003"],
+        "alternativeProducts": [
+          {
+            "productId": "BRC003",
+            "name": "HI-3584PCIF",
+            "brandName": "Brocade",
+            "category": "MIL-STD-1553 Controller",
+            "price": 125.50,
+            "stock": 280,
+            "image": "https://via.placeholder.com/300x200?text=HI-3584PCIF"
+          }
+        ]
+      },
+      {
+        "productId": "POS002",
+        "name": "MDMK-25P",
+        "category": "Micro-D Connector",
+        "description": "25-pin micro-D connector for space-constrained applications",
+        "specifications": {
+          "pins": "25",
+          "spacing": "1.27mm",
+          "current": "3A per pin",
+          "voltage": "500V",
+          "shielding": "360° EMI"
+        },
+        "price": 22.30,
+        "stock": 1200,
+        "image": "https://via.placeholder.com/300x200?text=MDMK-25P",
+        "datasheet": "positronic_mdmk_datasheet.pdf",
+        "applications": ["Satellites", "Military equipment", "Medical devices"],
+        "relatedProducts": ["POS001", "POS003"],
+        "alternativeProducts": [
+          {
+            "productId": "ADV003",
+            "name": "ADAM-4520",
+            "brandName": "Advantech",
+            "category": "Serial Converter",
+            "price": 89.50,
+            "stock": 750,
+            "image": "https://via.placeholder.com/300x200?text=ADAM-4520"
+          }
+        ]
+      },
+      {
+        "productId": "POS003",
+        "name": "CONEC-15-F",
+        "category": "Circular Connector",
+        "description": "15-pin circular connector with threaded coupling",
+        "specifications": {
+          "pins": "15",
+          "coupling": "Threaded",
+          "current": "5A per pin",
+          "voltage": "600V",
+          "protection": "IP67"
+        },
+        "price": 45.60,
+        "stock": 600,
+        "image": "https://via.placeholder.com/300x200?text=CONEC-15-F",
+        "datasheet": "positronic_conec_datasheet.pdf",
+        "applications": ["Harsh environments", "Outdoor equipment", "Marine systems"],
+        "relatedProducts": ["POS001", "POS002"],
+        "alternativeProducts": [
+          {
+            "productId": "BRC001",
+            "name": "BCM57810S",
+            "brandName": "Brocade",
+            "category": "Network Controller",
+            "price": 85.00,
+            "stock": 450,
+            "image": "https://via.placeholder.com/300x200?text=BCM57810S"
+          }
+        ]
+      }
+    ]
+  },
+ {
+    "brandId": 3,
+    "name": "Microchip",
+    "logo": "https://i.ibb.co/TM8qdZLN/microchip-removebg-preview.png",
+    "description": "Microchip Technology provides microcontroller, mixed-signal, analog and Flash-IP solutions.",
+    "website": "https://www.microchip.com",
+    "products": [
+      {
+        "productId": "MCP001",
+        "name": "ATMEGA328P-PU",
+        "category": "Microcontroller",
+        "description": "8-bit AVR microcontroller with 32KB flash memory",
+        "specifications": {
+          "architecture": "8-bit AVR",
+          "flash": "32KB",
+          "sram": "2KB",
+          "eeprom": "1KB",
+          "frequency": "20MHz",
+          "package": "DIP-28"
+        },
+        "price": 2.50,
+        "stock": 10000,
+        "image": "https://via.placeholder.com/300x200?text=ATMEGA328P-PU",
+        "datasheet": "microchip_atmega328p_datasheet.pdf",
+        "applications": ["Arduino boards", "Embedded systems", "IoT projects"],
+        "relatedProducts": ["MCP002", "MCP003"],
+        "alternativeProducts": [
+          {
+            "productId": "ST001",
+            "name": "STM32F103C8T6",
+            "brandName": "ST",
+            "category": "ARM Microcontroller",
+            "price": 2.85,
+            "stock": 8500,
+            "image": "https://via.placeholder.com/300x200?text=STM32F103C8T6"
+          },
+          {
+            "productId": "TI003",
+            "name": "MSP430G2553IPW20",
+            "brandName": "Texas Instruments",
+            "category": "Microcontroller",
+            "price": 2.10,
+            "stock": 6000,
+            "image": "https://via.placeholder.com/300x200?text=MSP430G2553IPW20"
+          },
+          {
+            "productId": "NXP001",
+            "name": "LPC1768FBD100",
+            "brandName": "NXP",
+            "category": "ARM Microcontroller",
+            "price": 8.95,
+            "stock": 3200,
+            "image": "https://via.placeholder.com/300x200?text=LPC1768FBD100"
+          }
+        ]
+      },
+      {
+        "productId": "MCP002",
+        "name": "PIC16F877A-I/P",
+        "category": "Microcontroller",
+        "description": "8-bit PIC microcontroller with 14KB flash memory",
+        "specifications": {
+          "architecture": "8-bit PIC",
+          "flash": "14KB",
+          "ram": "368 bytes",
+          "frequency": "20MHz",
+          "adc": "10-bit, 8 channels",
+          "package": "DIP-40"
+        },
+        "price": 3.25,
+        "stock": 7500,
+        "image": "https://via.placeholder.com/300x200?text=PIC16F877A-I/P",
+        "datasheet": "microchip_pic16f877a_datasheet.pdf",
+        "applications": ["Industrial control", "Automotive", "Consumer electronics"],
+        "relatedProducts": ["MCP001", "MCP003"],
+        "alternativeProducts": [
+          {
+            "productId": "REN001",
+            "name": "R7FA6M3AH3CFB",
+            "brandName": "Renesas",
+            "category": "ARM Microcontroller",
+            "price": 12.75,
+            "stock": 2400,
+            "image": "https://via.placeholder.com/300x200?text=R7FA6M3AH3CFB"
+          }
+        ]
+      },
+      {
+        "productId": "MCP003",
+        "name": "MCP3008-I/P",
+        "category": "ADC",
+        "description": "10-bit 8-channel ADC with SPI interface",
+        "specifications": {
+          "resolution": "10-bit",
+          "channels": "8",
+          "interface": "SPI",
+          "voltage": "2.7V - 5.5V",
+          "sampleRate": "200ksps",
+          "package": "DIP-16"
+        },
+        "price": 1.75,
+        "stock": 8000,
+        "image": "https://via.placeholder.com/300x200?text=MCP3008-I/P",
+        "datasheet": "microchip_mcp3008_datasheet.pdf",
+        "applications": ["Data acquisition", "Sensor interfacing", "Measurement systems"],
+        "relatedProducts": ["MCP001", "MCP002"],
+        "alternativeProducts": [
+          {
+            "productId": "ADI002",
+            "name": "AD7606BSTZ",
+            "brandName": "Analog Devices",
+            "category": "ADC",
+            "price": 18.75,
+            "stock": 1800,
+            "image": "https://via.placeholder.com/300x200?text=AD7606BSTZ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 4,
+    "name": "Littelfuse",
+    "logo": "https://i.ibb.co/9Hx7xKMK/lettelfuse-removebg-preview.png",
+    "description": "Littelfuse designs and manufactures circuit protection products for automotive and electronics industries.",
+    "website": "https://www.littelfuse.com",
+    "products": [
+      {
+        "productId": "LIT001",
+        "name": "0154005.DR",
+        "category": "Fuse",
+        "description": "5A fast-acting glass fuse, 5x20mm",
+        "specifications": {
+          "current": "5A",
+          "voltage": "250V",
+          "breakingCapacity": "1500A",
+          "type": "Fast-acting",
+          "size": "5x20mm"
+        },
+        "price": 0.45,
+        "stock": 15000,
+        "image": "https://via.placeholder.com/300x200?text=0154005.DR",
+        "datasheet": "littelfuse_0154005_datasheet.pdf",
+        "applications": ["Power supplies", "Consumer electronics", "Industrial equipment"],
+        "relatedProducts": ["LIT002", "LIT003"],
+        "alternativeProducts": [
+          {
+            "productId": "ONS002",
+            "name": "2N7002",
+            "brandName": "Onsemi",
+            "category": "MOSFET",
+            "price": 0.15,
+            "stock": 20000,
+            "image": "https://via.placeholder.com/300x200?text=2N7002"
+          }
+        ]
+      },
+      {
+        "productId": "LIT002",
+        "name": "SP3012-04HTG",
+        "category": "TVS Diode",
+        "description": "12V bidirectional TVS diode array",
+        "specifications": {
+          "voltage": "12V",
+          "power": "400W",
+          "capacitance": "35pF",
+          "channels": "4",
+          "package": "SOT-143"
+        },
+        "price": 0.85,
+        "stock": 8500,
+        "image": "https://via.placeholder.com/300x200?text=SP3012-04HTG",
+        "datasheet": "littelfuse_sp3012_datasheet.pdf",
+        "applications": ["USB protection", "Data lines", "Automotive CAN bus"],
+        "relatedProducts": ["LIT001", "LIT003"],
+        "alternativeProducts": [
+          {
+            "productId": "DIO002",
+            "name": "BAT54S",
+            "brandName": "Diodes",
+            "category": "Schottky Diode",
+            "price": 0.12,
+            "stock": 18000,
+            "image": "https://via.placeholder.com/300x200?text=BAT54S"
+          }
+        ]
+      },
+      {
+        "productId": "LIT003",
+        "name": "IXYS-VTO120-16E",
+        "category": "Thyristor",
+        "description": "120A 1600V phase control thyristor",
+        "specifications": {
+          "current": "120A",
+          "voltage": "1600V",
+          "gateVoltage": "1.5V",
+          "package": "TO-240AA",
+          "isolation": "2500V"
+        },
+        "price": 24.75,
+        "stock": 300,
+        "image": "https://via.placeholder.com/300x200?text=VTO120-16E",
+        "datasheet": "littelfuse_vto120_datasheet.pdf",
+        "applications": ["Motor drives", "Power control", "Welding equipment"],
+        "relatedProducts": ["LIT001", "LIT002"],
+        "alternativeProducts": [
+          {
+            "productId": "ROH002",
+            "name": "SiC-MOSFET-SCT3040KL",
+            "brandName": "ROHM",
+            "category": "SiC MOSFET",
+            "price": 18.50,
+            "stock": 800,
+            "image": "https://via.placeholder.com/300x200?text=SCT3040KL"
+          },
+          {
+            "productId": "TOS003",
+            "name": "TK71A50D",
+            "brandName": "Toshiba",
+            "category": "MOSFET",
+            "price": 8.25,
+            "stock": 1200,
+            "image": "https://via.placeholder.com/300x200?text=TK71A50D"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 5,
+    "name": "Diodes",
+    "logo": "https://i.ibb.co/BKZ2d6Dr/diodes-removebg-preview.png",
+    "description": "Diodes Incorporated manufactures discrete semiconductors, analog ICs, and standard logic products.",
+    "website": "https://www.diodes.com",
+    "products": [
+      {
+        "productId": "DIO001",
+        "name": "1N4007",
+        "category": "Rectifier Diode",
+        "description": "1A 1000V general purpose rectifier diode",
+        "specifications": {
+          "current": "1A",
+          "voltage": "1000V",
+          "forwardVoltage": "1.1V",
+          "package": "DO-41",
+          "recoveryTime": "30μs"
+        },
+        "price": 0.08,
+        "stock": 25000,
+        "image": "https://via.placeholder.com/300x200?text=1N4007",
+        "datasheet": "diodes_1n4007_datasheet.pdf",
+        "applications": ["Power supplies", "Rectification", "General purpose"],
+        "relatedProducts": ["DIO002", "DIO003"],
+        "alternativeProducts": [
+          {
+            "productId": "VIS002",
+            "name": "IRFZ44NPBF",
+            "brandName": "Vishay",
+            "category": "Power MOSFET",
+            "price": 1.45,
+            "stock": 6500,
+            "image": "https://via.placeholder.com/300x200?text=IRFZ44NPBF"
+          }
+        ]
+      },
+      {
+        "productId": "DIO002",
+        "name": "BAT54S",
+        "category": "Schottky Diode",
+        "description": "200mA 30V dual Schottky diode",
+        "specifications": {
+          "current": "200mA",
+          "voltage": "30V",
+          "forwardVoltage": "0.8V",
+          "package": "SOT-23",
+          "configuration": "Common cathode"
+        },
+        "price": 0.12,
+        "stock": 18000,
+        "image": "https://via.placeholder.com/300x200?text=BAT54S",
+        "datasheet": "diodes_bat54s_datasheet.pdf",
+        "applications": ["RF detection", "Voltage clamping", "High-speed switching"],
+        "relatedProducts": ["DIO001", "DIO003"],
+        "alternativeProducts": [
+          {
+            "productId": "LIT002",
+            "name": "SP3012-04HTG",
+            "brandName": "Littelfuse",
+            "category": "TVS Diode",
+            "price": 0.85,
+            "stock": 8500,
+            "image": "https://via.placeholder.com/300x200?text=SP3012-04HTG"
+          }
+        ]
+      },
+      {
+        "productId": "DIO003",
+        "name": "AP2127K-3.3TRG1",
+        "category": "LDO Regulator",
+        "description": "300mA 3.3V low dropout linear regulator",
+        "specifications": {
+          "outputVoltage": "3.3V",
+          "outputCurrent": "300mA",
+          "dropout": "250mV",
+          "accuracy": "±2%",
+          "package": "SOT-23-5"
+        },
+        "price": 0.35,
+        "stock": 12000,
+        "image": "https://via.placeholder.com/300x200?text=AP2127K-3.3TRG1",
+        "datasheet": "diodes_ap2127_datasheet.pdf",
+        "applications": ["Battery-powered devices", "Portable electronics", "MCU power"],
+        "relatedProducts": ["DIO001", "DIO002"],
+        "alternativeProducts": [
+          {
+            "productId": "ONS001",
+            "name": "NCP1117ST50T3G",
+            "brandName": "Onsemi",
+            "category": "LDO Regulator",
+            "price": 0.85,
+            "stock": 11000,
+            "image": "https://via.placeholder.com/300x200?text=NCP1117ST50T3G"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 6,
+    "name": "Allegro",
+    "logo": "https://i.ibb.co/VYK54kRJ/allergo-removebg-preview.png",
+    "description": "Allegro MicroSystems develops high-performance power and sensing ICs for automotive and industrial markets.",
+    "website": "https://www.allegromicro.com",
+    "products": [
+      {
+        "productId": "ALL001",
+        "name": "A4988SETTR-T",
+        "category": "Stepper Motor Driver",
+        "description": "Microstepping bipolar stepper motor driver",
+        "specifications": {
+          "voltage": "8V to 35V",
+          "current": "2A per coil",
+          "microsteps": "1/16",
+          "interface": "Step/Direction",
+          "package": "HTSSOP-28"
+        },
+        "price": 3.85,
+        "stock": 4500,
+        "image": "https://via.placeholder.com/300x200?text=A4988SETTR-T",
+        "datasheet": "allegro_a4988_datasheet.pdf",
+        "applications": ["3D printers", "CNC machines", "Robotics"],
+        "relatedProducts": ["ALL002", "ALL003"],
+        "alternativeProducts": [
+          {
+            "productId": "ST002",
+            "name": "L298N",
+            "brandName": "ST",
+            "category": "Motor Driver",
+            "price": 2.25,
+            "stock": 7200,
+            "image": "https://via.placeholder.com/300x200?text=L298N"
+          },
+          {
+            "productId": "ONS003",
+            "name": "LV8548MC",
+            "brandName": "Onsemi",
+            "category": "Motor Driver",
+            "price": 3.45,
+            "stock": 2800,
+            "image": "https://via.placeholder.com/300x200?text=LV8548MC"
+          }
+        ]
+      },
+      {
+        "productId": "ALL002",
+        "name": "ACS712ELCTR-20A-T",
+        "category": "Current Sensor",
+        "description": "±20A hall-effect current sensor IC",
+        "specifications": {
+          "range": "±20A",
+          "sensitivity": "100mV/A",
+          "bandwidth": "80kHz",
+          "voltage": "5V",
+          "package": "SOIC-8"
+        },
+        "price": 2.25,
+        "stock": 6800,
+        "image": "https://via.placeholder.com/300x200?text=ACS712ELCTR-20A-T",
+        "datasheet": "allegro_acs712_datasheet.pdf",
+        "applications": ["Motor control", "Power monitoring", "Overcurrent protection"],
+        "relatedProducts": ["ALL001", "ALL003"],
+        "alternativeProducts": [
+          {
+            "productId": "REN003",
+            "name": "RAA489110",
+            "brandName": "Renesas",
+            "category": "Battery Monitor",
+            "price": 6.25,
+            "stock": 1800,
+            "image": "https://via.placeholder.com/300x200?text=RAA489110"
+          }
+        ]
+      },
+      {
+        "productId": "ALL003",
+        "name": "A1301KUA-T",
+        "category": "Hall Sensor",
+        "description": "Ratiometric linear hall effect sensor",
+        "specifications": {
+          "voltage": "4.5V to 5.5V",
+          "sensitivity": "2.5mV/G",
+          "range": "±1000G",
+          "bandwidth": "22kHz",
+          "package": "SIP-3"
+        },
+        "price": 1.15,
+        "stock": 9200,
+        "image": "https://via.placeholder.com/300x200?text=A1301KUA-T",
+        "datasheet": "allegro_a1301_datasheet.pdf",
+        "applications": ["Position sensing", "Speed detection", "Proximity switches"],
+        "relatedProducts": ["ALL001", "ALL002"],
+        "alternativeProducts": [
+          {
+            "productId": "MUR003",
+            "name": "SCL3300-D01",
+            "brandName": "muRata",
+            "category": "Sensor",
+            "price": 12.50,
+            "stock": 500,
+            "image": "https://via.placeholder.com/300x200?text=SCL3300-D01"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 7,
+    "name": "NXP",
+    "logo": "https://i.ibb.co/HfzDSJ0v/nxp-removebg-preview.png",
+    "description": "NXP Semiconductors provides high-performance mixed-signal electronics for automotive, industrial, and IoT applications.",
+    "website": "https://www.nxp.com",
+    "products": [
+      {
+        "productId": "NXP001",
+        "name": "LPC1768FBD100",
+        "category": "ARM Microcontroller",
+        "description": "32-bit ARM Cortex-M3 microcontroller, 100MHz",
+        "specifications": {
+          "core": "ARM Cortex-M3",
+          "frequency": "100MHz",
+          "flash": "512KB",
+          "sram": "64KB",
+          "gpio": "70 pins",
+          "package": "LQFP-100"
+        },
+        "price": 8.95,
+        "stock": 3200,
+        "image": "https://via.placeholder.com/300x200?text=LPC1768FBD100",
+        "datasheet": "nxp_lpc1768_datasheet.pdf",
+        "applications": ["Embedded systems", "IoT gateways", "Industrial automation"],
+        "relatedProducts": ["NXP002", "NXP003"],
+        "alternativeProducts": [
+          {
+            "productId": "MCP001",
+            "name": "ATMEGA328P-PU",
+            "brandName": "Microchip",
+            "category": "Microcontroller",
+            "price": 2.50,
+            "stock": 10000,
+            "image": "https://via.placeholder.com/300x200?text=ATMEGA328P-PU"
+          }
+        ]
+      },
+      {
+        "productId": "NXP002",
+        "name": "PN532",
+        "category": "NFC Controller",
+        "description": "NFC controller with integrated antenna driver",
+        "specifications": {
+          "frequency": "13.56MHz",
+          "interface": "I2C/SPI/UART",
+          "range": "5cm",
+          "protocols": "ISO14443A/B, FeliCa",
+          "package": "HVQFN-32"
+        },
+        "price": 4.75,
+        "stock": 2800,
+        "image": "https://via.placeholder.com/300x200?text=PN532",
+        "datasheet": "nxp_pn532_datasheet.pdf",
+        "applications": ["Access control", "Payment systems", "IoT authentication"],
+        "relatedProducts": ["NXP001", "NXP003"],
+        "alternativeProducts": [
+          {
+            "productId": "BRC002",
+            "name": "ISL12057IBZ",
+            "brandName": "Brocade",
+            "category": "RTC",
+            "price": 2.15,
+            "stock": 3800,
+            "image": "https://via.placeholder.com/300x200?text=ISL12057IBZ"
+          }
+        ]
+      },
+      {
+        "productId": "NXP003",
+        "name": "TJA1050T",
+        "category": "CAN Transceiver",
+        "description": "High-speed CAN transceiver for automotive applications",
+        "specifications": {
+          "speed": "1Mbps",
+          "voltage": "4.75V to 5.25V",
+          "temperature": "-40°C to +150°C",
+          "esd": "±8kV",
+          "package": "SO-8"
+        },
+        "price": 1.65,
+        "stock": 7500,
+        "image": "https://via.placeholder.com/300x200?text=TJA1050T",
+        "datasheet": "nxp_tja1050_datasheet.pdf",
+        "applications": ["Automotive networks", "Industrial buses", "ECU communication"],
+        "relatedProducts": ["NXP001", "NXP002"],
+        "alternativeProducts": [
+          {
+            "productId": "ADV003",
+            "name": "ADAM-4520",
+            "brandName": "Advantech",
+            "category": "Serial Converter",
+            "price": 89.50,
+            "stock": 750,
+            "image": "https://via.placeholder.com/300x200?text=ADAM-4520"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 8,
+    "name": "CuDevices",
+    "logo": "https://i.ibb.co/JJDz9Pq/CUdevices-removebg-preview.png",
+    "description": "CuDevices specializes in copper-based electronic components and thermal management solutions.",
+    "website": "https://www.cudevices.com",
+    "products": [
+      {
+        "productId": "CUD001",
+        "name": "CU-HS-001",
+        "category": "Heat Sink",
+        "description": "Copper heat sink for TO-220 packages",
+        "specifications": {
+          "material": "Pure copper",
+          "thermalResistance": "3.2°C/W",
+          "dimensions": "25x20x15mm",
+          "mounting": "TO-220",
+          "weight": "15g"
+        },
+        "price": 2.85,
+        "stock": 5000,
+        "image": "https://via.placeholder.com/300x200?text=CU-HS-001",
+        "datasheet": "cudevices_cuhs001_datasheet.pdf",
+        "applications": ["Power transistors", "Voltage regulators", "LED drivers"],
+        "relatedProducts": ["CUD002", "CUD003"],
+        "alternativeProducts": [
+          {
+            "productId": "APX002",
+            "name": "SA60",
+            "brandName": "Apex",
+            "category": "Switching Amplifier",
+            "price": 125.50,
+            "stock": 320,
+            "image": "https://via.placeholder.com/300x200?text=SA60"
+          }
+        ]
+      },
+      {
+        "productId": "CUD002",
+        "name": "CU-TIM-002",
+        "category": "Thermal Interface",
+        "description": "Copper-filled thermal interface material",
+        "specifications": {
+          "conductivity": "8.5 W/mK",
+          "thickness": "0.2mm",
+          "temperature": "-40°C to +180°C",
+          "format": "Pad",
+          "size": "20x20mm"
+        },
+        "price": 1.25,
+        "stock": 8000,
+        "image": "https://via.placeholder.com/300x200?text=CU-TIM-002",
+        "datasheet": "cudevices_cutim002_datasheet.pdf",
+        "applications": ["CPU cooling", "Power modules", "LED assemblies"],
+        "relatedProducts": ["CUD001", "CUD003"],
+        "alternativeProducts": [
+          {
+            "productId": "SGM002",
+            "name": "SGM3140YTN6G/TR",
+            "brandName": "Sgmicro",
+            "category": "LED Driver",
+            "price": 1.25,
+            "stock": 5200,
+            "image": "https://via.placeholder.com/300x200?text=SGM3140YTN6G"
+          }
+        ]
+      },
+      {
+        "productId": "CUD003",
+        "name": "CU-TRACE-003",
+        "category": "Copper Trace",
+        "description": "High-current copper trace for PCB applications",
+        "specifications": {
+          "width": "10mm",
+          "thickness": "105μm",
+          "current": "30A",
+          "length": "100mm",
+          "resistance": "0.17mΩ"
+        },
+        "price": 3.50,
+        "stock": 3500,
+        "image": "https://via.placeholder.com/300x200?text=CU-TRACE-003",
+        "datasheet": "cudevices_cutrace003_datasheet.pdf",
+        "applications": ["Power distribution", "High-current paths", "Bus bars"],
+        "relatedProducts": ["CUD001", "CUD002"],
+        "alternativeProducts": [
+          {
+            "productId": "KEM002",
+            "name": "ESK227M025AC3AA",
+            "brandName": "Kemet",
+            "category": "Aluminum Electrolytic",
+            "price": 0.85,
+            "stock": 9500,
+            "image": "https://via.placeholder.com/300x200?text=ESK227M025AC3AA"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 9,
+    "name": "Toshiba",
+    "logo": "https://i.ibb.co/tT9PDsHM/tosibha-removebg-preview.png",
+    "description": "Toshiba Electronic Devices & Storage Corporation develops semiconductor solutions for various applications.",
+    "website": "https://toshiba.semicon-storage.com",
+    "products": [
+      {
+        "productId": "TOS001",
+        "name": "TLP621-4GB",
+        "category": "Optocoupler",
+        "description": "4-channel transistor output optocoupler",
+        "specifications": {
+          "channels": "4",
+          "isolation": "5000V",
+          "forwardVoltage": "1.2V",
+          "ctr": "50%-300%",
+          "package": "SO-16"
+        },
+        "price": 1.45,
+        "stock": 6500,
+        "image": "https://via.placeholder.com/300x200?text=TLP621-4GB",
+        "datasheet": "toshiba_tlp621_datasheet.pdf",
+        "applications": ["Interface circuits", "Signal isolation", "Industrial control"],
+        "relatedProducts": ["TOS002", "TOS003"],
+        "alternativeProducts": [
+          {
+            "productId": "ADI001",
+            "name": "AD8551ARZ",
+            "brandName": "Analog Devices",
+            "category": "Operational Amplifier",
+            "price": 2.45,
+            "stock": 4200,
+            "image": "https://via.placeholder.com/300x200?text=AD8551ARZ"
+          }
+        ]
+      },
+      {
+        "productId": "TOS002",
+        "name": "TC74HC595AP",
+        "category": "Shift Register",
+        "description": "8-bit serial-in parallel-out shift register",
+        "specifications": {
+          "voltage": "2V to 6V",
+          "outputs": "8-bit",
+          "frequency": "25MHz",
+          "current": "6mA",
+          "package": "DIP-16"
+        },
+        "price": 0.65,
+        "stock": 12000,
+        "image": "https://via.placeholder.com/300x200?text=TC74HC595AP",
+        "datasheet": "toshiba_tc74hc595_datasheet.pdf",
+        "applications": ["LED displays", "GPIO expansion", "Data distribution"],
+        "relatedProducts": ["TOS001", "TOS003"],
+         "alternativeProducts": [
+          {
+            "productId": "TI001",
+            "name": "LM358P",
+            "brandName": "Texas Instruments",
+            "category": "Op-Amp",
+            "price": 0.45,
+            "stock": 15000,
+            "image": "https://via.placeholder.com/300x200?text=LM358P"
+          }
+        ]
+      },
+      {
+        "productId": "TOS003",
+        "name": "TK71A50D",
+        "category": "MOSFET",
+        "description": "500V 71A N-channel power MOSFET",
+        "specifications": {
+          "voltage": "500V",
+          "current": "71A",
+          "rdsOn": "65mΩ",
+          "gateVoltage": "±20V",
+          "package": "TO-247"
+        },
+        "price": 8.25,
+        "stock": 1200,
+        "image": "https://via.placeholder.com/300x200?text=TK71A50D",
+        "datasheet": "toshiba_tk71a50d_datasheet.pdf",
+        "applications": ["Motor drives", "Power supplies", "Switching circuits"],
+        "relatedProducts": ["TOS001", "TOS002"],
+        "alternativeProducts": [
+          {
+            "productId": "LIT003",
+            "name": "IXYS-VTO120-16E",
+            "brandName": "Littelfuse",
+            "category": "Thyristor",
+            "price": 24.75,
+            "stock": 300,
+            "image": "https://via.placeholder.com/300x200?text=VTO120-16E"
+          },
+          {
+            "productId": "VIS002",
+            "name": "IRFZ44NPBF",
+            "brandName": "Vishay",
+            "category": "Power MOSFET",
+            "price": 1.45,
+            "stock": 6500,
+            "image": "https://via.placeholder.com/300x200?text=IRFZ44NPBF"
+          }
+        ]
+      }
+    ]
+  }, 
+    {
+    "brandId": 10,
+    "name": "Advantech",
+    "logo": "https://i.ibb.co/CpT6HPLX/adhntech-removebg-preview.png",
+    "description": "Advantech provides industrial computing and IoT solutions including embedded systems and industrial automation.",
+    "website": "https://www.advantech.com",
+    "products": [
+      {
+        "productId": "ADV001",
+        "name": "WISE-4610",
+        "category": "IoT Gateway",
+        "description": "Wireless I/O module with LoRaWAN connectivity",
+        "specifications": {
+          "connectivity": "LoRaWAN",
+          "inputs": "4 analog",
+          "outputs": "2 digital",
+          "range": "15km",
+          "battery": "3.6V lithium"
+        },
+        "price": 125.00,
+        "stock": 450,
+        "image": "https://via.placeholder.com/300x200?text=WISE-4610",
+        "datasheet": "advantech_wise4610_datasheet.pdf",
+        "applications": ["Smart agriculture", "Environmental monitoring", "Industrial IoT"],
+        "relatedProducts": ["ADV002", "ADV003"],
+        "alternativeProducts": [
+          {
+            "productId": "BRC001",
+            "name": "BCM57810S",
+            "brandName": "Brocade",
+            "category": "Network Controller",
+            "price": 85.00,
+            "stock": 450,
+            "image": "https://via.placeholder.com/300x200?text=BCM57810S"
+          }
+        ]
+      },
+      {
+        "productId": "ADV002",
+        "name": "UNO-2484G",
+        "category": "Embedded Computer",
+        "description": "Fanless embedded computer with Intel Atom processor",
+        "specifications": {
+          "processor": "Intel Atom x5-E3930",
+          "memory": "4GB DDR3L",
+          "storage": "32GB eMMC",
+          "io": "2x LAN, 4x USB",
+          "temperature": "-20°C to +60°C"
+        },
+        "price": 485.00,
+        "stock": 180,
+        "image": "https://via.placeholder.com/300x200?text=UNO-2484G",
+        "datasheet": "advantech_uno2484g_datasheet.pdf",
+        "applications": ["Industrial automation", "Edge computing", "Machine vision"],
+        "relatedProducts": ["ADV001", "ADV003"],
+        "alternativeProducts": [
+          {
+            "productId": "REN001",
+            "name": "R7FA6M3AH3CFB",
+            "brandName": "Renesas",
+            "category": "ARM Microcontroller",
+            "price": 12.75,
+            "stock": 2400,
+            "image": "https://via.placeholder.com/300x200?text=R7FA6M3AH3CFB"
+          }
+        ]
+      },
+      {
+        "productId": "ADV003",
+        "name": "ADAM-4520",
+        "category": "Serial Converter",
+        "description": "RS-232 to RS-422/485 isolated converter",
+        "specifications": {
+          "isolation": "3000V",
+          "baudRate": "300 to 115200 bps",
+          "distance": "1200m",
+          "power": "10-30VDC",
+          "temperature": "-10°C to +70°C"
+        },
+        "price": 89.50,
+        "stock": 750,
+        "image": "https://via.placeholder.com/300x200?text=ADAM-4520",
+        "datasheet": "advantech_adam4520_datasheet.pdf",
+        "applications": ["Industrial networks", "Data acquisition", "Remote monitoring"],
+        "relatedProducts": ["ADV001", "ADV002"],
+        "alternativeProducts": [
+          {
+            "productId": "NXP003",
+            "name": "TJA1050T",
+            "brandName": "NXP",
+            "category": "CAN Transceiver",
+            "price": 1.65,
+            "stock": 7500,
+            "image": "https://via.placeholder.com/300x200?text=TJA1050T"
+          },
+          {
+            "productId": "POS002",
+            "name": "MDMK-25P",
+            "brandName": "Positronic",
+            "category": "Micro-D Connector",
+            "price": 22.30,
+            "stock": 1200,
+            "image": "https://via.placeholder.com/300x200?text=MDMK-25P"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 11,
+    "name": "Analog Devices",
+    "logo": "https://i.ibb.co/60qszrR9/analog-devies-removebg-preview.png",
+    "description": "Analog Devices designs and manufactures high-performance analog, mixed-signal, and digital signal processing ICs.",
+    "website": "https://www.analog.com",
+    "products": [
+      {
+        "productId": "ADI001",
+        "name": "AD8551ARZ",
+        "category": "Operational Amplifier",
+        "description": "Precision zero-drift chopper-stabilized amplifier",
+        "specifications": {
+          "voltage": "2.7V to 5.5V",
+          "offset": "5μV max",
+          "bandwidth": "1.8MHz",
+          "noise": "42nV/√Hz",
+          "package": "SOIC-8"
+        },
+        "price": 2.45,
+        "stock": 4200,
+        "image": "https://via.placeholder.com/300x200?text=AD8551ARZ",
+        "datasheet": "adi_ad8551_datasheet.pdf",
+        "applications": ["Precision instrumentation", "Data acquisition", "Medical devices"],
+        "relatedProducts": ["ADI002", "ADI003"],
+        "alternativeProducts": [
+          {
+            "productId": "TOS001",
+            "name": "TLP621-4GB",
+            "brandName": "Toshiba",
+            "category": "Optocoupler",
+            "price": 1.45,
+            "stock": 6500,
+            "image": "https://via.placeholder.com/300x200?text=TLP621-4GB"
+          },
+          {
+            "productId": "ROH003",
+            "name": "BD48K21G-TL",
+            "brandName": "ROHM",
+            "category": "Op-Amp",
+            "price": 0.75,
+            "stock": 8500,
+            "image": "https://via.placeholder.com/300x200?text=BD48K21G-TL"
+          }
+        ]
+      },
+      {
+        "productId": "ADI002",
+        "name": "AD7606BSTZ",
+        "category": "ADC",
+        "description": "16-bit 8-channel simultaneous sampling ADC",
+        "specifications": {
+          "resolution": "16-bit",
+          "channels": "8",
+          "sampleRate": "200kSPS",
+          "voltage": "±5V, ±10V",
+          "package": "LQFP-64"
+        },
+        "price": 18.75,
+        "stock": 1800,
+        "image": "https://via.placeholder.com/300x200?text=AD7606BSTZ",
+        "datasheet": "adi_ad7606b_datasheet.pdf",
+        "applications": ["Power monitoring", "Motor control", "Test equipment"],
+        "relatedProducts": ["ADI001", "ADI003"],
+        "alternativeProducts": [
+          {
+            "productId": "MCP003",
+            "name": "MCP3008-I/P",
+            "brandName": "Microchip",
+            "category": "ADC",
+            "price": 1.75,
+            "stock": 8000,
+            "image": "https://via.placeholder.com/300x200?text=MCP3008-I/P"
+          }
+        ]
+      },
+      {
+        "productId": "ADI003",
+        "name": "ADF4351BCPZ",
+        "category": "PLL Synthesizer",
+        "description": "Wideband synthesizer with integrated VCO",
+        "specifications": {
+          "frequency": "35MHz to 4.4GHz",
+          "phaseNoise": "-102dBc/Hz",
+          "power": "5dBm",
+          "reference": "10MHz to 250MHz",
+          "package": "LFCSP-32"
+        },
+        "price": 12.95,
+        "stock": 2200,
+        "image": "https://via.placeholder.com/300x200?text=ADF4351BCPZ",
+        "datasheet": "adi_adf4351b_datasheet.pdf",
+        "applications": ["RF communications", "Test equipment", "Radar systems"],
+        "relatedProducts": ["ADI001", "ADI002"],
+        "alternativeProducts": [
+          {
+            "productId": "NXP002",
+            "name": "PN532",
+            "brandName": "NXP",
+            "category": "NFC Controller",
+            "price": 4.75,
+            "stock": 2800,
+            "image": "https://via.placeholder.com/300x200?text=PN532"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 12,
+    "name": "Texas Instruments",
+    "logo": "https://i.ibb.co/nGjLhhd/texas-removebg-preview.png",
+    "description": "Texas Instruments designs and manufactures semiconductors for various industries.",
+    "website": "https://www.ti.com",
+    "products": [
+      {
+        "productId": "TI001",
+        "name": "LM358P",
+        "category": "Op-Amp",
+        "description": "Dual operational amplifier with low power consumption",
+        "specifications": {
+          "channels": "2",
+          "voltage": "3V - 32V",
+          "bandwidth": "1MHz",
+          "slewRate": "0.5V/μs",
+          "package": "DIP-8"
+        },
+        "price": 0.45,
+        "stock": 15000,
+        "image": "https://via.placeholder.com/300x200?text=LM358P",
+        "datasheet": "ti_lm358_datasheet.pdf",
+        "applications": ["Signal conditioning", "Active filters", "Amplification"],
+        "relatedProducts": ["TI002", "TI003"],
+        "alternativeProducts": [
+          {
+            "productId": "TOS002",
+            "name": "TC74HC595AP",
+            "brandName": "Toshiba",
+            "category": "Shift Register",
+            "price": 0.65,
+            "stock": 12000,
+            "image": "https://via.placeholder.com/300x200?text=TC74HC595AP"
+          },
+          {
+            "productId": "SGM001",
+            "name": "SGM8093YS5G/TR",
+            "brandName": "Sgmicro",
+            "category": "Op-Amp",
+            "price": 0.95,
+            "stock": 6800,
+            "image": "https://via.placeholder.com/300x200?text=SGM8093YS5G"
+          }
+        ]
+      },
+      {
+        "productId": "TI002",
+        "name": "TL431CP",
+        "category": "Voltage Reference",
+        "description": "Programmable shunt regulator",
+        "specifications": {
+          "voltage": "2.495V - 36V",
+          "current": "1mA - 100mA",
+          "accuracy": "±1%",
+          "temperature": "-40°C to +85°C",
+          "package": "TO-92"
+        },
+        "price": 0.35,
+        "stock": 12000,
+        "image": "https://via.placeholder.com/300x200?text=TL431CP",
+        "datasheet": "ti_tl431_datasheet.pdf",
+        "applications": ["Voltage regulation", "Reference circuits", "Power supplies"],
+        "relatedProducts": ["TI001", "TI003"],
+        "alternativeProducts": [
+          {
+            "productId": "MUR002",
+            "name": "LQG15HS2N2S02D",
+            "brandName": "muRata",
+            "category": "Inductor",
+            "price": 0.25,
+            "stock": 3000,
+            "image": "https://via.placeholder.com/300x200?text=LQG15HS2N2S02D"
+          }
+        ]
+      },
+      {
+        "productId": "TI003",
+        "name": "MSP430G2553IPW20",
+        "category": "Microcontroller",
+        "description": "16-bit ultra-low-power microcontroller",
+        "specifications": {
+          "architecture": "16-bit RISC",
+          "flash": "16KB",
+          "ram": "512 bytes",
+          "frequency": "16MHz",
+          "adc": "10-bit",
+          "package": "TSSOP-20"
+        },
+        "price": 2.10,
+        "stock": 6000,
+        "image": "https://via.placeholder.com/300x200?text=MSP430G2553IPW20",
+        "datasheet": "ti_msp430g2553_datasheet.pdf",
+        "applications": ["Battery-powered devices", "Sensor nodes", "Wearables"],
+        "relatedProducts": ["TI001", "TI002"],
+        "alternativeProducts": [
+          {
+            "productId": "MCP001",
+            "name": "ATMEGA328P-PU",
+            "brandName": "Microchip",
+            "category": "Microcontroller",
+            "price": 2.50,
+            "stock": 10000,
+            "image": "https://via.placeholder.com/300x200?text=ATMEGA328P-PU"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 13,
+    "name": "ST",
+    "logo": "https://i.ibb.co/9kYDg4F5/ST-removebg-preview.png",
+    "description": "STMicroelectronics is a global semiconductor leader delivering intelligent and energy-efficient products.",
+    "website": "https://www.st.com",
+    "products": [
+      {
+        "productId": "ST001",
+        "name": "STM32F103C8T6",
+        "category": "ARM Microcontroller",
+        "description": "32-bit ARM Cortex-M3 microcontroller, 72MHz",
+        "specifications": {
+          "core": "ARM Cortex-M3",
+          "frequency": "72MHz",
+          "flash": "64KB",
+          "sram": "20KB",
+          "gpio": "37 pins",
+          "package": "LQFP-48"
+        },
+        "price": 2.85,
+        "stock": 8500,
+        "image": "https://via.placeholder.com/300x200?text=STM32F103C8T6",
+        "datasheet": "st_stm32f103c8_datasheet.pdf",
+        "applications": ["IoT devices", "Motor control", "Consumer electronics"],
+        "relatedProducts": ["ST002", "ST003"],
+        "alternativeProducts": [
+          {
+            "productId": "MCP001",
+            "name": "ATMEGA328P-PU",
+            "brandName": "Microchip",
+            "category": "Microcontroller",
+            "price": 2.50,
+            "stock": 10000,
+            "image": "https://via.placeholder.com/300x200?text=ATMEGA328P-PU"
+          }
+        ]
+      },
+      {
+        "productId": "ST002",
+        "name": "L298N",
+        "category": "Motor Driver",
+        "description": "Dual full-bridge driver for DC and stepper motors",
+        "specifications": {
+          "voltage": "5V to 35V",
+          "current": "2A per bridge",
+          "logic": "TTL compatible",
+          "protection": "Thermal shutdown",
+          "package": "Multiwatt-15"
+        },
+        "price": 2.25,
+        "stock": 7200,
+        "image": "https://via.placeholder.com/300x200?text=L298N",
+        "datasheet": "st_l298n_datasheet.pdf",
+        "applications": ["Robotics", "3D printers", "Automated systems"],
+        "relatedProducts": ["ST001", "ST003"],
+        "alternativeProducts": [
+          {
+            "productId": "ALL001",
+            "name": "A4988SETTR-T",
+            "brandName": "Allegro",
+            "category": "Stepper Motor Driver",
+            "price": 3.85,
+            "stock": 4500,
+            "image": "https://via.placeholder.com/300x200?text=A4988SETTR-T"
+          }
+        ]
+      },
+      {
+        "productId": "ST003",
+        "name": "LM2596S-5.0",
+        "category": "DC-DC Converter",
+        "description": "5V 3A step-down voltage regulator",
+        "specifications": {
+          "inputVoltage": "7V to 40V",
+          "outputVoltage": "5V",
+          "outputCurrent": "3A",
+          "efficiency": "92%",
+          "package": "TO-263"
+        },
+        "price": 1.85,
+        "stock": 9800,
+        "image": "https://via.placeholder.com/300x200?text=LM2596S-5.0",
+        "datasheet": "st_lm2596s_datasheet.pdf",
+        "applications": ["Power supplies", "Battery chargers", "DC converters"],
+        "relatedProducts": ["ST001", "ST002"],
+        "alternativeProducts": [
+          {
+            "productId": "ROH001",
+            "name": "BD9G341AEFJ-E2",
+            "brandName": "ROHM",
+            "category": "DC-DC Converter",
+            "price": 2.95,
+            "stock": 4500,
+            "image": "https://via.placeholder.com/300x200?text=BD9G341AEFJ-E2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 14,
+    "name": "Onsemi",
+    "logo": "https://i.ibb.co/0VKfQRXz/onsemi-removebg-preview.png",
+    "description": "onsemi provides energy-efficient innovations for automotive, industrial, cloud infrastructure, and IoT applications.",
+    "website": "https://www.onsemi.com",
+    "products": [
+      {
+        "productId": "ONS001",
+        "name": "NCP1117ST50T3G",
+        "category": "LDO Regulator",
+        "description": "5V 1A low dropout linear regulator",
+        "specifications": {
+          "outputVoltage": "5V",
+          "outputCurrent": "1A",
+          "dropout": "1.2V",
+          "accuracy": "±1%",
+          "package": "SOT-223"
+        },
+        "price": 0.85,
+        "stock": 11000,
+        "image": "https://via.placeholder.com/300x200?text=NCP1117ST50T3G",
+        "datasheet": "onsemi_ncp1117_datasheet.pdf",
+        "applications": ["Power supplies", "Microcontroller power", "Linear regulation"],
+        "relatedProducts": ["ONS002", "ONS003"],
+        "alternativeProducts": [
+          {
+            "productId": "DIO003",
+            "name": "AP2127K-3.3TRG1",
+            "brandName": "Diodes",
+            "category": "LDO Regulator",
+            "price": 0.35,
+            "stock": 12000,
+            "image": "https://via.placeholder.com/300x200?text=AP2127K-3.3TRG1"
+          }
+        ]
+      },
+      {
+        "productId": "ONS002",
+        "name": "2N7002",
+        "category": "MOSFET",
+        "description": "60V 300mA N-channel MOSFET",
+        "specifications": {
+          "voltage": "60V",
+          "current": "300mA",
+          "rdsOn": "5Ω",
+          "gateVoltage": "±12V",
+          "package": "SOT-23"
+        },
+        "price": 0.15,
+        "stock": 20000,
+        "image": "https://via.placeholder.com/300x200?text=2N7002",
+        "datasheet": "onsemi_2n7002_datasheet.pdf",
+        "applications": ["Logic level switching", "Load switches", "Signal routing"],
+        "relatedProducts": ["ONS001", "ONS003"],
+        "alternativeProducts": [
+          {
+            "productId": "LIT001",
+            "name": "0154005.DR",
+            "brandName": "Littelfuse",
+            "category": "Fuse",
+            "price": 0.45,
+            "stock": 15000,
+            "image": "https://via.placeholder.com/300x200?text=0154005.DR"
+          }
+        ]
+      },
+      {
+        "productId": "ONS003",
+        "name": "LV8548MC",
+        "category": "Motor Driver",
+        "description": "Brushless DC motor pre-driver",
+        "specifications": {
+          "voltage": "6V to 18V",
+          "outputCurrent": "0.5A",
+          "phases": "3-phase",
+          "frequency": "20kHz",
+          "package": "QFN-32"
+        },
+        "price": 3.45,
+        "stock": 2800,
+        "image": "https://via.placeholder.com/300x200?text=LV8548MC",
+        "datasheet": "onsemi_lv8548mc_datasheet.pdf",
+        "applications": ["BLDC motors", "Fan control", "Pump drives"],
+        "relatedProducts": ["ONS001", "ONS002"],
+        "alternativeProducts": [
+          {
+            "productId": "ALL001",
+            "name": "A4988SETTR-T",
+            "brandName": "Allegro",
+            "category": "Stepper Motor Driver",
+            "price": 3.85,
+            "stock": 4500,
+            "image": "https://via.placeholder.com/300x200?text=A4988SETTR-T"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 15,
+    "name": "ROHM",
+    "logo": "https://i.ibb.co/PvSBvCd2/rohm-removebg-preview.png",
+    "description": "ROHM Semiconductor designs and manufactures electronic components including ICs, discrete semiconductors, and modules.",
+    "website": "https://www.rohm.com",
+    "products": [
+      {
+        "productId": "ROH001",
+        "name": "BD9G341AEFJ-E2",
+        "category": "DC-DC Converter",
+        "description": "4A synchronous step-down DC-DC converter",
+        "specifications": {
+          "inputVoltage": "4.5V to 18V",
+          "outputCurrent": "4A",
+          "frequency": "2MHz",
+          "efficiency": "95%",
+          "package": "HTSOP-J8"
+        },
+        "price": 2.95,
+        "stock": 4500,
+        "image": "https://via.placeholder.com/300x200?text=BD9G341AEFJ-E2",
+        "datasheet": "rohm_bd9g341_datasheet.pdf",
+        "applications": ["Industrial equipment", "Communication systems", "Computing"],
+        "relatedProducts": ["ROH002", "ROH003"],
+        "alternativeProducts": [
+          {
+            "productId": "ST003",
+            "name": "LM2596S-5.0",
+            "brandName": "ST",
+            "category": "DC-DC Converter",
+            "price": 1.85,
+            "stock": 9800,
+            "image": "https://via.placeholder.com/300x200?text=LM2596S-5.0"
+          },
+          {
+            "productId": "REN002",
+            "name": "ISL95712HIZ-T",
+            "brandName": "Renesas",
+            "category": "Power Management",
+            "price": 4.85,
+            "stock": 3200,
+            "image": "https://via.placeholder.com/300x200?text=ISL95712HIZ-T"
+          }
+        ]
+      },
+      {
+        "productId": "ROH002",
+        "name": "SiC-MOSFET-SCT3040KL",
+        "category": "SiC MOSFET",
+        "description": "1200V 40A silicon carbide MOSFET",
+        "specifications": {
+          "voltage": "1200V",
+          "current": "40A",
+          "rdsOn": "40mΩ",
+          "gateVoltage": "±25V",
+          "package": "TO-247N"
+        },
+        "price": 18.50,
+        "stock": 800,
+        "image": "https://via.placeholder.com/300x200?text=SCT3040KL",
+        "datasheet": "rohm_sct3040kl_datasheet.pdf",
+        "applications": ["Power supplies", "Motor drives", "Solar inverters"],
+        "relatedProducts": ["ROH001", "ROH003"],
+        "alternativeProducts": [
+          {
+            "productId": "LIT003",
+            "name": "IXYS-VTO120-16E",
+            "brandName": "Littelfuse",
+            "category": "Thyristor",
+            "price": 24.75,
+            "stock": 300,
+            "image": "https://via.placeholder.com/300x200?text=VTO120-16E"
+          }
+        ]
+      },
+      {
+        "productId": "ROH003",
+        "name": "BD48K21G-TL",
+        "category": "Op-Amp",
+        "description": "Rail-to-rail input/output operational amplifier",
+        "specifications": {
+          "voltage": "2.7V to 5.5V",
+          "bandwidth": "10MHz",
+          "slewRate": "6V/μs",
+          "offset": "0.5mV",
+          "package": "SOT-25"
+        },
+        "price": 0.75,
+        "stock": 8500,
+        "image": "https://via.placeholder.com/300x200?text=BD48K21G-TL",
+        "datasheet": "rohm_bd48k21g_datasheet.pdf",
+        "applications": ["Battery monitoring", "Sensor interfaces", "Portable devices"],
+        "relatedProducts": ["ROH001", "ROH002"],
+        "alternativeProducts": [
+          {
+            "productId": "ADI001",
+            "name": "AD8551ARZ",
+            "brandName": "Analog Devices",
+            "category": "Operational Amplifier",
+            "price": 2.45,
+            "stock": 4200,
+            "image": "https://via.placeholder.com/300x200?text=AD8551ARZ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 16,
+    "name": "Renesas",
+    "logo": "https://i.ibb.co/wFw0N0f0/renesas-removebg-preview.png",
+    "description": "Renesas Electronics delivers comprehensive solutions for automotive, industrial, infrastructure and IoT applications.",
+    "website": "https://www.renesas.com",
+    "products": [
+      {
+        "productId": "REN001",
+        "name": "R7FA6M3AH3CFB",
+        "category": "ARM Microcontroller",
+        "description": "32-bit ARM Cortex-M4 microcontroller with FPU",
+        "specifications": {
+          "core": "ARM Cortex-M4F",
+          "frequency": "120MHz",
+          "flash": "2MB",
+          "sram": "640KB",
+          "adc": "14-bit",
+          "package": "LQFP-144"
+        },
+        "price": 12.75,
+        "stock": 2400,
+                "image": "https://via.placeholder.com/300x200?text=R7FA6M3AH3CFB",
+        "datasheet": "renesas_r7fa6m3ah3cfb_datasheet.pdf",
+        "applications": ["Industrial automation", "Motor control", "IoT gateways"],
+        "relatedProducts": ["REN002", "REN003"],
+        "alternativeProducts": [
+          {
+            "productId": "MCP002",
+            "name": "PIC16F877A-I/P",
+            "brandName": "Microchip",
+            "category": "Microcontroller",
+            "price": 3.25,
+            "stock": 7500,
+            "image": "https://via.placeholder.com/300x200?text=PIC16F877A-I/P"
+          },
+          {
+            "productId": "ADV002",
+            "name": "UNO-2484G",
+            "brandName": "Advantech",
+            "category": "Embedded Computer",
+            "price": 485.00,
+            "stock": 180,
+            "image": "https://via.placeholder.com/300x200?text=UNO-2484G"
+          }
+        ]
+      },
+      {
+        "productId": "REN002",
+        "name": "ISL95712HIZ-T",
+        "category": "Power Management",
+        "description": "Dual-output PWM controller for CPU/GPU power",
+        "specifications": {
+          "outputs": "2",
+          "frequency": "300kHz to 2MHz",
+          "voltage": "0.5V to 5.5V",
+          "efficiency": "95%",
+          "package": "QFN-40"
+        },
+        "price": 4.85,
+        "stock": 3200,
+        "image": "https://via.placeholder.com/300x200?text=ISL95712HIZ-T",
+        "datasheet": "renesas_isl95712_datasheet.pdf",
+        "applications": ["Laptop computers", "Graphics cards", "Server processors"],
+        "relatedProducts": ["REN001", "REN003"],
+        "alternativeProducts": [
+          {
+            "productId": "ROH001",
+            "name": "BD9G341AEFJ-E2",
+            "brandName": "ROHM",
+            "category": "DC-DC Converter",
+            "price": 2.95,
+            "stock": 4500,
+            "image": "https://via.placeholder.com/300x200?text=BD9G341AEFJ-E2"
+          }
+        ]
+      },
+      {
+        "productId": "REN003",
+        "name": "RAA489110",
+        "category": "Battery Monitor",
+        "description": "Multi-cell Li-ion battery monitor and protector",
+        "specifications": {
+          "cells": "3 to 10",
+          "voltage": "2.0V to 5.5V",
+          "accuracy": "±5mV",
+          "interface": "I2C",
+          "package": "TQFN-48"
+        },
+        "price": 6.25,
+        "stock": 1800,
+        "image": "https://via.placeholder.com/300x200?text=RAA489110",
+        "datasheet": "renesas_raa489110_datasheet.pdf",
+        "applications": ["Electric vehicles", "Energy storage", "Power tools"],
+        "relatedProducts": ["REN001", "REN002"],
+        "alternativeProducts": [
+          {
+            "productId": "ALL002",
+            "name": "ACS712ELCTR-20A-T",
+            "brandName": "Allegro",
+            "category": "Current Sensor",
+            "price": 2.25,
+            "stock": 6800,
+            "image": "https://via.placeholder.com/300x200?text=ACS712ELCTR-20A-T"
+          }
+        ]
+      }
+    ]
+  },
+
+    {
+    "brandId": 17,
+    "name": "Sgmicro",
+    "logo": "https://i.ibb.co/fY1P85N6/sgmicro-removebg-preview.png",
+    "description": "Sgmicro specializes in high-performance analog and mixed-signal ICs for various applications.",
+    "website": "https://www.sgmicro.com",
+    "products": [
+      {
+        "productId": "SGM001",
+        "name": "SGM8093YS5G/TR",
+        "category": "Op-Amp",
+        "description": "Low-noise precision operational amplifier",
+        "specifications": {
+          "voltage": "1.8V to 5.5V",
+          "bandwidth": "18MHz",
+          "offset": "0.5mV",
+          "noise": "5.5nV/√Hz",
+          "package": "SOT-23-5"
+        },
+        "price": 0.95,
+        "stock": 6800,
+        "image": "https://via.placeholder.com/300x200?text=SGM8093YS5G",
+        "datasheet": "sgmicro_sgm8093_datasheet.pdf",
+        "applications": ["Audio systems", "Instrumentation", "Signal conditioning"],
+        "relatedProducts": ["SGM002", "SGM003"],
+        "alternativeProducts": [
+          {
+            "productId": "TI001",
+            "name": "LM358P",
+            "brandName": "Texas Instruments",
+            "category": "Op-Amp",
+            "price": 0.45,
+            "stock": 15000,
+            "image": "https://via.placeholder.com/300x200?text=LM358P"
+          }
+        ]
+      },
+      {
+        "productId": "SGM002",
+        "name": "SGM3140YTN6G/TR",
+        "category": "LED Driver",
+        "description": "1.5A constant current LED flash driver",
+        "specifications": {
+          "inputVoltage": "2.5V to 5.5V",
+          "outputCurrent": "1.5A",
+          "efficiency": "85%",
+          "dimming": "PWM control",
+          "package": "WLCSP-6"
+        },
+        "price": 1.25,
+        "stock": 5200,
+        "image": "https://via.placeholder.com/300x200?text=SGM3140YTN6G",
+        "datasheet": "sgmicro_sgm3140_datasheet.pdf",
+        "applications": ["Camera flash", "Smartphone lighting", "Portable devices"],
+        "relatedProducts": ["SGM001", "SGM003"],
+        "alternativeProducts": [
+          {
+            "productId": "CUD002",
+            "name": "CU-TIM-002",
+            "brandName": "CuDevices",
+            "category": "Thermal Interface",
+            "price": 1.25,
+            "stock": 8000,
+            "image": "https://via.placeholder.com/300x200?text=CU-TIM-002"
+          }
+        ]
+      },
+      {
+        "productId": "SGM003",
+        "name": "SGM7227YMS10G/TR",
+        "category": "Load Switch",
+        "description": "Low on-resistance P-channel load switch",
+        "specifications": {
+          "voltage": "1.5V to 5.5V",
+          "current": "2A",
+          "rdsOn": "90mΩ",
+          "enableTime": "50μs",
+          "package": "MSOP-10"
+        },
+        "price": 0.65,
+        "stock": 9500,
+        "image": "https://via.placeholder.com/300x200?text=SGM7227YMS10G",
+        "datasheet": "sgmicro_sgm7227_datasheet.pdf",
+        "applications": ["Power management", "Battery protection", "Hot-swap circuits"],
+        "relatedProducts": ["SGM001", "SGM002"],
+        "alternativeProducts": [
+          {
+            "productId": "ONS002",
+            "name": "2N7002",
+            "brandName": "Onsemi",
+            "category": "MOSFET",
+            "price": 0.15,
+            "stock": 20000,
+            "image": "https://via.placeholder.com/300x200?text=2N7002"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 18,
+    "name": "Brocade",
+    "logo": "https://i.ibb.co/vCdnG5jq/brocade-removebg-preview.png",
+    "description": "Brocade develops networking and storage connectivity solutions for data centers and enterprise networks.",
+    "website": "https://www.broadcom.com/products/fibre-channel-networking",
+    "products": [
+      {
+        "productId": "BRC001",
+        "name": "BCM57810S",
+        "category": "Network Controller",
+        "description": "Dual-port 10GbE network interface controller",
+        "specifications": {
+          "ports": "2x 10GbE",
+          "interface": "PCIe 2.0 x8",
+          "protocols": "TCP/IP, iSCSI, FCoE",
+          "power": "8.5W",
+          "package": "BGA-784"
+        },
+        "price": 85.00,
+        "stock": 450,
+        "image": "https://via.placeholder.com/300x200?text=BCM57810S",
+        "datasheet": "brocade_bcm57810s_datasheet.pdf",
+        "applications": ["Data centers", "Enterprise servers", "Network appliances"],
+        "relatedProducts": ["BRC002", "BRC003"],
+        "alternativeProducts": [
+          {
+            "productId": "POS003",
+            "name": "CONEC-15-F",
+            "brandName": "Positronic",
+            "category": "Circular Connector",
+            "price": 45.60,
+            "stock": 600,
+            "image": "https://via.placeholder.com/300x200?text=CONEC-15-F"
+          },
+          {
+            "productId": "ADV001",
+            "name": "WISE-4610",
+            "brandName": "Advantech",
+            "category": "IoT Gateway",
+            "price": 125.00,
+            "stock": 450,
+            "image": "https://via.placeholder.com/300x200?text=WISE-4610"
+          }
+        ]
+      },
+      {
+        "productId": "BRC002",
+        "name": "ISL12057IBZ",
+        "category": "RTC",
+        "description": "Low-power real-time clock with battery backup",
+        "specifications": {
+          "voltage": "1.8V to 5.5V",
+          "current": "0.75μA",
+          "accuracy": "±2ppm",
+          "interface": "I2C",
+          "package": "SOIC-8"
+        },
+        "price": 2.15,
+        "stock": 3800,
+        "image": "https://via.placeholder.com/300x200?text=ISL12057IBZ",
+        "datasheet": "brocade_isl12057_datasheet.pdf",
+        "applications": ["Network equipment", "Industrial systems", "IoT devices"],
+        "relatedProducts": ["BRC001", "BRC003"],
+        "alternativeProducts": [
+          {
+            "productId": "NXP002",
+            "name": "PN532",
+            "brandName": "NXP",
+            "category": "NFC Controller",
+            "price": 4.75,
+            "stock": 2800,
+            "image": "https://via.placeholder.com/300x200?text=PN532"
+          }
+        ]
+      },
+      {
+        "productId": "BRC003",
+        "name": "HI-3584PCIF",
+        "category": "MIL-STD-1553 Controller",
+        "description": "Enhanced MIL-STD-1553 terminal with PCI interface",
+        "specifications": {
+          "interface": "PCI 2.3",
+          "modes": "BC, RT, MT",
+          "dataRate": "1Mbps",
+          "temperature": "-40°C to +85°C",
+          "package": "PQFP-144"
+        },
+        "price": 125.50,
+        "stock": 280,
+        "image": "https://via.placeholder.com/300x200?text=HI-3584PCIF",
+        "datasheet": "brocade_hi3584_datasheet.pdf",
+        "applications": ["Avionics", "Military systems", "Aerospace communications"],
+        "relatedProducts": ["BRC001", "BRC002"],
+        "alternativeProducts": [
+          {
+            "productId": "POS001",
+            "name": "P50-2040-09-018",
+            "brandName": "Positronic",
+            "category": "D-Sub Connector",
+            "price": 15.75,
+            "stock": 800,
+            "image": "https://via.placeholder.com/300x200?text=P50-2040-09-018"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 19,
+    "name": "Kemet",
+    "logo": "https://i.ibb.co/sz47NJH/kemet-removebg-preview.png",
+    "description": "KEMET Corporation manufactures capacitors and other passive electronic components for various industries.",
+    "website": "https://www.kemet.com",
+    "products": [
+      {
+        "productId": "KEM001",
+        "name": "C1206C104K5RACTU",
+        "category": "Ceramic Capacitor",
+        "description": "100nF 50V X7R ceramic capacitor, 1206 size",
+        "specifications": {
+          "capacitance": "100nF",
+          "voltage": "50V",
+          "tolerance": "±10%",
+          "dielectric": "X7R",
+          "package": "1206"
+        },
+        "price": 0.12,
+        "stock": 18000,
+        "image": "https://via.placeholder.com/300x200?text=C1206C104K5RACTU",
+        "datasheet": "kemet_c1206_datasheet.pdf",
+        "applications": ["Decoupling", "Filtering", "Timing circuits"],
+        "relatedProducts": ["KEM002", "KEM003"],
+        "alternativeProducts": [
+          {
+            "productId": "MUR001",
+            "name": "GRM155R71C104KA88D",
+            "brandName": "muRata",
+            "category": "Ceramic Capacitor",
+            "price": 0.15,
+            "stock": 5000,
+            "image": "https://via.placeholder.com/300x200?text=GRM155R71C104KA88D"
+          }
+        ]
+      },
+      {
+        "productId": "KEM002",
+        "name": "ESK227M025AC3AA",
+        "category": "Aluminum Electrolytic",
+        "description": "220μF 25V aluminum electrolytic capacitor",
+        "specifications": {
+          "capacitance": "220μF",
+          "voltage": "25V",
+          "tolerance": "±20%",
+          "esr": "0.18Ω",
+          "temperature": "-40°C to +105°C"
+        },
+        "price": 0.85,
+        "stock": 9500,
+        "image": "https://via.placeholder.com/300x200?text=ESK227M025AC3AA",
+        "datasheet": "kemet_esk227_datasheet.pdf",
+        "applications": ["Power supplies", "Audio circuits", "Energy storage"],
+        "relatedProducts": ["KEM001", "KEM003"],
+        "alternativeProducts": [
+          {
+            "productId": "CUD003",
+            "name": "CU-TRACE-003",
+            "brandName": "CuDevices",
+            "category": "Copper Trace",
+            "price": 3.50,
+            "stock": 3500,
+            "image": "https://via.placeholder.com/300x200?text=CU-TRACE-003"
+          }
+        ]
+      },
+      {
+        "productId": "KEM003",
+        "name": "T491A106K010AT",
+        "category": "Tantalum Capacitor",
+        "description": "10μF 10V tantalum capacitor, case A",
+        "specifications": {
+          "capacitance": "10μF",
+          "voltage": "10V",
+          "tolerance": "±10%",
+          "esr": "4Ω",
+          "package": "Case A (3216)"
+        },
+        "price": 0.55,
+        "stock": 12000,
+        "image": "https://via.placeholder.com/300x200?text=T491A106K010AT",
+        "datasheet": "kemet_t491a_datasheet.pdf",
+        "applications": ["Mobile devices", "Computing", "Telecommunications"],
+        "relatedProducts": ["KEM001", "KEM002"],
+        "alternativeProducts": [
+          {
+            "productId": "VIS003",
+            "name": "VEML7700-TT",
+            "brandName": "Vishay",
+            "category": "Light Sensor",
+            "price": 1.85,
+            "stock": 4200,
+            "image": "https://via.placeholder.com/300x200?text=VEML7700-TT"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 20,
+    "name": "Vishay",
+    "logo": "https://i.ibb.co/XfZRYSdZ/vishay-removebg-preview.png",
+    "description": "Vishay Intertechnology manufactures discrete semiconductors and passive components for various applications.",
+    "website": "https://www.vishay.com",
+    "products": [
+      {
+        "productId": "VIS001",
+        "name": "CRCW08051K00FKEA",
+        "category": "Thick Film Resistor",
+        "description": "1kΩ 1% 0805 thick film chip resistor",
+        "specifications": {
+          "resistance": "1kΩ",
+          "tolerance": "±1%",
+          "power": "0.125W",
+          "temperature": "±100ppm/°C",
+          "package": "0805"
+        },
+        "price": 0.02,
+        "stock": 50000,
+        "image": "https://via.placeholder.com/300x200?text=CRCW08051K00FKEA",
+        "datasheet": "vishay_crcw0805_datasheet.pdf",
+        "applications": ["General purpose", "Voltage dividers", "Current limiting"],
+        "relatedProducts": ["VIS002", "VIS003"],
+        "alternativeProducts": [
+          {
+            "productId": "MUR001",
+            "name": "GRM155R71C104KA88D",
+            "brandName": "muRata",
+            "category": "Ceramic Capacitor",
+            "price": 0.15,
+            "stock": 5000,
+            "image": "https://via.placeholder.com/300x200?text=GRM155R71C104KA88D"
+          }
+        ]
+      },
+      {
+        "productId": "VIS002",
+        "name": "IRFZ44NPBF",
+        "category": "Power MOSFET",
+        "description": "55V 49A N-channel power MOSFET",
+        "specifications": {
+          "voltage": "55V",
+          "current": "49A",
+          "rdsOn": "17.5mΩ",
+          "gateVoltage": "±20V",
+          "package": "TO-220AB"
+        },
+        "price": 1.45,
+        "stock": 6500,
+        "image": "https://via.placeholder.com/300x200?text=IRFZ44NPBF",
+        "datasheet": "vishay_irfz44n_datasheet.pdf",
+        "applications": ["Motor drives", "Power supplies", "Switching circuits"],
+        "relatedProducts": ["VIS001", "VIS003"],
+        "alternativeProducts": [
+          {
+            "productId": "DIO001",
+            "name": "1N4007",
+            "brandName": "Diodes",
+            "category": "Rectifier Diode",
+            "price": 0.08,
+            "stock": 25000,
+            "image": "https://via.placeholder.com/300x200?text=1N4007"
+          },
+          {
+            "productId": "TOS003",
+            "name": "TK71A50D",
+            "brandName": "Toshiba",
+            "category": "MOSFET",
+            "price": 8.25,
+            "stock": 1200,
+            "image": "https://via.placeholder.com/300x200?text=TK71A50D"
+          }
+        ]
+      },
+      {
+        "productId": "VIS003",
+        "name": "VEML7700-TT",
+        "category": "Light Sensor",
+        "description": "High accuracy ambient light sensor",
+        "specifications": {
+          "range": "0 to 120k lux",
+          "resolution": "0.0036 lux/count",
+          "interface": "I2C",
+          "voltage": "1.7V to 3.6V",
+          "package": "ODFN-4"
+        },
+        "price": 1.85,
+        "stock": 4200,
+        "image": "https://via.placeholder.com/300x200?text=VEML7700-TT",
+        "datasheet": "vishay_veml7700_datasheet.pdf",
+        "applications": ["Display backlighting", "Smart lighting", "IoT sensors"],
+        "relatedProducts": ["VIS001", "VIS002"],
+        "alternativeProducts": [
+          {
+            "productId": "MUR003",
+            "name": "SCL3300-D01",
+            "brandName": "muRata",
+            "category": "Sensor",
+            "price": 12.50,
+            "stock": 500,
+            "image": "https://via.placeholder.com/300x200?text=SCL3300-D01"
+          },
+          {
+            "productId": "KEM003",
+            "name": "T491A106K010AT",
+            "brandName": "Kemet",
+            "category": "Tantalum Capacitor",
+            "price": 0.55,
+            "stock": 12000,
+            "image": "https://via.placeholder.com/300x200?text=T491A106K010AT"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brandId": 21,
+    "name": "Apex",
+    "logo": "https://i.ibb.co/LdSCPzCC/apex-removebg-preview.png",
+    "description": "Apex Microtechnology designs and manufactures high-power linear and switching amplifiers.",
+    "website": "https://www.apexanalog.com",
+    "products": [
+      {
+        "productId": "APX001",
+        "name": "PA12A",
+        "category": "Power Amplifier",
+        "description": "High-speed high-current operational amplifier",
+        "specifications": {
+          "voltage": "±15V to ±100V",
+          "current": "±12A",
+          "bandwidth": "1MHz",
+          "slewRate": "1000V/μs",
+          "package": "TO-3"
+        },
+        "price": 45.75,
+        "stock": 850,
+        "image": "https://via.placeholder.com/300x200?text=PA12A",
+        "datasheet": "apex_pa12a_datasheet.pdf",
+        "applications": ["Motor drives", "Piezo drivers", "High-power amplifiers"],
+        "relatedProducts": ["APX002", "APX003"],
+        "alternativeProducts": [
+          {
+            "productId": "ADI001",
+            "name": "AD8551ARZ",
+            "brandName": "Analog Devices",
+            "category": "Operational Amplifier",
+            "price": 2.45,
+            "stock": 4200,
+            "image": "https://via.placeholder.com/300x200?text=AD8551ARZ"
+          }
+        ]
+      },
+      {
+        "productId": "APX002",
+        "name": "SA60",
+        "category": "Switching Amplifier",
+        "description": "60A peak switching power amplifier",
+        "specifications": {
+          "voltage": "20V to 80V",
+          "peakCurrent": "±60A",
+          "frequency": "100kHz",
+          "efficiency": "90%",
+          "package": "PowerTab"
+        },
+        "price": 125.50,
+        "stock": 320,
+        "image": "https://via.placeholder.com/300x200?text=SA60",
+        "datasheet": "apex_sa60_datasheet.pdf",
+        "applications": ["Servo drives", "Test equipment", "Solenoid drivers"],
+        "relatedProducts": ["APX001", "APX003"],
+        "alternativeProducts": [
+          {
+            "productId": "CUD001",
+            "name": "CU-HS-001",
+            "brandName": "CuDevices",
+            "category": "Heat Sink",
+            "price": 2.85,
+            "stock": 5000,
+            "image": "https://via.placeholder.com/300x200?text=CU-HS-001"
+          }
+        ]
+      },
+      {
+        "productId": "APX003",
+        "name": "MP38CAH",
+        "category": "Linear Amplifier",
+        "description": "Medium power operational transconductance amplifier",
+        "specifications": {
+          "voltage": "±5V to ±40V",
+          "current": "±4A",
+          "bandwidth": "2MHz",
+          "transconductance": "10000μS",
+          "package": "TO-220"
+        },
+        "price": 28.95,
+        "stock": 580,
+        "image": "https://via.placeholder.com/300x200?text=MP38CAH",
+        "datasheet": "apex_mp38cah_datasheet.pdf",
+        "applications": ["Voltage controlled amplifiers", "Current sources", "Active filters"],
+        "relatedProducts": ["APX001", "APX002"],
+        "alternativeProducts": [
+          {
+            "productId": "ROH003",
+            "name": "BD48K21G-TL",
+            "brandName": "ROHM",
+            "category": "Op-Amp",
+            "price": 0.75,
+            "stock": 8500,
+            "image": "https://via.placeholder.com/300x200?text=BD48K21G-TL"
+          }
+        ]
+      }
+    ]
+  }
+]

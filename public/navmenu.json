@@ -2,41 +2,87 @@
   "nodeList": [
     {
       "name": "Products",
-      "imageURL": "https://img.icons8.com/48/000000/microchip.png",
       "itemId": "products",
       "nodes": [
         {
-          "name": "Integrated Circuits",
+          "name": "Integrated Circuits (ICs)",
           "imageURL": "https://img.icons8.com/color/48/000000/processor.png",
           "id": "integrated-circuits",
           "nodes": [
             {
-              "name": "Microcontrollers",
-              "id": "microcontrollers",
+              "name": "Clock and Timing",
+              "id": "clock-and-timing",
+              "nodes": [
+                { "name": "Crystal Oscillators", "id": "crystal-oscillators" },
+                { "name": "Clock Generators", "id": "clock-generators" },
+                { "name": "Phase-Locked Loops (PLLs)", "id": "phase-locked-loops" },
+                { "name": "Real Time Clocks (RTCs)", "id": "real-time-clocks" }
+              ]
+            },
+            {
+              "name": "Data Converter ICs",
+              "id": "data-converter-ics",
+              "nodes": [
+                { "name": "Analog Front End (AFE)", "id": "analog-front-end" },
+                { "name": "Analog to Digital Converters (ADCs)", "id": "analog-to-digital-converters" },
+                { "name": "Digital Potentiometers", "id": "digital-potentiometers" },
+                { "name": "Digital to Analog Converters (DACs)", "id": "digital-to-analog-converters" },
+                { "name": "Touch Screen Controllers", "id": "touch-screen-controllers" }
+              ]
+            },
+            {
+              "name": "Embedded Processors and Controllers",
+              "id": "embedded-processors-controllers",
               "nodes": [
                 { "name": "8-bit MCU", "id": "8-bit-mcu" },
                 { "name": "16-bit MCU", "id": "16-bit-mcu" },
                 { "name": "32-bit MCU", "id": "32-bit-mcu" },
-                { "name": "ARM Cortex", "id": "arm-cortex" }
-              ]
-            },
-            {
-              "name": "Processors",
-              "id": "processors",
-              "nodes": [
+                { "name": "ARM Cortex", "id": "arm-cortex" },
                 { "name": "Digital Signal Processors", "id": "digital-signal-processors" },
-                { "name": "Application Processors", "id": "application-processors" },
-                { "name": "Graphics Processors", "id": "graphics-processors" }
+                { "name": "Application Processors", "id": "application-processors" }
               ]
             },
             {
-              "name": "Memory ICs",
-              "id": "memory-ics",
+              "name": "Interface ICs",
+              "id": "interface-ics",
+              "nodes": [
+                { "name": "USB Controllers", "id": "usb-controllers" },
+                { "name": "UART/Serial Interface", "id": "uart-serial-interface" },
+                { "name": "SPI Controllers", "id": "spi-controllers" },
+                { "name": "I2C Interface", "id": "i2c-interface" },
+                { "name": "CAN Controllers", "id": "can-controllers" }
+              ]
+            },
+            {
+              "name": "Linear ICs",
+              "id": "linear-ics",
+              "nodes": [
+                { "name": "Operational Amplifiers", "id": "operational-amplifiers" },
+                { "name": "Comparators", "id": "comparators" },
+                { "name": "Instrumentation Amplifiers", "id": "instrumentation-amplifiers" },
+                { "name": "Voltage References", "id": "voltage-references" }
+              ]
+            },
+            {
+              "name": "Logic ICs",
+              "id": "logic-ics",
+              "nodes": [
+                { "name": "AND Gates", "id": "and-gates" },
+                { "name": "OR Gates", "id": "or-gates" },
+                { "name": "NOT Gates", "id": "not-gates" },
+                { "name": "Flip-Flops", "id": "flip-flops" },
+                { "name": "Multiplexers", "id": "multiplexers" }
+              ]
+            },
+            {
+              "name": "Memory",
+              "id": "memory",
               "nodes": [
                 { "name": "SRAM", "id": "sram" },
                 { "name": "DRAM", "id": "dram" },
                 { "name": "Flash Memory", "id": "flash-memory" },
-                { "name": "EEPROM", "id": "eeprom" }
+                { "name": "EEPROM", "id": "eeprom" },
+                { "name": "NVRAM", "id": "nvram" }
               ]
             },
             {
@@ -45,50 +91,21 @@
               "nodes": [
                 { "name": "Voltage Regulators", "id": "voltage-regulators" },
                 { "name": "DC-DC Converters", "id": "dc-dc-converters" },
-                { "name": "Battery Management", "id": "battery-management" }
+                { "name": "Battery Management", "id": "battery-management" },
+                { "name": "Power MOSFETs", "id": "power-mosfets" },
+                { "name": "Load Switches", "id": "load-switches" }
               ]
             },
             {
-              "name": "Sensors",
-              "id": "sensors",
+              "name": "RF Semiconductors and Devices",
+              "id": "rf-semiconductors-devices",
               "nodes": [
-                { "name": "Temperature Sensors", "id": "temperature-sensors" },
-                { "name": "Pressure Sensors", "id": "pressure-sensors" },
-                { "name": "Motion Sensors", "id": "motion-sensors" },
-                { "name": "Optical Sensors", "id": "optical-sensors" }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Passive Components",
-          "id": "passive-components",
-          "nodes": [
-            {
-              "name": "Resistors",
-              "id": "resistors",
-              "nodes": [
-                { "name": "Fixed Resistors", "id": "fixed-resistors" },
-                { "name": "Variable Resistors", "id": "variable-resistors" },
-                { "name": "Current Sense Resistors", "id": "current-sense-resistors" }
-              ]
-            },
-            {
-              "name": "Capacitors",
-              "id": "capacitors",
-              "nodes": [
-                { "name": "Ceramic Capacitors", "id": "ceramic-capacitors" },
-                { "name": "Electrolytic Capacitors", "id": "electrolytic-capacitors" },
-                { "name": "Film Capacitors", "id": "film-capacitors" }
-              ]
-            },
-            {
-              "name": "Inductors",
-              "id": "inductors",
-              "nodes": [
-                { "name": "Power Inductors", "id": "power-inductors" },
-                { "name": "RF Inductors", "id": "rf-inductors" },
-                { "name": "Common Mode Chokes", "id": "common-mode-chokes" }
+                { "name": "RF Amplifiers", "id": "rf-amplifiers" },
+                { "name": "RF Mixers", "id": "rf-mixers" },
+                { "name": "RF Switches", "id": "rf-switches" },
+                { "name": "Antennas", "id": "antennas" },
+                { "name": "Bluetooth Modules", "id": "bluetooth-modules" },
+                { "name": "WiFi Modules", "id": "wifi-modules" }
               ]
             }
           ]
@@ -104,7 +121,8 @@
                 { "name": "Rectifier Diodes", "id": "rectifier-diodes" },
                 { "name": "Zener Diodes", "id": "zener-diodes" },
                 { "name": "Schottky Diodes", "id": "schottky-diodes" },
-                { "name": "LED", "id": "led" }
+                { "name": "LED", "id": "led" },
+                { "name": "Photodiodes", "id": "photodiodes" }
               ]
             },
             {
@@ -113,7 +131,123 @@
               "nodes": [
                 { "name": "MOSFET", "id": "mosfet" },
                 { "name": "BJT", "id": "bjt" },
-                { "name": "IGBT", "id": "igbt" }
+                { "name": "IGBT", "id": "igbt" },
+                { "name": "JFET", "id": "jfet" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Passive Components",
+          "id": "passive-components",
+          "nodes": [
+            {
+              "name": "Resistors",
+              "id": "resistors",
+              "nodes": [
+                { "name": "Fixed Resistors", "id": "fixed-resistors" },
+                { "name": "Variable Resistors", "id": "variable-resistors" },
+                { "name": "Current Sense Resistors", "id": "current-sense-resistors" },
+                { "name": "Precision Resistors", "id": "precision-resistors" }
+              ]
+            },
+            {
+              "name": "Capacitors",
+              "id": "capacitors",
+              "nodes": [
+                { "name": "Ceramic Capacitors", "id": "ceramic-capacitors" },
+                { "name": "Electrolytic Capacitors", "id": "electrolytic-capacitors" },
+                { "name": "Film Capacitors", "id": "film-capacitors" },
+                { "name": "Tantalum Capacitors", "id": "tantalum-capacitors" }
+              ]
+            },
+            {
+              "name": "Inductors",
+              "id": "inductors",
+              "nodes": [
+                { "name": "Power Inductors", "id": "power-inductors" },
+                { "name": "RF Inductors", "id": "rf-inductors" },
+                { "name": "Common Mode Chokes", "id": "common-mode-chokes" },
+                { "name": "Ferrite Beads", "id": "ferrite-beads" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Electromechanical",
+          "id": "electromechanical",
+          "nodes": [
+            {
+              "name": "Relays",
+              "id": "relays",
+              "nodes": [
+                { "name": "Signal Relays", "id": "signal-relays" },
+                { "name": "Power Relays", "id": "power-relays" },
+                { "name": "Reed Relays", "id": "reed-relays" }
+              ]
+            },
+            {
+              "name": "Switches",
+              "id": "switches",
+              "nodes": [
+                { "name": "Tactile Switches", "id": "tactile-switches" },
+                { "name": "Toggle Switches", "id": "toggle-switches" },
+                { "name": "Rotary Switches", "id": "rotary-switches" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Connectors",
+          "id": "connectors",
+          "nodes": [
+            {
+              "name": "Board to Board",
+              "id": "board-to-board",
+              "nodes": [
+                { "name": "Pin Headers", "id": "pin-headers" },
+                { "name": "Socket Connectors", "id": "socket-connectors" }
+              ]
+            },
+            {
+              "name": "Wire to Board",
+              "id": "wire-to-board",
+              "nodes": [
+                { "name": "Terminal Blocks", "id": "terminal-blocks" },
+                { "name": "Wire Connectors", "id": "wire-connectors" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sensors",
+          "id": "sensors",
+          "nodes": [
+            {
+              "name": "Environmental Sensors",
+              "id": "environmental-sensors",
+              "nodes": [
+                { "name": "Temperature Sensors", "id": "temperature-sensors" },
+                { "name": "Humidity Sensors", "id": "humidity-sensors" },
+                { "name": "Pressure Sensors", "id": "pressure-sensors" }
+              ]
+            },
+            {
+              "name": "Motion Sensors",
+              "id": "motion-sensors",
+              "nodes": [
+                { "name": "Accelerometers", "id": "accelerometers" },
+                { "name": "Gyroscopes", "id": "gyroscopes" },
+                { "name": "Magnetometers", "id": "magnetometers" }
+              ]
+            },
+            {
+              "name": "Optical Sensors",
+              "id": "optical-sensors",
+              "nodes": [
+                { "name": "Photodetectors", "id": "photodetectors" },
+                { "name": "Light Sensors", "id": "light-sensors" },
+                { "name": "Color Sensors", "id": "color-sensors" }
               ]
             }
           ]
@@ -122,59 +256,106 @@
     },
     {
       "name": "Manufacturers",
-      "imageURL": "https://img.icons8.com/48/000000/factory.png",
       "itemId": "manufacturers",
       "nodes": [
         {
-          "name": "Foundries",
-          "id": "foundries",
+          "name": "Major IC Manufacturers",
+          "id": "major-ic-manufacturers",
           "nodes": [
-            {
-              "name": "TSMC",
-              "id": "tsmc",
-              "nodes": [
-                { "name": "7nm Process", "id": "tsmc-7nm-process" },
-                { "name": "5nm Process", "id": "tsmc-5nm-process" },
-                { "name": "3nm Process", "id": "tsmc-3nm-process" }
-              ]
-            },
-            {
-              "name": "GlobalFoundries",
-              "id": "globalfoundries",
-              "nodes": [
-                { "name": "14nm Process", "id": "gf-14nm-process" },
-                { "name": "12nm Process", "id": "gf-12nm-process" },
-                { "name": "Specialty Technologies", "id": "gf-specialty-technologies" }
-              ]
-            },
-            { "name": "UMC", "id": "umc", "nodes": [] },
-            { "name": "SMIC", "id": "smic", "nodes": [] }
+            { "name": "Abracon", "id": "abracon" },
+            { "name": "Amphenol", "id": "amphenol" },
+            { "name": "Amphenol Advanced Sensors", "id": "amphenol-advanced-sensors" },
+            { "name": "Analog Devices", "id": "analog-devices" },
+            { "name": "B&K Precision", "id": "bk-precision" },
+            { "name": "Bourns", "id": "bourns" },
+            { "name": "Cooper Bussmann", "id": "cooper-bussmann" },
+            { "name": "Diodes Inc.", "id": "diodes-inc" },
+            { "name": "Fluke", "id": "fluke" },
+            { "name": "GeneSiC Semiconductor", "id": "genesic-semiconductor" },
+            { "name": "Honeywell", "id": "honeywell" },
+            { "name": "Infineon", "id": "infineon" },
+            { "name": "Intersil", "id": "intersil" },
+            { "name": "IXYS", "id": "ixys" },
+            { "name": "KEMET", "id": "kemet" },
+            { "name": "KYOCERA AVX", "id": "kyocera-avx" },
+            { "name": "Lattice Semiconductor", "id": "lattice-semiconductor" }
           ]
         },
         {
-          "name": "Assembly & Test",
-          "id": "assembly-test",
+          "name": "Global Technology Leaders",
+          "id": "global-technology-leaders",
+          "nodes": [
+            { "name": "Littelfuse", "id": "littelfuse" },
+            { "name": "Microchip", "id": "microchip" },
+            { "name": "Molex", "id": "molex" },
+            { "name": "Murata", "id": "murata" },
+            { "name": "Nexperia", "id": "nexperia" },
+            { "name": "NTE Electronics", "id": "nte-electronics" },
+            { "name": "NXP Semiconductors", "id": "nxp-semiconductors" },
+            { "name": "Omron", "id": "omron" },
+            { "name": "onsemi", "id": "onsemi" },
+            { "name": "Panasonic", "id": "panasonic" },
+            { "name": "Panduit", "id": "panduit" },
+            { "name": "Panjit", "id": "panjit" },
+            { "name": "Phoenix Contact", "id": "phoenix-contact" },
+            { "name": "Pomona Electronics", "id": "pomona-electronics" },
+            { "name": "Powerex", "id": "powerex" },
+            { "name": "PUI Audio", "id": "pui-audio" },
+            { "name": "Renesas", "id": "renesas" }
+          ]
+        },
+        {
+          "name": "Premium Component Suppliers",
+          "id": "premium-component-suppliers",
+          "nodes": [
+            { "name": "Rochester Electronics", "id": "rochester-electronics" },
+            { "name": "Samsung", "id": "samsung" },
+            { "name": "Samtec", "id": "samtec" },
+            { "name": "Sensata", "id": "sensata" },
+            { "name": "STMicroelectronics", "id": "stmicroelectronics" },
+            { "name": "TDK", "id": "tdk" },
+            { "name": "TE Connectivity", "id": "te-connectivity" },
+            { "name": "TE Connectivity / Raychem", "id": "te-connectivity-raychem" },
+            { "name": "Teccor", "id": "teccor" },
+            { "name": "Texas Instruments", "id": "texas-instruments" },
+            { "name": "Vishay", "id": "vishay" },
+            { "name": "Vishay Semiconductor", "id": "vishay-semiconductor" },
+            { "name": "Weidmuller", "id": "weidmuller" },
+            { "name": "Wurth Elektronik", "id": "wurth-elektronik" },
+            { "name": "Xilinx", "id": "xilinx" },
+            { "name": "Yageo Group", "id": "yageo-group" }
+          ]
+        },
+        {
+          "name": "Foundries & Fabrication",
+          "id": "foundries-fabrication",
+          "nodes": [
+            {
+              "name": "TSMC",
+              "id": "tsmc"
+            },
+            {
+              "name": "GlobalFoundries",
+              "id": "globalfoundries"
+            },
+            { "name": "UMC", "id": "umc" },
+            { "name": "SMIC", "id": "smic" }
+          ]
+        },
+        {
+          "name": "Assembly & Test Services",
+          "id": "assembly-test-services",
           "nodes": [
             {
               "name": "ASE Group",
-              "id": "ase-group",
-              "nodes": [
-                { "name": "IC Packaging", "id": "ase-ic-packaging" },
-                { "name": "Testing Services", "id": "ase-testing-services" },
-                { "name": "System-in-Package", "id": "ase-system-in-package" }
-              ]
+              "id": "ase-group"
             },
             {
               "name": "Amkor Technology",
-              "id": "amkor-technology",
-              "nodes": [
-                { "name": "Advanced Packaging", "id": "amkor-advanced-packaging" },
-                { "name": "Automotive Solutions", "id": "amkor-automotive-solutions" },
-                { "name": "5G Solutions", "id": "amkor-5g-solutions" }
-              ]
+              "id": "amkor-technology"
             },
-            { "name": "JCET", "id": "jcet", "nodes": [] },
-            { "name": "Powertech Technology", "id": "powertech-technology", "nodes": [] }
+            { "name": "JCET", "id": "jcet" },
+            { "name": "Powertech Technology", "id": "powertech-technology" }
           ]
         },
         {
@@ -183,24 +364,14 @@
           "nodes": [
             {
               "name": "Applied Materials",
-              "id": "applied-materials",
-              "nodes": [
-                { "name": "Deposition Equipment", "id": "amat-deposition-equipment" },
-                { "name": "Etch Equipment", "id": "amat-etch-equipment" },
-                { "name": "Metrology", "id": "amat-metrology" }
-              ]
+              "id": "applied-materials"
             },
             {
               "name": "ASML",
-              "id": "asml",
-              "nodes": [
-                { "name": "EUV Lithography", "id": "asml-euv-lithography" },
-                { "name": "DUV Lithography", "id": "asml-duv-lithography" },
-                { "name": "Metrology & Inspection", "id": "asml-metrology-inspection" }
-              ]
+              "id": "asml"
             },
-            { "name": "Lam Research", "id": "lam-research", "nodes": [] },
-            { "name": "KLA Corporation", "id": "kla-corporation", "nodes": [] }
+            { "name": "Lam Research", "id": "lam-research" },
+            { "name": "KLA Corporation", "id": "kla-corporation" }
           ]
         }
       ]

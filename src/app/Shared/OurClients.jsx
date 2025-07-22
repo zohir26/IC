@@ -2,16 +2,38 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 
+// const clients = [
+//     { id: 1, name: "TSMC", logo: "https://i.ibb.co/zTNxGvRY/tsmc-removebg-preview.png" },
+//     { id: 2, name: "Apple", logo: "https://i.ibb.co/ym6HRjzK/apple-logo-removebg-preview.png" },
+//     { id: 3, name: "GlobalFoundries", logo: "https://i.ibb.co/1JsJ6bJg/global-f-removebg-preview.png" },
+//     { id: 4, name: "Samsung", logo: "https://i.ibb.co/jkXw9S3w/samsung-removebg-preview.png" },
+//     { id: 5, name: "Intel", logo: "https://i.ibb.co/whZwqsbR/intel-removebg-preview.png" },
+//     { id: 6, name: "AMD", logo: "https://i.ibb.co/21YP6KKQ/amd-removebg-preview.png" },
+//     { id: 7, name: "NVIDIA", logo: "https://i.ibb.co/MxScJ8Yw/nvidia-removebg-preview.png" },
+//     { id: 8, name: "Qualcomm", logo: "https://i.ibb.co/HTHL9QSF/qualcom-removebg-preview.png" },
+//     { id: 9, name: "Phoenix", logo: "https://i.ibb.co/gZcsY93V/phoenix-contact-removebg-preview.png" }
+// ];
 const clients = [
-    { id: 1, name: "TSMC", logo: "https://i.ibb.co/zTNxGvRY/tsmc-removebg-preview.png" },
-    { id: 2, name: "Apple", logo: "https://i.ibb.co/ym6HRjzK/apple-logo-removebg-preview.png" },
-    { id: 3, name: "GlobalFoundries", logo: "https://i.ibb.co/1JsJ6bJg/global-f-removebg-preview.png" },
-    { id: 4, name: "Samsung", logo: "https://i.ibb.co/jkXw9S3w/samsung-removebg-preview.png" },
-    { id: 5, name: "Intel", logo: "https://i.ibb.co/whZwqsbR/intel-removebg-preview.png" },
-    { id: 6, name: "AMD", logo: "https://i.ibb.co/21YP6KKQ/amd-removebg-preview.png" },
-    { id: 7, name: "NVIDIA", logo: "https://i.ibb.co/MxScJ8Yw/nvidia-removebg-preview.png" },
-    { id: 8, name: "Qualcomm", logo: "https://i.ibb.co/HTHL9QSF/qualcom-removebg-preview.png" },
-    { id: 9, name: "Phoenix", logo: "https://i.ibb.co/gZcsY93V/phoenix-contact-removebg-preview.png" }
+    { id: 1, name: "muRata", logo: "https://i.ibb.co/BVjnJ1Gn/muratea-removebg-preview.png" },
+    { id: 2, name: "Positronic", logo: "https://i.ibb.co/XkdXc5Y9/Positronic.png" },
+    { id: 3, name: "Microchip", logo: "https://i.ibb.co/TM8qdZLN/microchip-removebg-preview.png" },
+    { id: 4, name: "Littelfuse", logo: "https://i.ibb.co/BKZ2d6Dr/diodes-removebg-preview.png" },
+    { id: 5, name: "Diodes", logo: "https://i.ibb.co/whZwqsbR/intel-removebg-preview.png" },
+    { id: 6, name: "Allegro", logo: "https://i.ibb.co/VYK54kRJ/allergo-removebg-preview.png" },
+    { id: 7, name: "NXP", logo: "https://i.ibb.co/HfzDSJ0v/nxp-removebg-preview.png" },
+    { id: 8, name: "CuDevice", logo: "https://i.ibb.co/JJDz9Pq/CUdevices-removebg-preview.png" },
+    { id: 9, name: "Toshiba", logo: "https://i.ibb.co/tT9PDsHM/tosibha-removebg-preview.png" },
+    { id: 10, name: "Advantech", logo: "https://i.ibb.co/CpT6HPLX/adhntech-removebg-preview.png" },
+    { id: 11, name: "Texas Instruments", logo: "https://i.ibb.co/nGjLhhd/texas-removebg-preview.png" },
+    { id: 12, name: "Analog Devices", logo: "https://i.ibb.co/XkdXc5Y9/Positronic.png" },
+    { id: 13, name: "ST", logo: "https://i.ibb.co/9kYDg4F5/ST-removebg-preview.png" },
+    { id: 14, name: "Onsemi", logo: "https://i.ibb.co/0VKfQRXz/onsemi-removebg-preview.png" },
+    { id: 15, name: "ROHM", logo: "https://i.ibb.co/PvSBvCd2/rohm-removebg-preview.png" },
+    { id: 16, name: "Renesas", logo: "https://i.ibb.co/wFw0N0f0/renesas-removebg-preview.png" },
+    { id: 17, name: "Sgmicro", logo: "https://i.ibb.co/fY1P85N6/sgmicro-removebg-preview.png" },
+    { id: 18, name: "Brocade", logo: "https://i.ibb.co/vCdnG5jq/brocade-removebg-preview.png" },
+    { id: 19, name: "Kemet", logo: "https://i.ibb.co/sz47NJH/kemet-removebg-preview.png" },
+    { id: 20, name: "Vishay", logo: "https://i.ibb.co/XfZRYSdZ/vishay-removebg-preview.png" }
 ];
 
 export default function OurClients() {
