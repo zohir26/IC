@@ -4,6 +4,142 @@
     "name": "Integrated Circuits (ICs)",
     "icon": "https://i.ibb.co/jkcJ05dg/IC-removebg-preview.png",
     "link": "/category/integrated-circuits",
+    "subcategories": [
+      {
+        "id": 101,
+        "name": "Microcontrollers",
+        "description": "Single-chip computers with CPU, memory, and I/O peripherals",
+        "link": "/category/integrated-circuits/microcontrollers"
+      },
+      {
+        "id": 102,
+        "name": "Microprocessors",
+        "description": "Central processing units for computing systems",
+        "link": "/category/integrated-circuits/microprocessors"
+      },
+      {
+        "id": 103,
+        "name": "Memory ICs",
+        "description": "RAM, ROM, Flash, and EEPROM memory chips",
+        "link": "/category/integrated-circuits/memory"
+      },
+      {
+        "id": 104,
+        "name": "Analog ICs",
+        "description": "Operational amplifiers, comparators, and analog signal processors",
+        "link": "/category/integrated-circuits/analog"
+      },
+      {
+        "id": 105,
+        "name": "Digital Signal Processors",
+        "description": "Specialized processors for digital signal processing",
+        "link": "/category/integrated-circuits/dsp"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1001,
+        "name": "NXP",
+        "logo": "https://example.com/nxp-logo.png",
+        "specialties": ["Microcontrollers", "Automotive ICs", "Security ICs"],
+        "website": "https://www.nxp.com"
+      },
+      {
+        "id": 1002,
+        "name": "Data Device Communications",
+        "logo": "https://example.com/ddc-logo.png",
+        "specialties": ["Military/Aerospace ICs", "Data Converters", "Interface ICs"],
+        "website": "https://www.ddc-web.com"
+      },
+      {
+        "id": 1003,
+        "name": "Texas Instruments",
+        "logo": "https://example.com/ti-logo.png",
+        "specialties": ["Analog ICs", "Embedded Processing", "Power Management"],
+        "website": "https://www.ti.com"
+      },
+      {
+        "id": 1004,
+        "name": "STMicroelectronics",
+        "logo": "https://example.com/st-logo.png",
+        "specialties": ["Microcontrollers", "Power Discretes", "MEMS Sensors"],
+        "website": "https://www.st.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 2001,
+        "partNumber": "NE555P",
+        "manufacturer": "Texas Instruments",
+        "category": "Timers and Oscillators",
+        "description": "Single Bipolar Timer",
+        "image": "https://example.com/ne555p.jpg",
+        "price": "$0.45",
+        "inStock": true,
+        "popularity": 95,
+        "link": "/parts/NE555P"
+      },
+      {
+        "id": 2002,
+        "partNumber": "NE555DR",
+        "manufacturer": "Texas Instruments",
+        "category": "Timers and Oscillators",
+        "description": "Single Bipolar Timer (SOIC-8)",
+        "image": "https://example.com/ne555dr.jpg",
+        "price": "$0.38",
+        "inStock": true,
+        "popularity": 90,
+        "link": "/parts/NE555DR"
+      },
+      {
+        "id": 2003,
+        "partNumber": "TLC555IDR",
+        "manufacturer": "Texas Instruments",
+        "category": "Timers and Oscillators",
+        "description": "Single LinCMOS Timer",
+        "image": "https://example.com/tlc555idr.jpg",
+        "price": "$0.52",
+        "inStock": true,
+        "popularity": 85,
+        "link": "/parts/TLC555IDR"
+      },
+      {
+        "id": 2004,
+        "partNumber": "RV-3028-C7",
+        "manufacturer": "Micro Crystal",
+        "category": "Real Time Clocks",
+        "description": "32.768KHZ 1PPM TA QC",
+        "image": "https://example.com/rv3028c7.jpg",
+        "price": "$2.15",
+        "inStock": true,
+        "popularity": 80,
+        "link": "/parts/RV-3028-C7"
+      },
+      {
+        "id": 2005,
+        "partNumber": "LMX2594RHAT",
+        "manufacturer": "Texas Instruments",
+        "category": "Clock Generators, PLLs, Frequency Synthesizers",
+        "description": "15GHz Wideband PLLs with Integrated VCO",
+        "image": "https://example.com/lmx2594rhat.jpg",
+        "price": "$24.67",
+        "inStock": true,
+        "popularity": 70,
+        "link": "/parts/LMX2594RHAT"
+      },
+      {
+        "id": 2006,
+        "partNumber": "PCF85837T/5,518",
+        "manufacturer": "NXP Semiconductors",
+        "category": "Real Time Clocks",
+        "description": "Real Time Clock/Calendar",
+        "image": "https://example.com/pcf85837t.jpg",
+        "price": "$1.89",
+        "inStock": true,
+        "popularity": 72,
+        "link": "/parts/PCF85837T"
+      }
+    ],
     "details": {
       "description": "Integrated Circuits (ICs) are the foundation of modern electronics, containing thousands to billions of transistors on a single chip. These semiconductor devices perform various functions from simple logic operations to complex processing tasks.",
       "applications": [
@@ -28,6 +164,118 @@
     "name": "Discrete Semiconductors",
     "icon": "https://i.ibb.co/svrpNMjH/discrete-semicondutor-removebg-preview.png",
     "link": "/category/discrete-semiconductors",
+    "subcategories": [
+      {
+        "id": 201,
+        "name": "Diodes",
+        "description": "Rectifier, Zener, Schottky, and LED diodes",
+        "link": "/category/discrete-semiconductors/diodes"
+      },
+      {
+        "id": 202,
+        "name": "Transistors",
+        "description": "BJT, MOSFET, and JFET transistors",
+        "link": "/category/discrete-semiconductors/transistors"
+      },
+      {
+        "id": 203,
+        "name": "Thyristors",
+        "description": "SCRs, TRIACs, and DIACs",
+        "link": "/category/discrete-semiconductors/thyristors"
+      },
+      {
+        "id": 204,
+        "name": "Power MOSFETs",
+        "description": "High-power switching and amplification transistors",
+        "link": "/category/discrete-semiconductors/power-mosfets"
+      },
+      {
+        "id": 205,
+        "name": "RF Transistors",
+        "description": "Radio frequency amplification and switching devices",
+        "link": "/category/discrete-semiconductors/rf-transistors"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1005,
+        "name": "Infineon Technologies",
+        "logo": "https://example.com/infineon-logo.png",
+        "specialties": ["Power MOSFETs", "IGBTs", "Diodes"],
+        "website": "https://www.infineon.com"
+      },
+      {
+        "id": 1006,
+        "name": "ON Semiconductor",
+        "logo": "https://example.com/onsemi-logo.png",
+        "specialties": ["Power Discretes", "Signal Discretes", "Custom Discretes"],
+        "website": "https://www.onsemi.com"
+      },
+      {
+        "id": 1007,
+        "name": "Vishay Intertechnology",
+        "logo": "https://example.com/vishay-logo.png",
+        "specialties": ["Discrete Semiconductors", "Passive Components", "ICs"],
+        "website": "https://www.vishay.com"
+      },
+      {
+        "id": 1008,
+        "name": "Rohm Semiconductor",
+        "logo": "https://example.com/rohm-logo.png",
+        "specialties": ["Power Devices", "Analog ICs", "Modules"],
+        "website": "https://www.rohm.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 3001,
+        "partNumber": "1N4007",
+        "manufacturer": "Various",
+        "category": "Rectifier Diodes",
+        "description": "1A 1000V Rectifier Diode",
+        "image": "https://example.com/1n4007.jpg",
+        "price": "$0.08",
+        "inStock": true,
+        "popularity": 98,
+        "link": "/parts/1N4007"
+      },
+      {
+        "id": 3002,
+        "partNumber": "2N3904",
+        "manufacturer": "Various",
+        "category": "BJT Transistors",
+        "description": "NPN General Purpose Transistor",
+        "image": "https://example.com/2n3904.jpg",
+        "price": "$0.12",
+        "inStock": true,
+        "popularity": 95,
+        "link": "/parts/2N3904"
+      },
+      {
+        "id": 3003,
+        "partNumber": "IRF540N",
+        "manufacturer": "Infineon",
+        "category": "Power MOSFETs",
+        "description": "N-Channel Power MOSFET 100V 33A",
+        "image": "https://example.com/irf540n.jpg",
+        "price": "$1.25",
+        "inStock": true,
+        "popularity": 88,
+        "link": "/parts/IRF540N"
+      },
+      {
+        "id": 3004,
+        "partNumber": "1N5819",
+        "manufacturer": "Various",
+        "category": "Schottky Diodes",
+        "description": "Schottky Barrier Rectifier 40V 1A",
+        "image": "https://example.com/1n5819.jpg",
+        "price": "$0.15",
+        "inStock": true,
+        "popularity": 85,
+        "link": "/parts/1N5819"
+      }
+    ],
     "details": {
       "description": "Discrete semiconductors are individual electronic components that perform a single function, unlike integrated circuits. They include diodes, transistors, thyristors, and other power devices essential for circuit design.",
       "applications": [
@@ -52,6 +300,118 @@
     "name": "Passive Components",
     "icon": "https://i.ibb.co/HTJYxCfm/passive-components-removebg-preview.png",
     "link": "/category/passive-components",
+    "subcategories": [
+      {
+        "id": 301,
+        "name": "Resistors",
+        "description": "Fixed and variable resistors for current limiting and voltage division",
+        "link": "/category/passive-components/resistors"
+      },
+      {
+        "id": 302,
+        "name": "Capacitors",
+        "description": "Ceramic, electrolytic, and film capacitors for energy storage",
+        "link": "/category/passive-components/capacitors"
+      },
+      {
+        "id": 303,
+        "name": "Inductors",
+        "description": "Coils and chokes for energy storage and filtering",
+        "link": "/category/passive-components/inductors"
+      },
+      {
+        "id": 304,
+        "name": "Transformers",
+        "description": "AC voltage transformation and isolation components",
+        "link": "/category/passive-components/transformers"
+      },
+      {
+        "id": 305,
+        "name": "Crystals & Oscillators",
+        "description": "Frequency control and timing components",
+        "link": "/category/passive-components/crystals-oscillators"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1009,
+        "name": "Murata Manufacturing",
+        "logo": "https://example.com/murata-logo.png",
+        "specialties": ["Ceramic Capacitors", "Inductors", "Resonators"],
+        "website": "https://www.murata.com"
+      },
+      {
+        "id": 1010,
+        "name": "TDK Corporation",
+        "logo": "https://example.com/tdk-logo.png",
+        "specialties": ["Capacitors", "Inductors", "Ferrites"],
+        "website": "https://www.tdk.com"
+      },
+      {
+        "id": 1011,
+        "name": "Yageo Corporation",
+        "logo": "https://example.com/yageo-logo.png",
+        "specialties": ["Resistors", "Capacitors", "Inductors"],
+        "website": "https://www.yageo.com"
+      },
+      {
+        "id": 1012,
+        "name": "KEMET Corporation",
+        "logo": "https://example.com/kemet-logo.png",
+        "specialties": ["Tantalum Capacitors", "Ceramic Capacitors", "Film Capacitors"],
+        "website": "https://www.kemet.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 4001,
+        "partNumber": "0805_10K",
+        "manufacturer": "Various",
+        "category": "Resistors",
+        "description": "10K Ohm 0805 SMD Resistor 1%",
+        "image": "https://example.com/0805-resistor.jpg",
+        "price": "$0.02",
+        "inStock": true,
+        "popularity": 99,
+        "link": "/parts/0805_10K"
+      },
+      {
+        "id": 4002,
+        "partNumber": "C0805C104K5RAC",
+        "manufacturer": "KEMET",
+        "category": "Capacitors",
+        "description": "100nF 50V Ceramic Capacitor X7R 0805",
+        "image": "https://example.com/ceramic-cap.jpg",
+        "price": "$0.05",
+        "inStock": true,
+        "popularity": 97,
+        "link": "/parts/C0805C104K5RAC"
+      },
+      {
+        "id": 4003,
+        "partNumber": "LQH3NPN100MJ0L",
+        "manufacturer": "Murata",
+        "category": "Inductors",
+        "description": "10µH ±20% 1210 Wire Wound Inductor",
+        "image": "https://example.com/inductor.jpg",
+        "price": "$0.18",
+        "inStock": true,
+        "popularity": 82,
+        "link": "/parts/LQH3NPN100MJ0L"
+      },
+      {
+        "id": 4004,
+        "partNumber": "EEA-FC1V470",
+        "manufacturer": "Panasonic",
+        "category": "Capacitors",
+        "description": "47µF 35V Aluminum Electrolytic Capacitor",
+        "image": "https://example.com/electrolytic-cap.jpg",
+        "price": "$0.32",
+        "inStock": true,
+        "popularity": 78,
+        "link": "/parts/EEA-FC1V470"
+      }
+    ],
     "details": {
       "description": "Passive components are fundamental building blocks that don't require external power to operate. They include resistors, capacitors, inductors, and transformers that control, store, or transform electrical energy.",
       "applications": [
@@ -76,6 +436,118 @@
     "name": "Electromechanical",
     "icon": "https://i.ibb.co/zWHmtW96/electromechanical-removebg-preview.png",
     "link": "/category/electromechanical",
+    "subcategories": [
+      {
+        "id": 401,
+        "name": "Relays",
+        "description": "Electromagnetic switches for high current/voltage applications",
+        "link": "/category/electromechanical/relays"
+      },
+      {
+        "id": 402,
+        "name": "Switches",
+        "description": "Mechanical and electronic switching devices",
+        "link": "/category/electromechanical/switches"
+      },
+      {
+        "id": 403,
+        "name": "Motors",
+        "description": "DC, AC, servo, and stepper motors",
+        "link": "/category/electromechanical/motors"
+      },
+      {
+        "id": 404,
+        "name": "Actuators",
+        "description": "Linear and rotary motion control devices",
+        "link": "/category/electromechanical/actuators"
+      },
+      {
+        "id": 405,
+        "name": "Contactors",
+        "description": "Heavy-duty electrical switching devices",
+        "link": "/category/electromechanical/contactors"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1013,
+        "name": "Omron Corporation",
+        "logo": "https://example.com/omron-logo.png",
+        "specialties": ["Relays", "Switches", "Automation Components"],
+        "website": "https://www.omron.com"
+      },
+      {
+        "id": 1014,
+        "name": "Schneider Electric",
+        "logo": "https://example.com/schneider-logo.png",
+        "specialties": ["Contactors", "Circuit Breakers", "Switches"],
+        "website": "https://www.schneider-electric.com"
+      },
+      {
+        "id": 1015,
+        "name": "TE Connectivity",
+        "logo": "https://example.com/te-logo.png",
+        "specialties": ["Relays", "Switches", "Sensors"],
+        "website": "https://www.te.com"
+      },
+      {
+        "id": 1016,
+        "name": "Panasonic Industrial",
+        "logo": "https://example.com/panasonic-logo.png",
+        "specialties": ["Relays", "Motors", "Sensors"],
+        "website": "https://industrial.panasonic.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 5001,
+        "partNumber": "G5V-2-H1-DC12",
+        "manufacturer": "Omron",
+        "category": "Relays",
+        "description": "DPDT Signal Relay 12VDC 1A",
+        "image": "https://example.com/g5v-relay.jpg",
+        "price": "$2.45",
+        "inStock": true,
+        "popularity": 89,
+        "link": "/parts/G5V-2-H1-DC12"
+      },
+      {
+        "id": 5002,
+        "partNumber": "B3F-1000",
+        "manufacturer": "Omron",
+        "category": "Switches",
+        "description": "Tactile Switch SPST-NO Top Actuated",
+        "image": "https://example.com/b3f-switch.jpg",
+        "price": "$0.68",
+        "inStock": true,
+        "popularity": 94,
+        "link": "/parts/B3F-1000"
+      },
+      {
+        "id": 5003,
+        "partNumber": "28BYJ-48-5V",
+        "manufacturer": "Various",
+        "category": "Motors",
+        "description": "Stepper Motor 5V 1/64 Gear Ratio",
+        "image": "https://example.com/stepper-motor.jpg",
+        "price": "$3.25",
+        "inStock": true,
+        "popularity": 76,
+        "link": "/parts/28BYJ-48-5V"
+      },
+      {
+        "id": 5004,
+        "partNumber": "SPDT-CO-012",
+        "manufacturer": "TE Connectivity",
+        "category": "Relays",
+        "description": "SPDT Power Relay 12VDC 40A",
+        "image": "https://example.com/power-relay.jpg",
+        "price": "$8.95",
+        "inStock": true,
+        "popularity": 71,
+        "link": "/parts/SPDT-CO-012"
+      }
+    ],
     "details": {
       "description": "Electromechanical components combine electrical and mechanical processes, including relays, switches, motors, and actuators. They provide the interface between electronic control systems and physical mechanisms.",
       "applications": [
@@ -100,6 +572,118 @@
     "name": "Connectors",
     "icon": "https://i.ibb.co/JjLtCz05/connectors-removebg-preview.png",
     "link": "/category/connectors",
+    "subcategories": [
+      {
+        "id": 501,
+        "name": "Board-to-Board",
+        "description": "PCB interconnection connectors",
+        "link": "/category/connectors/board-to-board"
+      },
+      {
+        "id": 502,
+        "name": "Wire-to-Board",
+        "description": "Cable to PCB connection solutions",
+        "link": "/category/connectors/wire-to-board"
+      },
+      {
+        "id": 503,
+        "name": "Circular Connectors",
+        "description": "Rugged round connectors for harsh environments",
+        "link": "/category/connectors/circular"
+      },
+      {
+        "id": 504,
+        "name": "USB Connectors",
+        "description": "Universal serial bus interface connectors",
+        "link": "/category/connectors/usb"
+      },
+      {
+        "id": 505,
+        "name": "RF Connectors",
+        "description": "Radio frequency coaxial connectors",
+        "link": "/category/connectors/rf"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1017,
+        "name": "Molex",
+        "logo": "https://example.com/molex-logo.png",
+        "specialties": ["Board-to-Board", "Wire-to-Board", "RF Connectors"],
+        "website": "https://www.molex.com"
+      },
+      {
+        "id": 1018,
+        "name": "Amphenol",
+        "logo": "https://example.com/amphenol-logo.png",
+        "specialties": ["Circular Connectors", "Fiber Optic", "RF Connectors"],
+        "website": "https://www.amphenol.com"
+      },
+      {
+        "id": 1019,
+        "name": "JAE Electronics",
+        "logo": "https://example.com/jae-logo.png",
+        "specialties": ["FFC/FPC Connectors", "Card Edge", "Automotive"],
+        "website": "https://www.jae.com"
+      },
+      {
+        "id": 1020,
+        "name": "Hirose Electric",
+        "logo": "https://example.com/hirose-logo.png",
+        "specialties": ["Micro Connectors", "Board-to-Board", "Cable Assemblies"],
+        "website": "https://www.hirose.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 6001,
+        "partNumber": "22-28-4020",
+        "manufacturer": "Molex",
+        "category": "Wire-to-Board",
+        "description": "KK 396 Series 2-Position Header",
+        "image": "https://example.com/kk396-header.jpg",
+        "price": "$0.45",
+        "inStock": true,
+        "popularity": 91,
+        "link": "/parts/22-28-4020"
+      },
+      {
+        "id": 6002,
+        "partNumber": "USB-A-PCB-H",
+        "manufacturer": "Various",
+        "category": "USB Connectors",
+        "description": "USB Type-A PCB Mount Horizontal",
+        "image": "https://example.com/usb-a-connector.jpg",
+        "price": "$0.85",
+        "inStock": true,
+        "popularity": 87,
+        "link": "/parts/USB-A-PCB-H"
+      },
+      {
+        "id": 6003,
+        "partNumber": "SMA-J-P-H-ST-EM1",
+        "manufacturer": "Amphenol",
+        "category": "RF Connectors",
+        "description": "SMA Jack PCB Mount Straight",
+        "image": "https://example.com/sma-connector.jpg",
+        "price": "$2.15",
+        "inStock": true,
+        "popularity": 73,
+        "link": "/parts/SMA-J-P-H-ST-EM1"
+      },
+      {
+        "id": 6004,
+        "partNumber": "DF40C-100DS-0.4V",
+        "manufacturer": "Hirose",
+        "category": "Board-to-Board",
+        "description": "0.4mm Pitch 100-Position Connector",
+        "image": "https://example.com/df40c-connector.jpg",
+        "price": "$4.25",
+        "inStock": true,
+        "popularity": 68,
+        "link": "/parts/DF40C-100DS-0.4V"
+      }
+    ],
     "details": {
       "description": "Connectors are electromechanical devices that join electrical circuits together. They range from simple wire-to-board connectors to complex high-speed data connectors for telecommunications and computing.",
       "applications": [
@@ -124,6 +708,118 @@
     "name": "Test Equipment",
     "icon": "https://i.ibb.co/cKznKTk8/test-equipment-of-semicondutor-removebg-preview.png",
     "link": "/category/test-equipment",
+    "subcategories": [
+      {
+        "id": 601,
+        "name": "Oscilloscopes",
+        "description": "Signal analysis and waveform measurement instruments",
+        "link": "/category/test-equipment/oscilloscopes"
+      },
+      {
+        "id": 602,
+        "name": "Multimeters",
+        "description": "Voltage, current, and resistance measurement tools",
+        "link": "/category/test-equipment/multimeters"
+      },
+      {
+        "id": 603,
+        "name": "Function Generators",
+        "description": "Signal generation and synthesis equipment",
+        "link": "/category/test-equipment/function-generators"
+      },
+      {
+        "id": 604,
+        "name": "Power Supplies",
+        "description": "Programmable DC and AC power sources",
+        "link": "/category/test-equipment/power-supplies"
+      },
+      {
+        "id": 605,
+        "name": "Spectrum Analyzers",
+        "description": "Frequency domain signal analysis instruments",
+        "link": "/category/test-equipment/spectrum-analyzers"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1021,
+        "name": "Keysight Technologies",
+        "logo": "https://example.com/keysight-logo.png",
+        "specialties": ["Oscilloscopes", "Spectrum Analyzers", "Network Analyzers"],
+        "website": "https://www.keysight.com"
+      },
+      {
+        "id": 1022,
+        "name": "Tektronix",
+        "logo": "https://example.com/tektronix-logo.png",
+        "specialties": ["Oscilloscopes", "Signal Generators", "Power Analyzers"],
+        "website": "https://www.tek.com"
+      },
+      {
+        "id": 1023,
+        "name": "Fluke Corporation",
+        "logo": "https://example.com/fluke-logo.png",
+        "specialties": ["Multimeters", "Thermal Cameras", "Power Quality Analyzers"],
+        "website": "https://www.fluke.com"
+      },
+      {
+        "id": 1024,
+        "name": "Rohde & Schwarz",
+        "logo": "https://example.com/rohde-schwarz-logo.png",
+        "specialties": ["Signal Analyzers", "Network Analyzers", "EMC Test Equipment"],
+        "website": "https://www.rohde-schwarz.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 7001,
+        "partNumber": "FLUKE-87V",
+        "manufacturer": "Fluke",
+        "category": "Multimeters",
+        "description": "Industrial Digital Multimeter True RMS",
+        "image": "https://example.com/fluke-87v.jpg",
+        "price": "$425.00",
+        "inStock": true,
+        "popularity": 92,
+        "link": "/parts/FLUKE-87V"
+      },
+      {
+        "id": 7002,
+        "partNumber": "TBS1052B",
+        "manufacturer": "Tektronix",
+        "category": "Oscilloscopes",
+        "description": "50 MHz 2-Channel Digital Oscilloscope",
+        "image": "https://example.com/tbs1052b.jpg",
+        "price": "$899.00",
+        "inStock": true,
+        "popularity": 85,
+        "link": "/parts/TBS1052B"
+      },
+      {
+        "id": 7003,
+        "partNumber": "E36103A",
+        "manufacturer": "Keysight",
+        "category": "Power Supplies",
+        "description": "Single Output DC Power Supply 100V 1A",
+        "image": "https://example.com/e36103a.jpg",
+        "price": "$1,250.00",
+        "inStock": true,
+        "popularity": 78,
+        "link": "/parts/E36103A"
+      },
+      {
+        "id": 7004,
+        "partNumber": "AFG31052",
+        "manufacturer": "Tektronix",
+        "category": "Function Generators",
+        "description": "50 MHz Arbitrary Function Generator",
+        "image": "https://example.com/afg31052.jpg",
+        "price": "$1,895.00",
+        "inStock": true,
+        "popularity": 71,
+        "link": "/parts/AFG31052"
+      }
+    ],
     "details": {
       "description": "Test equipment encompasses instruments and tools used to measure, analyze, and verify the performance of electronic circuits and semiconductor devices. This includes oscilloscopes, multimeters, spectrum analyzers, and specialized semiconductor testers.",
       "applications": [
@@ -148,6 +844,118 @@
     "name": "Tools and Supplies",
     "icon": "https://i.ibb.co/C5g9mPLM/tools-removebg-preview.png",
     "link": "/category/tools-supplies",
+    "subcategories": [
+      {
+        "id": 701,
+        "name": "Soldering Equipment",
+        "description": "Soldering irons, stations, and accessories",
+        "link": "/category/tools-supplies/soldering"
+      },
+      {
+        "id": 702,
+        "name": "Hand Tools",
+        "description": "Pliers, screwdrivers, and specialty tools",
+        "link": "/category/tools-supplies/hand-tools"
+      },
+      {
+        "id": 703,
+        "name": "ESD Protection",
+        "description": "Anti-static equipment and supplies",
+        "link": "/category/tools-supplies/esd-protection"
+      },
+      {
+        "id": 704,
+        "name": "Cleaning Supplies",
+        "description": "Flux removers, cleaners, and maintenance chemicals",
+        "link": "/category/tools-supplies/cleaning"
+      },
+      {
+        "id": 705,
+        "name": "Prototyping",
+        "description": "Breadboards, protoboards, and development tools",
+        "link": "/category/tools-supplies/prototyping"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1025,
+        "name": "Weller Tools",
+        "logo": "https://example.com/weller-logo.png",
+        "specialties": ["Soldering Equipment", "Desoldering Tools", "Rework Stations"],
+        "website": "https://www.weller-tools.com"
+      },
+      {
+        "id": 1026,
+        "name": "Hakko Corporation",
+        "logo": "https://example.com/hakko-logo.png",
+        "specialties": ["Soldering Stations", "Hot Air Tools", "Fume Extraction"],
+        "website": "https://www.hakko.com"
+      },
+      {
+        "id": 1027,
+        "name": "Klein Tools",
+        "logo": "https://example.com/klein-logo.png",
+        "specialties": ["Hand Tools", "Wire Strippers", "Test Equipment"],
+        "website": "https://www.kleintools.com"
+      },
+      {
+        "id": 1028,
+        "name": "3M Electronics",
+        "logo": "https://example.com/3m-logo.png",
+        "specialties": ["ESD Protection", "Thermal Management", "Cleaning Supplies"],
+        "website": "https://www.3m.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 8001,
+        "partNumber": "WE1010NA",
+        "manufacturer": "Weller",
+        "category": "Soldering Equipment",
+        "description": "70W Temperature Controlled Soldering Station",
+        "image": "https://example.com/we1010na.jpg",
+        "price": "$89.95",
+        "inStock": true,
+        "popularity": 96,
+        "link": "/parts/WE1010NA"
+      },
+      {
+        "id": 8002,
+        "partNumber": "BB830",
+        "manufacturer": "Various",
+        "category": "Prototyping",
+        "description": "830 Tie Point Solderless Breadboard",
+        "image": "https://example.com/bb830.jpg",
+        "price": "$8.50",
+        "inStock": true,
+        "popularity": 98,
+        "link": "/parts/BB830"
+      },
+      {
+        "id": 8003,
+        "partNumber": "2078A-PA",
+        "manufacturer": "3M",
+        "category": "ESD Protection",
+        "description": "Anti-Static Wrist Strap with 6ft Coil Cord",
+        "image": "https://example.com/esd-wrist-strap.jpg",
+        "price": "$12.75",
+        "inStock": true,
+        "popularity": 84,
+        "link": "/parts/2078A-PA"
+      },
+      {
+        "id": 8004,
+        "partNumber": "IPA-99",
+        "manufacturer": "Various",
+        "category": "Cleaning Supplies",
+        "description": "99% Isopropyl Alcohol 16oz Bottle",
+        "image": "https://example.com/ipa-99.jpg",
+        "price": "$6.25",
+        "inStock": true,
+        "popularity": 89,
+        "link": "/parts/IPA-99"
+      }
+    ],
     "details": {
       "description": "Tools and supplies include hand tools, soldering equipment, cleaning materials, and consumables essential for electronic assembly, repair, and maintenance. These products ensure proper handling and processing of sensitive electronic components.",
       "applications": [
@@ -172,6 +980,118 @@
     "name": "Sensors",
     "icon": "https://i.ibb.co/tTxyPDRH/sensors-removebg-preview.png",
     "link": "/category/sensors",
+    "subcategories": [
+      {
+        "id": 801,
+        "name": "Temperature Sensors",
+        "description": "Thermistors, thermocouples, and RTDs",
+        "link": "/category/sensors/temperature"
+      },
+      {
+        "id": 802,
+        "name": "Pressure Sensors",
+        "description": "Absolute, gauge, and differential pressure sensors",
+        "link": "/category/sensors/pressure"
+      },
+      {
+        "id": 803,
+        "name": "Motion Sensors",
+        "description": "Accelerometers, gyroscopes, and IMUs",
+        "link": "/category/sensors/motion"
+      },
+      {
+        "id": 804,
+        "name": "Optical Sensors",
+        "description": "Photodiodes, ambient light sensors, and proximity sensors",
+        "link": "/category/sensors/optical"
+      },
+      {
+        "id": 805,
+        "name": "Magnetic Sensors",
+        "description": "Hall effect sensors, magnetometers, and reed switches",
+        "link": "/category/sensors/magnetic"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1029,
+        "name": "Bosch Sensortec",
+        "logo": "https://example.com/bosch-logo.png",
+        "specialties": ["MEMS Sensors", "Environmental Sensors", "Motion Sensors"],
+        "website": "https://www.bosch-sensortec.com"
+      },
+      {
+        "id": 1030,
+        "name": "Honeywell Sensing",
+        "logo": "https://example.com/honeywell-logo.png",
+        "specialties": ["Pressure Sensors", "Temperature Sensors", "Position Sensors"],
+        "website": "https://sensing.honeywell.com"
+      },
+      {
+        "id": 1031,
+        "name": "Analog Devices",
+        "logo": "https://example.com/adi-logo.png",
+        "specialties": ["MEMS Accelerometers", "Gyroscopes", "Magnetometers"],
+        "website": "https://www.analog.com"
+      },
+      {
+        "id": 1032,
+        "name": "Sensirion",
+        "logo": "https://example.com/sensirion-logo.png",
+        "specialties": ["Humidity Sensors", "Gas Sensors", "Flow Sensors"],
+        "website": "https://www.sensirion.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 9001,
+        "partNumber": "DHT22",
+        "manufacturer": "Various",
+        "category": "Temperature Sensors",
+        "description": "Digital Temperature & Humidity Sensor",
+        "image": "https://example.com/dht22.jpg",
+        "price": "$4.95",
+        "inStock": true,
+        "popularity": 95,
+        "link": "/parts/DHT22"
+      },
+      {
+        "id": 9002,
+        "partNumber": "MPU6050",
+        "manufacturer": "InvenSense",
+        "category": "Motion Sensors",
+        "description": "6-DOF IMU Accelerometer + Gyroscope",
+        "image": "https://example.com/mpu6050.jpg",
+        "price": "$3.25",
+        "inStock": true,
+        "popularity": 92,
+        "link": "/parts/MPU6050"
+      },
+      {
+        "id": 9003,
+        "partNumber": "HC-SR04",
+        "manufacturer": "Various",
+        "category": "Optical Sensors",
+        "description": "Ultrasonic Distance Sensor Module",
+        "image": "https://example.com/hc-sr04.jpg",
+        "price": "$2.15",
+        "inStock": true,
+        "popularity": 88,
+        "link": "/parts/HC-SR04"
+      },
+      {
+        "id": 9004,
+        "partNumber": "BMP280",
+        "manufacturer": "Bosch",
+        "category": "Pressure Sensors",
+        "description": "Precision Barometric Pressure Sensor",
+        "image": "https://example.com/bmp280.jpg",
+        "price": "$5.50",
+        "inStock": true,
+        "popularity": 79,
+        "link": "/parts/BMP280"
+      }
+    ],
     "details": {
       "description": "Sensors detect and respond to physical phenomena, converting them into electrical signals. They include temperature, pressure, motion, light, and chemical sensors that enable smart systems and IoT applications.",
       "applications": [
@@ -196,6 +1116,118 @@
     "name": "Optoelectronics",
     "icon": "https://i.ibb.co/39jmj8xc/optoelectronics-removebg-preview.png",
     "link": "/category/optoelectronics",
+    "subcategories": [
+      {
+        "id": 901,
+        "name": "LEDs",
+        "description": "Light emitting diodes for indicators and illumination",
+        "link": "/category/optoelectronics/leds"
+      },
+      {
+        "id": 902,
+        "name": "Photodiodes",
+        "description": "Light detection and conversion devices",
+        "link": "/category/optoelectronics/photodiodes"
+      },
+      {
+        "id": 903,
+        "name": "Optocouplers",
+        "description": "Optical isolation and signal transmission devices",
+        "link": "/category/optoelectronics/optocouplers"
+      },
+      {
+        "id": 904,
+        "name": "Laser Diodes",
+        "description": "Coherent light generation devices",
+        "link": "/category/optoelectronics/laser-diodes"
+      },
+      {
+        "id": 905,
+        "name": "Displays",
+        "description": "LED displays, OLED, and LCD modules",
+        "link": "/category/optoelectronics/displays"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1033,
+        "name": "Osram Opto Semiconductors",
+        "logo": "https://example.com/osram-logo.png",
+        "specialties": ["LEDs", "Laser Diodes", "Photodetectors"],
+        "website": "https://www.osram.com"
+      },
+      {
+        "id": 1034,
+        "name": "Broadcom",
+        "logo": "https://example.com/broadcom-logo.png",
+        "specialties": ["Optocouplers", "Optical Encoders", "Fiber Optic Devices"],
+        "website": "https://www.broadcom.com"
+      },
+      {
+        "id": 1035,
+        "name": "Cree LED",
+        "logo": "https://example.com/cree-logo.png",
+        "specialties": ["High-Power LEDs", "LED Arrays", "LED Modules"],
+        "website": "https://www.cree-led.com"
+      },
+      {
+        "id": 1036,
+        "name": "Vishay Semiconductors",
+        "logo": "https://example.com/vishay-opto-logo.png",
+        "specialties": ["Optocouplers", "Infrared Emitters", "Photodiodes"],
+        "website": "https://www.vishay.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 10001,
+        "partNumber": "WS2812B",
+        "manufacturer": "Worldsemi",
+        "category": "LEDs",
+        "description": "Addressable RGB LED with Integrated Driver",
+        "image": "https://example.com/ws2812b.jpg",
+        "price": "$0.35",
+        "inStock": true,
+        "popularity": 97,
+        "link": "/parts/WS2812B"
+      },
+      {
+        "id": 10002,
+        "partNumber": "4N35",
+        "manufacturer": "Various",
+        "category": "Optocouplers",
+        "description": "Optocoupler Phototransistor Output",
+        "image": "https://example.com/4n35.jpg",
+        "price": "$0.55",
+        "inStock": true,
+        "popularity": 89,
+        "link": "/parts/4N35"
+      },
+      {
+        "id": 10003,
+        "partNumber": "BPW21",
+        "manufacturer": "Osram",
+        "category": "Photodiodes",
+        "description": "Silicon PIN Photodiode",
+        "image": "https://example.com/bpw21.jpg",
+        "price": "$1.25",
+        "inStock": true,
+        "popularity": 76,
+        "link": "/parts/BPW21"
+      },
+      {
+        "id": 10004,
+        "partNumber": "SSD1306",
+        "manufacturer": "Solomon Systech",
+        "category": "Displays",
+        "description": "0.96\" OLED Display Module I2C/SPI",
+        "image": "https://example.com/ssd1306.jpg",
+        "price": "$8.95",
+        "inStock": true,
+        "popularity": 91,
+        "link": "/parts/SSD1306"
+      }
+    ],
     "details": {
       "description": "Optoelectronic devices convert between light and electrical signals. This category includes LEDs, laser diodes, photodetectors, optocouplers, and displays that enable visual interfaces and optical communication.",
       "applications": [
@@ -220,6 +1252,118 @@
     "name": "Circuit Protection",
     "icon": "https://i.ibb.co/5WL2Nbgq/circuit-protection-removebg-preview.png",
     "link": "/category/circuit-protection",
+    "subcategories": [
+      {
+        "id": 1001,
+        "name": "Fuses",
+        "description": "Overcurrent protection devices",
+        "link": "/category/circuit-protection/fuses"
+      },
+      {
+        "id": 1002,
+        "name": "TVS Diodes",
+        "description": "Transient voltage suppressors",
+        "link": "/category/circuit-protection/tvs-diodes"
+      },
+      {
+        "id": 1003,
+        "name": "Gas Discharge Tubes",
+        "description": "Surge protection devices",
+        "link": "/category/circuit-protection/gdt"
+      },
+      {
+        "id": 1004,
+        "name": "PTC Resettable Fuses",
+        "description": "Polymeric positive temperature coefficient devices",
+        "link": "/category/circuit-protection/ptc-fuses"
+      },
+      {
+        "id": 1005,
+        "name": "Varistors",
+        "description": "Voltage-dependent resistors for surge protection",
+        "link": "/category/circuit-protection/varistors"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1037,
+        "name": "Littelfuse",
+        "logo": "https://example.com/littelfuse-logo.png",
+        "specialties": ["Fuses", "TVS Diodes", "PTC Devices"],
+        "website": "https://www.littelfuse.com"
+      },
+      {
+        "id": 1038,
+        "name": "Bourns Inc.",
+        "logo": "https://example.com/bourns-logo.png",
+        "specialties": ["Gas Discharge Tubes", "Varistors", "TVS Diodes"],
+        "website": "https://www.bourns.com"
+      },
+      {
+        "id": 1039,
+        "name": "EPCOS (TDK)",
+        "logo": "https://example.com/epcos-logo.png",
+        "specialties": ["Varistors", "Gas Discharge Tubes", "PTC Thermistors"],
+        "website": "https://www.tdk.com"
+      },
+      {
+        "id": 1040,
+        "name": "Nexperia",
+        "logo": "https://example.com/nexperia-logo.png",
+        "specialties": ["TVS Diodes", "ESD Protection", "Automotive Protection"],
+        "website": "https://www.nexperia.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 11001,
+        "partNumber": "5KP6.0CA",
+        "manufacturer": "Littelfuse",
+        "category": "TVS Diodes",
+        "description": "Bidirectional TVS Diode 6V 5000W",
+        "image": "https://example.com/5kp6-0ca.jpg",
+        "price": "$0.85",
+        "inStock": true,
+        "popularity": 87,
+        "link": "/parts/5KP6.0CA"
+      },
+      {
+        "id": 11002,
+        "partNumber": "1206L050YR",
+        "manufacturer": "Littelfuse",
+        "category": "PTC Resettable Fuses",
+        "description": "PTC Resettable Fuse 0.5A 60V 1206",
+        "image": "https://example.com/1206l050yr.jpg",
+        "price": "$0.25",
+        "inStock": true,
+        "popularity": 92,
+        "link": "/parts/1206L050YR"
+      },
+      {
+        "id": 11003,
+        "partNumber": "MOV-14D471K",
+        "manufacturer": "Bourns",
+        "category": "Varistors",
+        "description": "Metal Oxide Varistor 470V 14mm",
+        "image": "https://example.com/mov-14d471k.jpg",
+        "price": "$0.65",
+        "inStock": true,
+        "popularity": 78,
+        "link": "/parts/MOV-14D471K"
+      },
+      {
+        "id": 11004,
+        "partNumber": "SMBJ5.0A",
+        "manufacturer": "Various",
+        "category": "TVS Diodes",
+        "description": "Unidirectional TVS Diode 5V 600W SMB",
+        "image": "https://example.com/smbj5-0a.jpg",
+        "price": "$0.45",
+        "inStock": true,
+        "popularity": 81,
+        "link": "/parts/SMBJ5.0A"
+      }
+    ],
     "details": {
       "description": "Circuit protection devices safeguard electronic systems from overcurrent, overvoltage, and other electrical hazards. They include fuses, circuit breakers, TVS diodes, and surge protectors essential for system reliability.",
       "applications": [
@@ -244,6 +1388,118 @@
     "name": "Power Products",
     "icon": "https://i.ibb.co/LDrJRzmw/power-removebg-preview.png",
     "link": "/category/power-products",
+    "subcategories": [
+      {
+        "id": 1101,
+        "name": "Voltage Regulators",
+        "description": "Linear and switching voltage regulation ICs",
+        "link": "/category/power-products/voltage-regulators"
+      },
+      {
+        "id": 1102,
+        "name": "DC-DC Converters",
+        "description": "Isolated and non-isolated power conversion modules",
+        "link": "/category/power-products/dc-dc-converters"
+      },
+      {
+        "id": 1103,
+        "name": "Power Management ICs",
+        "description": "Integrated power management solutions",
+        "link": "/category/power-products/power-management"
+      },
+      {
+        "id": 1104,
+        "name": "Battery Management",
+        "description": "Charging controllers and fuel gauge ICs",
+        "link": "/category/power-products/battery-management"
+      },
+      {
+        "id": 1105,
+        "name": "Power Modules",
+        "description": "Complete power conversion solutions",
+        "link": "/category/power-products/power-modules"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1041,
+        "name": "Texas Instruments",
+        "logo": "https://example.com/ti-power-logo.png",
+        "specialties": ["Voltage Regulators", "Power Management", "Battery Management"],
+        "website": "https://www.ti.com"
+      },
+      {
+        "id": 1042,
+        "name": "Analog Devices",
+        "logo": "https://example.com/adi-power-logo.png",
+        "specialties": ["DC-DC Converters", "Power Management", "Energy Harvesting"],
+        "website": "https://www.analog.com"
+      },
+      {
+        "id": 1043,
+        "name": "Maxim Integrated",
+        "logo": "https://example.com/maxim-logo.png",
+        "specialties": ["Power Management", "Battery Chargers", "Hot-Swap Controllers"],
+        "website": "https://www.maximintegrated.com"
+      },
+      {
+        "id": 1044,
+        "name": "Vicor Corporation",
+        "logo": "https://example.com/vicor-logo.png",
+        "specialties": ["Power Modules", "DC-DC Converters", "Power Systems"],
+        "website": "https://www.vicorpower.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 12001,
+        "partNumber": "LM7805",
+        "manufacturer": "Texas Instruments",
+        "category": "Voltage Regulators",
+        "description": "5V 1A Linear Voltage Regulator",
+        "image": "https://example.com/lm7805.jpg",
+        "price": "$0.45",
+        "inStock": true,
+        "popularity": 96,
+        "link": "/parts/LM7805"
+      },
+      {
+        "id": 12002,
+        "partNumber": "LM2596S-5.0",
+        "manufacturer": "Texas Instruments",
+        "category": "DC-DC Converters",
+        "description": "5V 3A Step-Down Switching Regulator",
+        "image": "https://example.com/lm2596s.jpg",
+        "price": "$1.85",
+        "inStock": true,
+        "popularity": 91,
+        "link": "/parts/LM2596S-5.0"
+      },
+      {
+        "id": 12003,
+        "partNumber": "TP4056",
+        "manufacturer": "Various",
+        "category": "Battery Management",
+        "description": "1A Li-ion Battery Charging Controller",
+        "image": "https://example.com/tp4056.jpg",
+        "price": "$0.75",
+        "inStock": true,
+        "popularity": 89,
+        "link": "/parts/TP4056"
+      },
+      {
+        "id": 12004,
+        "partNumber": "LTC3780",
+        "manufacturer": "Analog Devices",
+        "category": "DC-DC Converters",
+        "description": "High Efficiency Buck-Boost Controller",
+        "image": "https://example.com/ltc3780.jpg",
+        "price": "$8.95",
+        "inStock": true,
+        "popularity": 74,
+        "link": "/parts/LTC3780"
+      }
+    ],
     "details": {
       "description": "Power products include voltage regulators, power management ICs, DC-DC converters, and power modules that efficiently convert and control electrical power in electronic systems.",
       "applications": [
@@ -262,12 +1518,123 @@
       ],
       "marketInfo": "The power products market is driven by energy efficiency requirements and the transition to renewable energy."
     }
-  },
-  {
+  },{
     "id": 12,
     "name": "Cables and Wire",
     "icon": "https://i.ibb.co/whvgkXQw/cables-and-wires-removebg-preview.png",
     "link": "/category/cables-wire",
+    "subcategories": [
+      {
+        "id": 1201,
+        "name": "Hookup Wire",
+        "description": "Single conductor wire for general purpose connections",
+        "link": "/category/cables-wire/hookup-wire"
+      },
+      {
+        "id": 1202,
+        "name": "Coaxial Cables",
+        "description": "RF and video transmission cables",
+        "link": "/category/cables-wire/coaxial"
+      },
+      {
+        "id": 1203,
+        "name": "Ribbon Cables",
+        "description": "Multi-conductor flat flexible cables",
+        "link": "/category/cables-wire/ribbon"
+      },
+      {
+        "id": 1204,
+        "name": "Power Cables",
+        "description": "High current AC and DC power transmission cables",
+        "link": "/category/cables-wire/power"
+      },
+      {
+        "id": 1205,
+        "name": "Data Cables",
+        "description": "Ethernet, USB, and serial communication cables",
+        "link": "/category/cables-wire/data"
+      }
+    ],
+    "topManufacturers": [
+      {
+        "id": 1045,
+        "name": "Belden Inc.",
+        "logo": "https://example.com/belden-logo.png",
+        "specialties": ["Industrial Cables", "Data Cables", "Coaxial Cables"],
+        "website": "https://www.belden.com"
+      },
+      {
+        "id": 1046,
+        "name": "Alpha Wire",
+        "logo": "https://example.com/alpha-wire-logo.png",
+        "specialties": ["Hookup Wire", "Multi-Conductor Cables", "Specialty Cables"],
+        "website": "https://www.alphawire.com"
+      },
+      {
+        "id": 1047,
+        "name": "General Cable",
+        "logo": "https://example.com/general-cable-logo.png",
+        "specialties": ["Power Cables", "Control Cables", "Communication Cables"],
+        "website": "https://www.generalcable.com"
+      },
+      {
+        "id": 1048,
+        "name": "3M Cable Solutions",
+        "logo": "https://example.com/3m-cable-logo.png",
+        "specialties": ["Ribbon Cables", "Flat Flexible Cables", "Specialty Interconnects"],
+        "website": "https://www.3m.com"
+      }
+    ],
+    "popularParts": [
+      {
+        "id": 13001,
+        "partNumber": "AWG22-RED",
+        "manufacturer": "Alpha Wire",
+        "category": "Hookup Wire",
+        "description": "22AWG Solid Core Hookup Wire Red 100ft",
+        "image": "https://example.com/awg22-red.jpg",
+        "price": "$12.50",
+        "inStock": true,
+        "popularity": 94,
+        "link": "/parts/AWG22-RED"
+      },
+      {
+        "id": 13002,
+        "partNumber": "RG58-50FT",
+        "manufacturer": "Belden",
+        "category": "Coaxial Cables",
+        "description": "RG58 50 Ohm Coaxial Cable 50ft",
+        "image": "https://example.com/rg58-50ft.jpg",
+        "price": "$35.00",
+        "inStock": true,
+        "popularity": 78,
+        "link": "/parts/RG58-50FT"
+      },
+      {
+        "id": 13003,
+        "partNumber": "CAT6-PATCH-3FT",
+        "manufacturer": "Various",
+        "category": "Data Cables",
+        "description": "Category 6 Ethernet Patch Cable 3ft Blue",
+        "image": "https://example.com/cat6-patch.jpg",
+        "price": "$3.25",
+        "inStock": true,
+        "popularity": 92,
+        "link": "/parts/CAT6-PATCH-3FT"
+      },
+      {
+        "id": 13004,
+        "partNumber": "RIBBON-40C-1FT",
+        "manufacturer": "3M",
+        "category": "Ribbon Cables",
+        "description": "40 Conductor Ribbon Cable 28AWG 1ft",
+        "image": "https://example.com/ribbon-40c.jpg",
+        "price": "$8.75",
+        "inStock": true,
+        "popularity": 73,
+        "link": "/parts/RIBBON-40C-1FT"
+      }
+    ],
     "details": {
       "description": "Cables and wires provide electrical connections between components and systems. They range from simple hookup wire to complex multi-conductor cables for data transmission and power distribution.",
       "applications": [
