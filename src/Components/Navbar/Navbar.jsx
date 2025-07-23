@@ -4,6 +4,8 @@ import { FiChevronDown, FiMenu, FiX, FiSettings, FiExternalLink, FiLoader } from
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { api, slugify } from '@/lib/utils';
+import { useCategories } from '@/app/hooks/useCategories';
+import { ChevronRight } from "lucide-react";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -11,34 +13,23 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showUserBubble, setShowUserBubble] = useState(false);
-  const [navlink, setNavLink] = useState([]);
   const [brands, setBrands] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [brandsLoading, setBrandsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [brandsError, setBrandsError] = useState(null);
   const [showAdminAccess, setShowAdminAccess] = useState(false);
 
-  useEffect(() => {
-    const fetchNavData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/navmenu.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch navigation data');
-        }
-        const data = await response.json();
-        setNavLink(data.nodeList || []);
-      } catch (err) {
-        setError(err.message);
-        console.error('Error fetching navigation data:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Use the categories hook instead of navlink state
+  const { categories, loading: categoriesLoading, error: categoriesError } = useCategories({
+    useAPI: false // Set to true if you want to use the MongoDB API
+  });
 
-    fetchNavData();
-  }, []);
+  // Static navigation items (non-categories)
+  const staticNavItems = [
+    { id: 'manufacturers', name: 'Manufacturers', type: 'manufacturers' },
+    { id: 'solution', name: 'Solutions', type: 'link', href: '/solution' },
+    { id: 'support', name: 'Support', type: 'link', href: '/support' },
+    { id: 'about', name: 'About', type: 'link', href: '/about' }
+  ];
 
   const fetchBrands = async () => {
     try {
@@ -92,29 +83,11 @@ export default function Navbar() {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleUserBubble = () => setShowUserBubble((prev) => !prev);
 
-  const generateProductUrl = (item, category, sub, subItem) => {
-    const mainItem = item.itemId;
-
-    if (mainItem === 'products') {
-      if (subItem && subItem.id) {
-        return `/products/category/${category.id}/${sub.id}/${subItem.id}`;
-      } else if (sub && sub.id) {
-        return `/products/category/${category.id}/${sub.id}`;
-      } else if (category && category.id) {
-        return `/products/category/${category.id}`;
-      }
-    } else if (mainItem === 'manufacturers') {
-      if (subItem && subItem.id) {
-        return `/products/manufacturer/${category.id}/${sub.id}/${subItem.id}`;
-      } else if (sub && sub.id) {
-        return `/products/manufacturer/${category.id}/${sub.id}`;
-      } else if (category && (category.id || category.name)) {
-        const manufacturerId = category.id || category.name.toLowerCase().replace(/\s+/g, '-');
-        return `/products/manufacturer/${manufacturerId}`;
-      }
+  const generateCategoryUrl = (category, subcategory = null) => {
+    if (subcategory) {
+      return `/category/${category.id}/${subcategory.id}`;
     }
-
-    return '/products';
+    return `/category/${category.id}`;
   };
 
   const renderManufacturersBrands = () => {
@@ -150,39 +123,109 @@ export default function Navbar() {
     }
 
     return (
-      <div className="p-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 min-w-[700px] max-w-[1200px]">
-        {brands.map((brand) => (
-          <Link 
-            key={brand.brandId || brand.name} 
-            href={`/brands/${slugify(brand.name)}`}
-            className="group"
-            onClick={() => setActiveMenu(null)}
-          >
-            <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 hover:shadow-lg hover:border-blue-300 transition-all duration-300 cursor-pointer text-center">
-              <h3 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
-                {brand.name}
-              </h3>
-            </div>
-          </Link>
-        ))}
+      <div className="p-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 max-h-96 overflow-y-auto custom-scrollbar">
+          {brands.map((brand) => (
+            <Link 
+              key={brand.brandId || brand.name} 
+              href={`/brands/${slugify(brand.name)}`}
+              className="group"
+              onClick={() => setActiveMenu(null)}
+            >
+              <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 hover:shadow-lg hover:border-blue-300 transition-all duration-300 cursor-pointer text-center">
+                <h3 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
+                  {brand.name}
+                </h3>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     );
   };
 
-  const renderMegaMenu = (item) => {
-    if (!item.nodes) return null;
-    
-    const isManufacturers = item.itemId === 'manufacturers';
-    
-    // For manufacturers, show brands from database instead of JSON nodes
-    if (isManufacturers) {
+  const renderCategoriesMegaMenu = () => {
+    if (categoriesLoading) {
+      return (
+        <div className="p-6 text-center">
+          <FiLoader className="w-6 h-6 animate-spin mx-auto mb-2 text-blue-600" />
+          <p className="text-sm text-gray-600">Loading categories...</p>
+        </div>
+      );
+    }
+
+    if (categoriesError) {
+      return (
+        <div className="p-6 text-center">
+          <p className="text-sm text-red-600 mb-2">Error loading categories</p>
+          <p className="text-xs text-gray-500">{categoriesError}</p>
+        </div>
+      );
+    }
+
+    if (categories.length === 0) {
+      return (
+        <div className="p-6 text-center">
+          <p className="text-sm text-gray-500">No categories found</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-h-96 overflow-y-auto custom-scrollbar">
+          {categories.map((category) => (
+            <div key={category.id} className="space-y-3 min-w-0">
+              {/* Main Category - Removed Icons */}
+              <Link
+                href={generateCategoryUrl(category)}
+                className="group flex items-center text-gray-800 font-semibold border-b border-gray-200 pb-2 text-sm hover:text-blue-600 transition-colors"
+                onClick={() => setActiveMenu(null)}
+              >
+                <span className="group-hover:text-blue-600 truncate">{category.name}</span>
+              </Link>
+              
+              {/* Subcategories */}
+              {category.subcategories && category.subcategories.length > 0 && (
+                <ul className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
+                  {category.subcategories.slice(0, 8).map((subcategory) => (
+                    <li key={subcategory.id}>
+                      <Link
+                        href={generateCategoryUrl(category, subcategory)}
+                        className="text-gray-600 hover:text-blue-600 cursor-pointer text-sm block py-1 hover:bg-blue-50 px-2 rounded transition-all duration-200 group"
+                        onClick={() => setActiveMenu(null)}
+                        title={subcategory.description}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="truncate">{subcategory.name}</span>
+                          <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-50 transition-opacity flex-shrink-0" />
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                  {category.subcategories.length > 8 && (
+                    <li className="text-xs text-gray-500 px-2 py-1">
+                      +{category.subcategories.length - 8} more subcategories
+                    </li>
+                  )}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderMegaMenu = (menuType) => {
+    if (menuType === 'manufacturers') {
       return (
         <div
           className="absolute left-0 top-full pt-2 z-50"
-          onMouseEnter={() => handleMouseEnter(item.itemId)}
+          onMouseEnter={() => handleMouseEnter('manufacturers')}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden min-w-[700px] max-w-[1200px]">
             {renderManufacturersBrands()}
             
             {/* Footer section */}
@@ -205,197 +248,166 @@ export default function Navbar() {
       );
     }
 
-    // For products, show the original navigation structure
-    const gridCols = 'lg:grid-cols-3';
-    const maxWidth = 'max-w-[1000px]';
-    
-    return (
-      <div
-        className="absolute left-0 top-full pt-2 z-50"
-        onMouseEnter={() => handleMouseEnter(item.itemId)}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden">
-          <div className={`p-6 grid grid-cols-1 md:grid-cols-2 ${gridCols} gap-6 min-w-[700px] ${maxWidth}`}>
-            {item.nodes.map((category, index) => (
-              <div key={index} className="space-y-2">
+    if (menuType === 'products') {
+      return (
+        <div
+          className="absolute left-0 top-full pt-2 z-50"
+          onMouseEnter={() => handleMouseEnter('products')}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden min-w-[800px] max-w-[1200px]">
+            {renderCategoriesMegaMenu()}
+            
+            {/* Footer section */}
+            <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">
+                  Browse all product categories and specifications
+                </span>
                 <Link
-                  href={generateProductUrl(item, category)}
-                  className="text-gray-800 font-semibold border-b border-gray-200 pb-2 text-sm hover:text-blue-600 block transition-colors group"
+                  href="/categories"
+                  className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center"
                   onClick={() => setActiveMenu(null)}
                 >
-                  <div className="flex items-center">
-                    {category.imageURL && (
-                      <img
-                        src={category.imageURL}
-                        alt={category.name}
-                        className="inline w-5 h-5 mr-2"
-                      />
-                    )}
-                    <span className="group-hover:text-blue-600">{category.name}</span>
-                  </div>
+                  View All Categories <FiExternalLink className="w-3 h-3 ml-1" />
                 </Link>
-                
-                {/* Render subcategories */}
-                {category.nodes && category.nodes.length > 0 && (
-                  <ul className="space-y-1 max-h-64 overflow-y-auto custom-scrollbar">
-                    {category.nodes.map((sub, idx) => (
-                      <li key={idx}>
-                        <Link
-                          href={generateProductUrl(item, category, sub)}
-                          className="text-gray-600 hover:text-blue-600 cursor-pointer text-sm block py-1 hover:bg-blue-50 px-2 rounded transition-all duration-200 group"
-                          onClick={() => setActiveMenu(null)}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span>{sub.name}</span>
-                            {sub.nodes && sub.nodes.length > 0 && (
-                              <FiChevronDown className="w-3 h-3 opacity-50 group-hover:opacity-100" />
-                            )}
-                          </div>
-                        </Link>
-                        
-                        {/* Render sub-subcategories */}
-                        {sub.nodes && sub.nodes.length > 0 && (
-                          <ul className="ml-4 mt-1 space-y-1">
-                            {sub.nodes.map((subItem, subIdx) => (
-                              <li key={subIdx}>
-                                <Link
-                                  href={generateProductUrl(item, category, sub, subItem)}
-                                  className="text-gray-500 hover:text-blue-500 cursor-pointer text-xs block py-0.5 hover:bg-blue-50 px-2 rounded transition-all duration-200"
-                                  onClick={() => setActiveMenu(null)}
-                                >
-                                  {subItem.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
-            ))}
-          </div>
-          
-          {/* Footer section for products */}
-          <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-gray-500">
-                Browse all product categories and specifications
-              </span>
-              <Link
-                href="/products"
-                className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center"
-                onClick={() => setActiveMenu(null)}
-              >
-                View All <FiExternalLink className="w-3 h-3 ml-1" />
-              </Link>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return null;
   };
 
   const renderMobileMenu = () => (
     <div className="lg:hidden bg-blue-900 border-t border-blue-700 max-h-96 overflow-y-auto">
       <div className="px-4 py-2 space-y-2">
-        {navlink.map((item) => (
-          <div key={item.itemId} className="space-y-1">
-            <div className="flex items-center justify-between py-2 text-white">
-              <span className="font-medium">{item.name}</span>
-              <FiChevronDown className="w-4 h-4" />
-            </div>
-            {item.itemId === 'manufacturers' ? (
-              // For manufacturers, show brands from database
-              <div className="pl-4 space-y-1 max-h-48 overflow-y-auto">
-                {brandsLoading ? (
-                  <div className="text-blue-200 text-sm py-2">
-                    <FiLoader className="w-4 h-4 animate-spin inline mr-2" />
-                    Loading manufacturers...
-                  </div>
-                ) : brandsError ? (
-                  <div className="text-red-300 text-sm py-2">
-                    Error loading manufacturers
-                    <button 
-                      onClick={fetchBrands}
-                      className="block text-blue-200 hover:text-white underline text-xs mt-1"
-                    >
-                      Try again
-                    </button>
-                  </div>
-                ) : brands.length > 0 ? (
-                  brands.slice(0, 15).map((brand) => (
-                    <Link
-                      key={brand.brandId || brand.name}
-                      href={`/brands/${slugify(brand.name)}`}
-                      className="text-blue-200 text-sm font-medium hover:text-white block py-1"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {brand.name}
-                    </Link>
-                  ))
-                ) : (
-                  <div className="text-blue-200 text-sm py-2">
-                    No manufacturers found
-                  </div>
-                )}
-                {brands.length > 15 && (
-                  <div className="text-blue-100 text-xs px-2 py-1">
-                    +{brands.length - 15} more
-                  </div>
-                )}
+        {/* Products Section */}
+        <div className="space-y-1">
+          <div className="flex items-center justify-between py-2 text-white">
+            <span className="font-medium">Products</span>
+            <FiChevronDown className="w-4 h-4" />
+          </div>
+          <div className="pl-4 space-y-1 max-h-48 overflow-y-auto">
+            {categoriesLoading ? (
+              <div className="text-blue-200 text-sm py-2">
+                <FiLoader className="w-4 h-4 animate-spin inline mr-2" />
+                Loading categories...
               </div>
-            ) : (
-              // For other items, show original structure
-              item.nodes && (
-                <div className="pl-4 space-y-1 max-h-48 overflow-y-auto">
-                  {item.nodes.map((category, idx) => (
-                    <div key={idx} className="py-1">
-                      <Link
-                        href={generateProductUrl(item, category)}
-                        className="text-blue-200 text-sm font-medium hover:text-white block py-1"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {category.name}
-                      </Link>
-                      {category.nodes && category.nodes.length > 0 && (
-                        <div className="pl-4 mt-1 space-y-1">
-                          {category.nodes.slice(0, 5).map((sub, subIdx) => (
-                            <Link
-                              key={subIdx}
-                              href={generateProductUrl(item, category, sub)}
-                              className="block text-blue-100 text-sm py-0.5 hover:text-white"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {sub.name}
-                            </Link>
-                          ))}
-                          {category.nodes.length > 5 && (
-                            <div className="text-blue-100 text-xs px-2 py-1">
-                              +{category.nodes.length - 5} more
-                            </div>
-                          )}
+            ) : categoriesError ? (
+              <div className="text-red-300 text-sm py-2">
+                Error loading categories
+              </div>
+            ) : categories.length > 0 ? (
+              categories.slice(0, 10).map((category) => (
+                <div key={category.id} className="py-1">
+                  <Link
+                    href={generateCategoryUrl(category)}
+                    className="text-blue-200 text-sm font-medium hover:text-white block py-1"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {category.name}
+                  </Link>
+                  {category.subcategories && category.subcategories.length > 0 && (
+                    <div className="pl-4 mt-1 space-y-1">
+                      {category.subcategories.slice(0, 3).map((sub) => (
+                        <Link
+                          key={sub.id}
+                          href={generateCategoryUrl(category, sub)}
+                          className="block text-blue-100 text-sm py-0.5 hover:text-white"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                      {category.subcategories.length > 3 && (
+                        <div className="text-blue-100 text-xs px-2 py-1">
+                          +{category.subcategories.length - 3} more
                         </div>
                       )}
                     </div>
-                  ))}
+                  )}
                 </div>
-              )
+              ))
+            ) : (
+              <div className="text-blue-200 text-sm py-2">
+                No categories found
+              </div>
+            )}
+            {categories.length > 10 && (
+              <div className="text-blue-100 text-xs px-2 py-1">
+                +{categories.length - 10} more categories
+              </div>
             )}
           </div>
-        ))}
+        </div>
+
+        {/* Manufacturers Section */}
+        <div className="space-y-1">
+          <div className="flex items-center justify-between py-2 text-white">
+            <span className="font-medium">Manufacturers</span>
+            <FiChevronDown className="w-4 h-4" />
+          </div>
+          <div className="pl-4 space-y-1 max-h-48 overflow-y-auto">
+            {brandsLoading ? (
+              <div className="text-blue-200 text-sm py-2">
+                <FiLoader className="w-4 h-4 animate-spin inline mr-2" />
+                Loading manufacturers...
+              </div>
+            ) : brandsError ? (
+              <div className="text-red-300 text-sm py-2">
+                Error loading manufacturers
+                <button 
+                  onClick={fetchBrands}
+                  className="block text-blue-200 hover:text-white underline text-xs mt-1"
+                >
+                  Try again
+                </button>
+              </div>
+            ) : brands.length > 0 ? (
+              brands.slice(0, 15).map((brand) => (
+                <Link
+                  key={brand.brandId || brand.name}
+                  href={`/brands/${slugify(brand.name)}`}
+                  className="text-blue-200 text-sm font-medium hover:text-white block py-1"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {brand.name}
+                </Link>
+              ))
+            ) : (
+              <div className="text-blue-200 text-sm py-2">
+                No manufacturers found
+              </div>
+            )}
+            {brands.length > 15 && (
+              <div className="text-blue-100 text-xs px-2 py-1">
+                +{brands.length - 15} more
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Static Navigation Items */}
         <div className="border-t border-blue-700 pt-2 space-y-2">
-          <Link href="/solution" className="block py-2 text-white hover:text-blue-200">Solutions</Link>
-          <Link href="/support" className="block py-2 text-white hover:text-blue-200">Support</Link>
-          <Link href="/about" className="block py-2 text-white hover:text-blue-200">About</Link>
+          {staticNavItems.filter(item => item.type === 'link').map((item) => (
+            <Link 
+              key={item.id}
+              href={item.href} 
+              className="block py-2 text-white hover:text-blue-200"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
       </div>
     </div>
   );
 
-  if (loading) {
+  if (categoriesLoading && categories.length === 0) {
     return (
       <nav className="fixed top-0 left-0 right-0 z-50 bg-blue-800">
         <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -411,15 +423,14 @@ export default function Navbar() {
                 </p>
               </Link>
             </div>
-            <div className="text-white">Loading...</div>
+            <div className="text-white flex items-center">
+              <FiLoader className="w-4 h-4 animate-spin mr-2" />
+              Loading...
+            </div>
           </div>
         </div>
       </nav>
     );
-  }
-
-  if (error) {
-    console.error('Navigation error:', error);
   }
 
   return (
@@ -444,38 +455,42 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-4">
-              {navlink.map((item) => (
-                <div
-                  key={item.itemId}
-                  onMouseEnter={() => handleMouseEnter(item.itemId)}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative"
-                >
-                  <div className={`flex items-center px-4 py-2 text-white hover:text-blue-200 hover:bg-white/10 rounded-lg cursor-pointer transition-all duration-300 ${activeMenu === item.itemId ? "bg-white/10 text-blue-200" : ""}`}>
-                    {item.imageURL && (
-                      <img 
-                        src={item.imageURL} 
-                        alt={item.name}
-                        className="w-4 h-4 mr-2 opacity-80"
-                      />
-                    )}
-                    {item.name}
-                    <FiChevronDown className={`ml-1 w-4 h-4 transition-transform duration-200 ${activeMenu === item.itemId ? 'rotate-180' : ''}`} />
-                  </div>
-                  {activeMenu === item.itemId && renderMegaMenu(item)}
+              {/* Products Dropdown - Removed Icon */}
+              <div
+                onMouseEnter={() => handleMouseEnter('products')}
+                onMouseLeave={handleMouseLeave}
+                className="relative"
+              >
+                <div className={`flex items-center px-4 py-2 text-white hover:text-blue-200 hover:bg-white/10 rounded-lg cursor-pointer transition-all duration-300 ${activeMenu === 'products' ? "bg-white/10 text-blue-200" : ""}`}>
+                  Products
+                  <FiChevronDown className={`ml-1 w-4 h-4 transition-transform duration-200 ${activeMenu === 'products' ? 'rotate-180' : ''}`} />
                 </div>
-              ))}
+                {activeMenu === 'products' && renderMegaMenu('products')}
+              </div>
+
+              {/* Manufacturers Dropdown */}
+              <div
+                onMouseEnter={() => handleMouseEnter('manufacturers')}
+                onMouseLeave={handleMouseLeave}
+                className="relative"
+              >
+                <div className={`flex items-center px-4 py-2 text-white hover:text-blue-200 hover:bg-white/10 rounded-lg cursor-pointer transition-all duration-300 ${activeMenu === 'manufacturers' ? "bg-white/10 text-blue-200" : ""}`}>
+                  Manufacturers
+                  <FiChevronDown className={`ml-1 w-4 h-4 transition-transform duration-200 ${activeMenu === 'manufacturers' ? 'rotate-180' : ''}`} />
+                </div>
+                {activeMenu === 'manufacturers' && renderMegaMenu('manufacturers')}
+              </div>
               
-              {/* Additional Navigation Items */}
-              <Link href="/solution" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">
-                Solutions
-              </Link>
-              <Link href="/support" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">
-                Support
-              </Link>
-              <Link href="/about" className="px-4 py-2 text-white hover:text-blue-200 transition-colors">
-                About
-              </Link>
+              {/* Static Navigation Items */}
+              {staticNavItems.filter(item => item.type === 'link').map((item) => (
+                <Link 
+                  key={item.id}
+                  href={item.href} 
+                  className="px-4 py-2 text-white hover:text-blue-200 transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
             </div>
 
             {/* User Auth & Actions */}
@@ -564,21 +579,47 @@ export default function Navbar() {
         •
       </div>
 
-      {/* Custom styles for scrollbars and animations */}
+      {/* Enhanced Custom styles for scrollbars and animations */}
       <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 #f1f5f9;
         }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        
         .custom-scrollbar::-webkit-scrollbar-track {
           background: #f1f5f9;
-          border-radius: 2px;
+          border-radius: 3px;
         }
+        
         .custom-scrollbar::-webkit-scrollbar-thumb {
           background: #cbd5e1;
-          border-radius: 2px;
+          border-radius: 3px;
+          border: 1px solid #f1f5f9;
         }
+        
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: #94a3b8;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-corner {
+          background: #f1f5f9;
+        }
+
+        /* Smooth scrolling */
+        .custom-scrollbar {
+          scroll-behavior: smooth;
+        }
+
+        /* Hide scrollbar on mobile for cleaner look */
+        @media (max-width: 1024px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 3px;
+          }
         }
       `}</style>
     </>
