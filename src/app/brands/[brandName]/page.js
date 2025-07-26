@@ -1,4 +1,5 @@
-import BrandProducts from '@/components/BrandProducts';
+import BrandProducts from "../../../Components/BrandProducts.jsx";
+
 
 export async function generateMetadata({ params }) {
   const brandName = params.brandName.replace(/-/g, ' ');

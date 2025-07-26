@@ -1,8 +1,9 @@
 "use client"
 import { useState } from 'react';
-import { Button } from "@/components/ui/button.jsx";
-import { Input } from "@/components/ui/input.jsx";
+
+import { Input } from "../../Components/ui/input.jsx";
 import { FiSearch } from 'react-icons/fi';
+import { Button } from '../../Components/ui/button.jsx';
 
 export default function Banner() {
   const [searchQuery, setSearchQuery] = useState('');

@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { Button } from "@/components/ui/button";
+import { Button } from "../../Components/ui/button.jsx";
 
 const searchedItems = [
   {

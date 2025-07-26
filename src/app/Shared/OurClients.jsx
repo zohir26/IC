@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from "../../Components/ui/button.jsx";
 
 // const clients = [
 //     { id: 1, name: "TSMC", logo: "https://i.ibb.co/zTNxGvRY/tsmc-removebg-preview.png" },
