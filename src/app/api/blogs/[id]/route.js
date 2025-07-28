@@ -2,27 +2,21 @@ import dbConnect from '../../../../lib/dbConnect';
 import Blog from '../../../../models/Blog';
 import { NextResponse } from 'next/server';
 
+// GET single blog by ID
 export async function GET(request, { params }) {
   try {
     await dbConnect();
     
     const { id } = params;
-    const numericId = parseInt(id, 10);
-
-    if (isNaN(numericId)) {
+    
+    if (!id) {
       return NextResponse.json(
-        { success: false, error: 'Invalid blog ID format' },
+        { success: false, error: 'Blog ID is required' },
         { status: 400 }
       );
     }
 
-    // Find the blog, increment its views, and return the *new* document
-    // This is more efficient than two separate operations.
-    const blog = await Blog.findOneAndUpdate(
-      { id: numericId },
-      { $inc: { views: 1 } },
-      { new: true, lean: true } // {new: true} returns the modified document
-    );
+    const blog = await Blog.findById(id).lean();
 
     if (!blog) {
       return NextResponse.json(
@@ -36,7 +30,7 @@ export async function GET(request, { params }) {
       blog: blog,
     });
   } catch (error) {
-    console.error(`Error fetching blog with id: ${params.id}`, error);
+    console.error('Error fetching blog:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch blog', details: error.message },
       { status: 500 }
@@ -44,40 +38,91 @@ export async function GET(request, { params }) {
   }
 }
 
+// UPDATE blog by ID
 export async function PUT(request, { params }) {
   try {
     await dbConnect();
     
     const { id } = params;
-    const body = await request.json();
-    const numericId = parseInt(id, 10);
-
-    if (isNaN(numericId)) {
+    
+    if (!id) {
       return NextResponse.json(
-        { success: false, error: 'Invalid blog ID' },
+        { success: false, error: 'Blog ID is required' },
         { status: 400 }
       );
     }
+
+    const body = await request.json();
     
-    const updatedBlog = await Blog.findOneAndUpdate(
-      { id: numericId },
-      { $set: body },
-      { new: true, runValidators: true, lean: true } // runValidators ensures updates adhere to schema
+    // Remove any _id field from the body to prevent conflicts
+    const { _id, ...updateData } = body;
+
+    // Validate required fields
+    const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
+    const missingFields = requiredFields.filter(field => !updateData[field]);
+    
+    if (missingFields.length > 0) {
+      return NextResponse.json(
+        { success: false, error: `Missing required fields: ${missingFields.join(', ')}` },
+        { status: 400 }
+      );
+    }
+
+    // Ensure tags is an array
+    if (typeof updateData.tags === 'string') {
+      updateData.tags = updateData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    } else if (!updateData.tags || !Array.isArray(updateData.tags)) {
+      updateData.tags = [];
+    }
+
+    // Ensure views is a number
+    if (updateData.views) {
+      updateData.views = parseInt(updateData.views, 10) || 0;
+    } else {
+      updateData.views = 0;
+    }
+
+    // Ensure featured is a boolean
+    updateData.featured = Boolean(updateData.featured);
+
+    // Format publishDate properly
+    if (updateData.publishDate) {
+      const date = new Date(updateData.publishDate);
+      if (!isNaN(date.getTime())) {
+        updateData.publishDate = date.toISOString();
+      }
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      id,
+      updateData,
+      { 
+        new: true, // Return the updated document
+        runValidators: true // Run model validations
+      }
     );
-    
+
     if (!updatedBlog) {
       return NextResponse.json(
         { success: false, error: 'Blog not found' },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({
       success: true,
       blog: updatedBlog,
+      message: 'Blog updated successfully'
     });
   } catch (error) {
-    console.error(`Error updating blog with id: ${params.id}`, error);
+    console.error('Error updating blog:', error);
+    // Handle potential validation errors from Mongoose
+    if (error.name === 'ValidationError') {
+      return NextResponse.json(
+        { success: false, error: 'Validation Error', details: error.errors },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       { success: false, error: 'Failed to update blog', details: error.message },
       { status: 500 }
@@ -85,35 +130,36 @@ export async function PUT(request, { params }) {
   }
 }
 
+// DELETE blog by ID
 export async function DELETE(request, { params }) {
   try {
     await dbConnect();
     
     const { id } = params;
-    const numericId = parseInt(id, 10);
-
-    if (isNaN(numericId)) {
+    
+    if (!id) {
       return NextResponse.json(
-        { success: false, error: 'Invalid blog ID' },
+        { success: false, error: 'Blog ID is required' },
         { status: 400 }
       );
     }
-    
-    const deletedBlog = await Blog.findOneAndDelete({ id: numericId });
-    
+
+    const deletedBlog = await Blog.findByIdAndDelete(id);
+
     if (!deletedBlog) {
       return NextResponse.json(
         { success: false, error: 'Blog not found' },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({
       success: true,
       message: 'Blog deleted successfully',
+      blog: deletedBlog
     });
   } catch (error) {
-    console.error(`Error deleting blog with id: ${params.id}`, error);
+    console.error('Error deleting blog:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete blog', details: error.message },
       { status: 500 }

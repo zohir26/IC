@@ -3,111 +3,416 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, PieChart, Pie, Cell, AreaChart, Area
-} from 'recharts';
-import {
-  Home, Users, ShoppingCart, TrendingUp, Settings, Bell, Search,
-  Menu, X, ChevronDown, User, LogOut, Mail, Calendar, DollarSign,
-  Activity, Eye, Download, Filter, MoreVertical, Edit, Trash2,
-  Plus, ArrowUp, ArrowDown, Star, Heart, MessageSquare, Cpu,
-  Zap, BarChart3, Package, Layers, Shield, AlertTriangle
-} from 'lucide-react';
+import { Cpu, Shield } from 'lucide-react';
+import Swal from 'sweetalert2';
+import Sidebar from '@/Components/dashboard/Sidebar';
+import BlogForm from '@/Components/dashboard/BlogForm';
+import CategoryForm from '@/Components/dashboard/CategoryForm';
+import DashboardContent from '@/Components/dashboard/DashboardContent';
+import DataTable from '@/Components/dashboard/DataTable';
+import Header from '@/Components/dashboard/Header';
+import ManufacturerForm from '@/Components/dashboard/ManufacturerForm';
+import ProductForm from '@/Components/dashboard/ProductForm';
 
-// Sample Data for IC Business
-const salesData = [
-  { name: 'Jan', revenue: 45000, orders: 120, chips: 2400 },
-  { name: 'Feb', revenue: 52000, orders: 140, chips: 2800 },
-  { name: 'Mar', revenue: 48000, orders: 130, chips: 2600 },
-  { name: 'Apr', revenue: 61000, orders: 165, chips: 3300 },
-  { name: 'May', revenue: 55000, orders: 150, chips: 3000 },
-  { name: 'Jun', revenue: 67000, orders: 180, chips: 3600 },
-];
 
-const chipCategories = [
-  { name: 'Microprocessors', value: 400, color: '#8884d8', percentage: 35 },
-  { name: 'Memory Chips', value: 300, color: '#82ca9d', percentage: 26 },
-  { name: 'Power Management', value: 200, color: '#ffc658', percentage: 18 },
-  { name: 'RF/Wireless', value: 150, color: '#ff7300', percentage: 13 },
-  { name: 'Others', value: 100, color: '#8dd1e1', percentage: 8 },
-];
-
-const recentOrders = [
-  { 
-    id: 1, 
-    customer: 'TechCorp Industries', 
-    product: 'ARM Cortex-M4 MCU', 
-    quantity: 1000,
-    amount: '$12,500', 
-    status: 'Completed', 
-    date: '2024-01-15',
-    chipType: 'Microprocessor'
-  },
-  { 
-    id: 2, 
-    customer: 'IoT Solutions Ltd', 
-    product: 'ESP32-S3 WiFi Module', 
-    quantity: 500,
-    amount: '$3,750', 
-    status: 'Processing', 
-    date: '2024-01-14',
-    chipType: 'RF/Wireless'
-  },
-  { 
-    id: 3, 
-    customer: 'Automotive Systems', 
-    product: 'CAN Controller IC', 
-    quantity: 2000,
-    amount: '$8,000', 
-    status: 'Shipped', 
-    date: '2024-01-13',
-    chipType: 'Automotive'
-  },
-  { 
-    id: 4, 
-    customer: 'Mobile Tech Corp', 
-    product: 'LPDDR5 Memory', 
-    quantity: 300,
-    amount: '$15,600', 
-    status: 'Pending', 
-    date: '2024-01-12',
-    chipType: 'Memory'
-  },
-  { 
-    id: 5, 
-    customer: 'Power Electronics', 
-    product: 'DC-DC Converter IC', 
-    quantity: 800,
-    amount: '$4,200', 
-    status: 'Cancelled', 
-    date: '2024-01-11',
-    chipType: 'Power Management'
-  },
-];
 
 const ICDashboard = () => {
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+  // State for CRUD operations
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [manufacturers, setManufacturers] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [formData, setFormData] = useState({});
 
   // Admin email check
   const isAdmin = session?.user?.email === "tanvir@gmail.com";
 
-  // Redirect if not admin
+  // Navigation items
+  const navigation = [
+    { name: 'Dashboard', icon: 'Home', id: 'dashboard' },
+    { name: 'All Products', icon: 'Package', id: 'all-products' },
+    { name: 'All Categories', icon: 'Layers', id: 'all-categories' },
+    { name: 'All Manufacturers', icon: 'Building2', id: 'all-manufacturers' },
+    { name: 'All Blogs', icon: 'BookOpen', id: 'all-blogs' },
+    { name: 'Add Product', icon: 'Plus', id: 'add-product' },
+    { name: 'Add Category', icon: 'Plus', id: 'add-category' },
+    { name: 'Add Manufacturer', icon: 'Plus', id: 'add-manufacturer' },
+    { name: 'Add Blog', icon: 'Plus', id: 'add-blog' },
+    { name: 'Settings', icon: 'Settings', id: 'settings' },
+  ];
+
+  // Redirect if not admin or not authenticated
   useEffect(() => {
-    if (status === 'loading') return; // Still loading
+    if (status === 'loading') return;
+
     if (!session) {
-      signIn(); // Redirect to sign in
+      signIn();
       return;
     }
-    if (!isAdmin) {
-      // Redirect non-admin users
+    
+    if (session && !isAdmin) {
       window.location.href = '/unauthorized';
       return;
     }
   }, [session, status, isAdmin]);
+
+  // Data fetching
+  useEffect(() => {
+    if (isAdmin && status === 'authenticated' && !showForm) {
+      fetchData();
+    }
+  }, [activeTab, isAdmin, status, showForm]);
+
+  const fetchData = async () => {
+    if (showForm) return;
+    
+    setLoading(true);
+    try {
+      let res;
+      let data;
+      switch (activeTab) {
+        case 'all-products':
+          res = await fetch('/api/products');
+          if (!res.ok) {
+            console.error('Failed to fetch products:', res.status, res.statusText);
+            setProducts([]);
+            Swal.fire('Error', `Failed to load products: ${res.statusText}`, 'error');
+            return;
+          }
+          data = await res.json();
+          
+          let extractedProducts = [];
+          if (data.success && Array.isArray(data.brands)) {
+            data.brands.forEach(brand => {
+              if (brand.products && Array.isArray(brand.products)) {
+                brand.products.forEach(product => {
+                  extractedProducts.push({
+                    ...product,
+                    brandName: brand.name,
+                    brandId: brand.brandId
+                  });
+                });
+              }
+            });
+          } else if (data.success && Array.isArray(data.products)) {
+            extractedProducts = data.products;
+          } else if (Array.isArray(data)) {
+            extractedProducts = data;
+          }
+          
+          setProducts(extractedProducts);
+          break;
+          
+        case 'all-categories':
+          res = await fetch('/api/categories');
+          if (!res.ok) {
+            console.error('Failed to fetch categories:', res.status, res.statusText);
+            setCategories([]);
+            Swal.fire('Error', `Failed to load categories: ${res.statusText}`, 'error');
+            return;
+          }
+          data = await res.json();
+          
+          let extractedCategories = [];
+          if (data.success && Array.isArray(data.data)) {
+            extractedCategories = data.data;
+          } else if (data.success && Array.isArray(data.categories)) {
+            extractedCategories = data.categories;
+          } else if (Array.isArray(data)) {
+            extractedCategories = data;
+          }
+          
+          setCategories(extractedCategories);
+          break;
+          
+        case 'all-manufacturers':
+          res = await fetch('/api/brands');
+          if (!res.ok) {
+            console.error('Failed to fetch manufacturers (brands):', res.status, res.statusText);
+            setManufacturers([]);
+            Swal.fire('Error', `Failed to load manufacturers: ${res.statusText}`, 'error');
+            return;
+          }
+          data = await res.json();
+          
+          let extractedBrands = [];
+          if (data.success && Array.isArray(data.brands)) {
+            extractedBrands = data.brands;
+          } else if (data.success && Array.isArray(data.data)) {
+            extractedBrands = data.data;
+          } else if (Array.isArray(data)) {
+            extractedBrands = data;
+          }
+          
+          setManufacturers(extractedBrands);
+          break;
+          
+        case 'all-blogs':
+          res = await fetch('/api/blogs');
+          if (!res.ok) {
+            console.error('Failed to fetch blogs:', res.status, res.statusText);
+            setBlogs([]);
+            Swal.fire('Error', `Failed to load blogs: ${res.statusText}`, 'error');
+            return;
+          }
+          data = await res.json();
+          
+          let extractedBlogs = [];
+          if (data.success && Array.isArray(data.blogs)) {
+            extractedBlogs = data.blogs;
+          } else if (data.success && Array.isArray(data.data)) {
+            extractedBlogs = data.data;
+          } else if (Array.isArray(data)) {
+            extractedBlogs = data;
+          }
+          
+          setBlogs(extractedBlogs);
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error(`Error in fetchData for ${activeTab}:`, error);
+      Swal.fire('Error', `An unexpected error occurred while fetching data for ${activeTab}.`, 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle delete
+  const handleDelete = async (id, type) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: `You won't be able to revert this ${type} deletion!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
+      setLoading(true);
+      try {
+        let endpoint = '';
+        switch (type) {
+          case 'product':
+            endpoint = `/api/products/${id}`;
+            break;
+          case 'category':
+            endpoint = `/api/categories/${id}`;
+            break;
+          case 'manufacturer':
+            endpoint = `/api/brands/${id}`;
+            break;
+          case 'blog':
+            endpoint = `/api/blogs/${id}`;
+            break;
+          default:
+            Swal.fire('Error', 'Invalid type for deletion.', 'error');
+            setLoading(false);
+            return;
+        }
+
+        const response = await fetch(endpoint, {
+          method: 'DELETE',
+        });
+
+        const result = await response.json();
+
+        if (response.ok && (result.success === true || result.status === 'success')) {
+          Swal.fire('Deleted!', `${type} has been deleted.`, 'success');
+          fetchData();
+        } else {
+          Swal.fire('Error', result.message || 'Failed to delete', 'error');
+        }
+      } catch (error) {
+        console.error('Error during deletion:', error);
+        Swal.fire('Error', 'Something went wrong during deletion.', 'error');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  // Handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (loading) return;
+    
+    setLoading(true);
+
+    try {
+      let endpoint = '';
+      let method = editingItem ? 'PUT' : 'POST';
+      
+      const getId = (item) => {
+        if (!item) return null; // Add null check
+        return item._id || item.id || item.productId || item.brandId || null;
+      };
+      
+      const itemId = getId(editingItem);
+
+      switch (activeTab) {
+        case 'add-product':
+        case 'all-products':
+          endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
+          break;
+        case 'add-category':
+        case 'all-categories':
+          endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
+          break;
+        case 'add-manufacturer':
+        case 'all-manufacturers':
+          endpoint = editingItem && itemId ? `/api/brands/${itemId}` : '/api/brands';
+          break;
+        case 'add-blog':
+        case 'all-blogs':
+          endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
+          break;
+        default:
+          throw new Error('Invalid tab for form submission.');
+      }
+
+      console.log('API Call Details:', {
+        method,
+        endpoint,
+        editingItem: !!editingItem,
+        itemId,
+        activeTab
+      });
+
+      let submissionData = { ...formData };
+      
+      // For blog posts, ensure proper data formatting
+      if (activeTab === 'add-blog' || activeTab === 'all-blogs') {
+        // Remove MongoDB-generated fields that shouldn't be in the request
+        const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
+        submissionData = cleanData;
+        
+        if (formData.tagsString) {
+          submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+        } else if (typeof submissionData.tags === 'string') {
+          submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+        } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
+          submissionData.tags = [];
+        }
+        
+        submissionData.views = parseInt(submissionData.views, 10) || 0;
+        submissionData.featured = Boolean(submissionData.featured);
+        
+        const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
+        const missingFields = requiredFields.filter(field => {
+          const value = submissionData[field];
+          return !value || value.toString().trim().length === 0;
+        });
+        
+        if (missingFields.length > 0) {
+          throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+        }
+        
+        if (submissionData.publishDate) {
+          const date = new Date(submissionData.publishDate);
+          if (!isNaN(date.getTime())) {
+            submissionData.publishDate = date.toISOString();
+          }
+        }
+
+        console.log('Blog submission data:', submissionData);
+      }
+
+      const response = await fetch(endpoint, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submissionData),
+      });
+
+      console.log('API Response status:', response.status);
+
+      let result;
+      try {
+        result = await response.json();
+        console.log('API Response data:', result);
+      } catch (parseError) {
+        console.error('Failed to parse response as JSON:', parseError);
+        throw new Error('Invalid response format from server');
+      }
+
+      const isSuccess = response.ok && (
+        result.success === true || 
+        result.status === 'success' || 
+        response.status === 200 || 
+        response.status === 201
+      );
+      
+      if (isSuccess) {
+        console.log('Form submission successful');
+        await Swal.fire('Success', result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`, 'success');
+        setShowForm(false);
+        setEditingItem(null);
+        setFormData({});
+        fetchData();
+      } else {
+        console.error('Form submission failed:', result);
+        await Swal.fire('Error', result.message || result.error || 'Operation failed', 'error');
+      }
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      await Swal.fire('Error', error.message || 'Something went wrong during submission.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle edit
+  const handleEdit = (item) => {
+    setEditingItem(item);
+    
+    let editData = { ...item };
+    
+    if (activeTab === 'all-blogs' || activeTab === 'add-blog') {
+      if (editData.tags && Array.isArray(editData.tags)) {
+        editData.tagsString = editData.tags.join(', ');
+      }
+      
+      if (editData.publishDate) {
+        const date = new Date(editData.publishDate);
+        if (!isNaN(date.getTime())) {
+          editData.publishDate = date.toISOString().split('T')[0];
+        }
+      }
+      
+      editData.views = parseInt(editData.views, 10) || 0;
+      editData.featured = Boolean(editData.featured);
+    }
+    
+    setFormData(editData);
+    setShowForm(true);
+  };
+
+  // Tab change handler
+  const handleTabChange = (tabId) => {
+    console.log('Tab changing to:', tabId);
+    setActiveTab(tabId);
+    setShowForm(false);
+    setEditingItem(null);
+    setFormData({});
+    
+    // If switching to an "add" tab, show the form immediately
+    if (['add-product', 'add-category', 'add-manufacturer', 'add-blog'].includes(tabId)) {
+      console.log('Switching to add mode for:', tabId);
+      setShowForm(true);
+    }
+  };
 
   // Loading state
   if (status === 'loading') {
@@ -164,478 +469,252 @@ const ICDashboard = () => {
     );
   }
 
-  // Navigation items for IC business
-  const navigation = [
-    { name: 'Dashboard', icon: Home, id: 'dashboard' },
-    { name: 'Analytics', icon: BarChart3, id: 'analytics' },
-    { name: 'Chip Inventory', icon: Cpu, id: 'inventory' },
-    { name: 'Orders', icon: Package, id: 'orders' },
-    { name: 'Customers', icon: Users, id: 'customers' },
-    { name: 'Quality Control', icon: Shield, id: 'quality' },
-    { name: 'Settings', icon: Settings, id: 'settings' },
-  ];
-
-  // Stats for IC business
-  const stats = [
-    {
-      title: 'Total Revenue',
-      value: '$328,450',
-      change: '+22.5%',
-      trend: 'up',
-      icon: DollarSign,
-      color: 'bg-emerald-500',
-      description: 'Monthly revenue from IC sales'
-    },
-    {
-      title: 'Chips Manufactured',
-      value: '18,250',
-      change: '+15.3%',
-      trend: 'up',
-      icon: Cpu,
-      color: 'bg-blue-500',
-      description: 'Total chips produced this month'
-    },
-    {
-      title: 'Active Orders',
-      value: '1,847',
-      change: '+8.2%',
-      trend: 'up',
-      icon: Package,
-      color: 'bg-purple-500',
-      description: 'Orders in processing/shipping'
-    },
-    {
-      title: 'Quality Score',
-      value: '99.2%',
-      change: '+0.8%',
-      trend: 'up',
-      icon: Shield,
-      color: 'bg-orange-500',
-      description: 'Average quality control rating'
-    },
-  ];
-
-  // Sidebar Component
-  const Sidebar = () => (
-    <AnimatePresence>
-      {sidebarOpen && (
-        <motion.div
-          initial={{ x: -250 }}
-          animate={{ x: 0 }}
-          exit={{ x: -250 }}
-          transition={{ duration: 0.3 }}
-          className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl lg:static lg:inset-0 border-r border-gray-200"
-        >
-          <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-            <div className="flex items-center">
-              <Cpu className="h-8 w-8 text-blue-600 mr-2" />
-              <h1 className="text-xl font-bold text-gray-800">IC Dashboard</h1>
-            </div>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-2 rounded-md hover:bg-gray-100"
-            >
-              <X size={20} />
-            </button>
-          </div>
-          
-          <nav className="mt-8">
-            {navigation.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center px-6 py-3 text-left transition-colors ${
-                  activeTab === item.id
-                    ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                }`}
-              >
-                <item.icon size={20} className="mr-3" />
-                {item.name}
-              </button>
-            ))}
-          </nav>
-
-          {/* Admin User Info */}
-          <div className="absolute bottom-0 w-full p-6 border-t border-gray-200">
-            <div className="flex items-center">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                {session.user.name?.charAt(0) || 'A'}
-              </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-700 truncate">{session.user.name}</p>
-                <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
-                <p className="text-xs text-blue-600 font-medium">Admin</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-
-  // Header Component
-  const Header = () => (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="flex items-center justify-between h-16 px-6">
-        <div className="flex items-center">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded-md hover:bg-gray-100 lg:hidden"
-          >
-            <Menu size={20} />
-          </button>
-          
-          <div className="ml-4 flex-1 max-w-md">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                placeholder="Search chips, orders, customers..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <button className="p-2 text-gray-400 hover:text-gray-600 relative">
-            <Bell size={20} />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-          </button>
-          
-          <div className="relative">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100"
-            >
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                {session.user.name?.charAt(0) || 'A'}
-              </div>
-              <span className="text-sm font-medium text-gray-700 hidden sm:block">
-                {session.user.name}
-              </span>
-              <ChevronDown size={16} />
-            </button>
-            
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white text-sm rounded-lg shadow-xl z-50 p-4 space-y-2">
-                <p className="text-gray-800 font-semibold">{session.user.name}</p>
-                <p className="text-gray-600">{session.user.email}</p>
-                <p className="text-blue-600 font-medium">Administrator</p>
-                <hr className="my-2" />
-                <Link href="/profile" className="block text-gray-700 hover:text-blue-600 hover:underline py-1">
-                  <User size={14} className="inline mr-2" />
-                  Profile Settings
-                </Link>
-                <Link href="/dashboard" className="block text-blue-600 hover:underline py-1">
-                  <Home size={14} className="inline mr-2" />
-                  Dashboard Home
-                </Link>
-                <hr className="my-2" />
-                <button
-                  onClick={() => signOut()}
-                  className="w-full text-left text-red-600 hover:text-red-800 py-1"
-                >
-                  <LogOut size={14} className="inline mr-2" />
-                  Sign Out
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-
-  // Stats Card Component
-  const StatsCard = ({ stat }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
-          <div className="flex items-center mt-2">
-            {stat.trend === 'up' ? (
-              <ArrowUp className="text-emerald-500" size={16} />
-            ) : (
-              <ArrowDown className="text-red-500" size={16} />
-            )}
-            <span className={`text-sm ml-1 font-medium ${
-              stat.trend === 'up' ? 'text-emerald-500' : 'text-red-500'
-            }`}>
-              {stat.change}
-            </span>
-            <span className="text-sm text-gray-500 ml-2">vs last month</span>
-          </div>
-          <p className="text-xs text-gray-500 mt-1">{stat.description}</p>
-        </div>
-        <div className={`p-3 rounded-full ${stat.color}`}>
-          <stat.icon className="text-white" size={24} />
-        </div>
-      </div>
-    </motion.div>
-  );
-
-  // Dashboard Content
-  const DashboardContent = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">IC Manufacturing Overview</h1>
-        <div className="text-sm text-gray-500">
-          Last updated: {new Date().toLocaleDateString()}
-        </div>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <StatsCard key={index} stat={stat} />
-        ))}
-      </div>
-
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue & Production Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Revenue & Production</h3>
-            <div className="flex space-x-2 text-xs">
-              <div className="flex items-center">
-                <div className="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
-                <span>Revenue</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 bg-emerald-500 rounded-full mr-1"></div>
-                <span>Chips Produced</span>
-              </div>
-            </div>
-          </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={salesData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="revenue" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.1} />
-              <Area type="monotone" dataKey="chips" stroke="#10B981" fill="#10B981" fillOpacity={0.1} />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Chip Categories Distribution */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Chip Categories</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={chipCategories}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={120}
-                dataKey="value"
-              >
-                {chipCategories.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="mt-4 space-y-2">
-            {chipCategories.map((item, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className={`w-3 h-3 rounded-full mr-2`} style={{ backgroundColor: item.color }}></div>
-                  <span className="text-sm text-gray-600">{item.name}</span>
-                </div>
-                <span className="text-sm font-medium text-gray-900">{item.percentage}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Orders Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">Recent IC Orders</h3>
-            <div className="flex space-x-2">
-              <button className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
-                <Filter size={14} className="inline mr-1" />
-                Filter
-              </button>
-              <button className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
-                <Download size={14} className="inline mr-1" />
-                Export
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {recentOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <Cpu size={16} className="text-blue-600" />
-                      </div>
-                      <div className="ml-3">
-                        <div className="text-sm font-medium text-gray-900">{order.customer}</div>
-                        <div className="text-xs text-gray-500">{order.chipType}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{order.product}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {order.quantity.toLocaleString()} units
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.amount}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                      order.status === 'Completed' ? 'bg-emerald-100 text-emerald-800' :
-                      order.status === 'Processing' ? 'bg-blue-100 text-blue-800' :
-                      order.status === 'Shipped' ? 'bg-purple-100 text-purple-800' :
-                      order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.date}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900">
-                        <Eye size={16} />
-                      </button>
-                      <button className="text-emerald-600 hover:text-emerald-900">
-                        <Edit size={16} />
-                      </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Other content components remain similar but with IC-specific data...
-  const AnalyticsContent = () => (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">IC Manufacturing Analytics</h1>
-      
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Production Trends</h3>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={salesData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="chips" stroke="#3B82F6" strokeWidth={3} name="Chips Produced" />
-            <Line type="monotone" dataKey="orders" stroke="#10B981" strokeWidth={3} name="Orders" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h4 className="text-md font-semibold text-gray-900 mb-2">Production Efficiency</h4>
-          <p className="text-2xl font-bold text-blue-600">94.7%</p>
-          <p className="text-sm text-gray-500">+3.2% from last month</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h4 className="text-md font-semibold text-gray-900 mb-2">Defect Rate</h4>
-          <p className="text-2xl font-bold text-red-600">0.8%</p>
-          <p className="text-sm text-gray-500">-0.3% from last month</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h4 className="text-md font-semibold text-gray-900 mb-2">Time to Market</h4>
-          <p className="text-2xl font-bold text-emerald-600">14.2 days</p>
-          <p className="text-sm text-gray-500">-1.8 days from last month</p>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Render Content based on active tab
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return <DashboardContent />;
-      case 'analytics':
-        return <AnalyticsContent />;
-      case 'inventory':
-        return <div className="text-center py-20"><Cpu className="mx-auto h-16 w-16 text-gray-400 mb-4" /><p className="text-gray-500">Chip Inventory Management - Coming Soon</p></div>;
-      case 'orders':
-        return <div className="text-center py-20"><Package className="mx-auto h-16 w-16 text-gray-400 mb-4" /><p className="text-gray-500">Order Management - Coming Soon</p></div>;
-      case 'customers':
-        return <div className="text-center py-20"><Users className="mx-auto h-16 w-16 text-gray-400 mb-4" /><p className="text-gray-500">Customer Management - Coming Soon</p></div>;
-      case 'quality':
-        return <div className="text-center py-20"><Shield className="mx-auto h-16 w-16 text-gray-400 mb-4" /><p className="text-gray-500">Quality Control - Coming Soon</p></div>;
-      case 'settings':
-        return <div className="text-center py-20"><Settings className="mx-auto h-16 w-16 text-gray-400 mb-4" /><p className="text-gray-500">Settings - Coming Soon</p></div>;
-      default:
-        return <DashboardContent />;
-    }
-  };
-
+  // Main Render
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <Sidebar />
-      
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+    <div className="flex h-screen bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        navigation={navigation}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        session={session}
+      />
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        
-        {/* Page Content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
-          <div className="container mx-auto px-6 py-8">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderContent()}
-            </motion.div>
+        <Header 
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          dropdownOpen={dropdownOpen}
+          setDropdownOpen={setDropdownOpen}
+          session={session}
+          signOut={signOut}
+        />
+
+        <main className="flex-1 overflow-hidden">
+          <div className="h-full overflow-y-auto p-6">
+            <AnimatePresence mode="wait">
+            {activeTab === 'dashboard' && (
+              <motion.div
+                key="dashboard"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <DashboardContent />
+              </motion.div>
+            )}
+
+            {(activeTab === 'all-products' || activeTab === 'add-product') && (
+              <motion.div
+                key="products-crud"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">Product Management</h1>
+                {showForm || activeTab === 'add-product' ? (
+                  <ProductForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleSubmit}
+                    loading={loading}
+                    editingItem={editingItem}
+                    onCancel={() => {
+                      setShowForm(false);
+                      setEditingItem(null);
+                      setFormData({});
+                    }}
+                  />
+                ) : (
+                  <DataTable
+                    data={products}
+                    columns={[
+                      { key: 'name', label: 'Product Name' },
+                      { key: 'type', label: 'Type' },
+                      { key: 'category', label: 'Category' },
+                      { key: 'brandName', label: 'Brand', render: (val) => val || 'N/A' },
+                      { key: 'price', label: 'Price', render: (price) => `${price?.toFixed(2) || '0.00'}` },
+                      { key: 'availability', label: 'Availability', render: (val) => (
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          val === 'In Stock' ? 'bg-green-100 text-green-800' :
+                          val === 'Out of Stock' ? 'bg-red-100 text-red-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {val || 'Unknown'}
+                        </span>
+                      )},
+                    ]}
+                    type="product"
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onAdd={() => setShowForm(true)}
+                  />
+                )}
+              </motion.div>
+            )}
+
+            {(activeTab === 'all-categories' || activeTab === 'add-category') && (
+              <motion.div
+                key="categories-crud"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">Category Management</h1>
+                {showForm || activeTab === 'add-category' ? (
+                  <CategoryForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleSubmit}
+                    loading={loading}
+                    editingItem={editingItem}
+                    onCancel={() => {
+                      setShowForm(false);
+                      setEditingItem(null);
+                      setFormData({});
+                    }}
+                  />
+                ) : (
+                  <DataTable
+                    data={categories}
+                    columns={[
+                      { key: 'id', label: 'ID' },
+                      { key: 'name', label: 'Category Name' },
+                      { key: 'icon', label: 'Icon', render: (icon) => icon ? (
+                        <img src={icon} alt="Category Icon" className="w-8 h-8 object-contain" />
+                      ) : 'N/A' },
+                      { key: 'link', label: 'Link', render: (link) => link || 'N/A' },
+                    ]}
+                    type="category"
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onAdd={() => setShowForm(true)}
+                  />
+                )}
+              </motion.div>
+            )}
+
+            {(activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') && (
+              <motion.div
+                key="manufacturers-crud"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">Manufacturer Management</h1>
+                {showForm || activeTab === 'add-manufacturer' ? (
+                  <ManufacturerForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleSubmit}
+                    loading={loading}
+                    editingItem={editingItem}
+                    onCancel={() => {
+                      setShowForm(false);
+                      setEditingItem(null);
+                      setFormData({});
+                    }}
+                  />
+                ) : (
+                  <DataTable
+                    data={manufacturers}
+                    columns={[
+                      { key: 'name', label: 'Manufacturer Name' },
+                      { key: 'logo', label: 'Logo', render: (logo) => logo ? (
+                        <img src={logo} alt="Manufacturer Logo" className="w-8 h-8 object-contain" />
+                      ) : 'N/A' },
+                      { key: 'website', label: 'Website', render: (website) => 
+                        website ? (
+                          <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                            Visit Site
+                          </a>
+                        ) : 'N/A'
+                      },
+                      { key: 'specialties', label: 'Specialties', render: (specialties) => 
+                        specialties && Array.isArray(specialties) ? specialties.join(', ') : 'N/A'
+                      },
+                    ]}
+                    type="manufacturer"
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onAdd={() => setShowForm(true)}
+                  />
+                )}
+              </motion.div>
+            )}
+
+            {(activeTab === 'all-blogs' || activeTab === 'add-blog') && (
+              <motion.div
+                key="blogs-crud"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">Blog Post Management</h1>
+                {showForm || activeTab === 'add-blog' ? (
+                  <BlogForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleSubmit}
+                    loading={loading}
+                    editingItem={editingItem}
+                    onCancel={() => {
+                      setShowForm(false);
+                      setEditingItem(null);
+                      setFormData({});
+                    }}
+                  />
+                ) : (
+                  <DataTable
+                    data={blogs}
+                    columns={[
+                      { key: 'id', label: 'ID' },
+                      { key: 'title', label: 'Title', render: (title) => (
+                        <div className="max-w-xs truncate" title={title}>{title}</div>
+                      )},
+                      { key: 'author', label: 'Author', render: (val) => val || 'N/A' },
+                      { key: 'category', label: 'Category' },
+                      { key: 'publishDate', label: 'Publish Date', render: (date) => 
+                        date ? new Date(date).toLocaleDateString() : 'N/A'
+                      },
+                      { key: 'views', label: 'Views', render: (views) => views?.toLocaleString() || '0' },
+                      { key: 'featured', label: 'Featured', render: (featured) => (
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          featured ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {featured ? 'Featured' : 'Regular'}
+                        </span>
+                      )},
+                    ]}
+                    type="blog"
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onAdd={() => setShowForm(true)}
+                  />
+                )}
+              </motion.div>
+            )}
+
+            {activeTab === 'settings' && (
+              <motion.div
+                key="settings"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+                className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+              >
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+                <p className="text-gray-700">Manage your dashboard settings here.</p>
+              </motion.div>
+            )}
+                      </AnimatePresence>
           </div>
         </main>
       </div>
