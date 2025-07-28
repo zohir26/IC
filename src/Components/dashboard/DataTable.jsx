@@ -3,7 +3,7 @@ import { Plus, Filter, Download, Package, Edit, Trash2 } from 'lucide-react';
 
 const DataTable = ({ data = [], columns, type, onEdit, onDelete, onAdd }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-20">
       <div className="px-6 py-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-gray-900 capitalize">{type}s</h3>

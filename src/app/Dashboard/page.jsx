@@ -14,8 +14,6 @@ import Header from '@/Components/dashboard/Header';
 import ManufacturerForm from '@/Components/dashboard/ManufacturerForm';
 import ProductForm from '@/Components/dashboard/ProductForm';
 
-
-
 const ICDashboard = () => {
   const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -211,7 +209,12 @@ const ICDashboard = () => {
             endpoint = `/api/categories/${id}`;
             break;
           case 'manufacturer':
-            endpoint = `/api/brands/${id}`;
+            // Find the manufacturer item to get the correct identifier
+            const manufacturerItem = manufacturers.find(m => 
+              m._id === id || m.brandId === id || m.id === id
+            );
+            const brandIdentifier = manufacturerItem?._id || manufacturerItem?.brandId || manufacturerItem?.name?.replace(/\s+/g, '-') || id;
+            endpoint = `/api/brands/${brandIdentifier}`;
             break;
           case 'blog':
             endpoint = `/api/blogs/${id}`;
@@ -244,135 +247,509 @@ const ICDashboard = () => {
   };
 
   // Handle submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (loading) return;
-    
-    setLoading(true);
+const handleSubmit = async (e, cleanedData = null) => {
+  e.preventDefault();
+  
+  if (loading) return;
+  
+  setLoading(true);
 
-    try {
-      let endpoint = '';
-      let method = editingItem ? 'PUT' : 'POST';
-      
-      const getId = (item) => {
-        if (!item) return null; // Add null check
-        return item._id || item.id || item.productId || item.brandId || null;
-      };
-      
-      const itemId = getId(editingItem);
-
-      switch (activeTab) {
-        case 'add-product':
-        case 'all-products':
-          endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
-          break;
-        case 'add-category':
-        case 'all-categories':
-          endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
-          break;
-        case 'add-manufacturer':
-        case 'all-manufacturers':
-          endpoint = editingItem && itemId ? `/api/brands/${itemId}` : '/api/brands';
-          break;
-        case 'add-blog':
-        case 'all-blogs':
-          endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
-          break;
-        default:
-          throw new Error('Invalid tab for form submission.');
+  try {
+    let endpoint = '';
+    let method = editingItem ? 'PUT' : 'POST';
+    
+    const getId = (item) => {
+      if (!item) return null;
+      // For manufacturers, prioritize _id, then brandId, then other IDs
+      if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
+        return item._id || item.brandId || item.id || null;
       }
+      return item._id || item.id || item.productId || item.brandId || null;
+    };
+    const handleSubmit = async (e, cleanedData = null) => {
+  e.preventDefault();
+  
+  if (loading) return;
+  
+  setLoading(true);
 
-      console.log('API Call Details:', {
-        method,
-        endpoint,
-        editingItem: !!editingItem,
-        itemId,
-        activeTab
-      });
+  try {
+    let endpoint = '';
+    let method = editingItem ? 'PUT' : 'POST';
+    
+    const getId = (item) => {
+      if (!item) return null;
+      // For manufacturers, prioritize _id, then brandId, then other IDs
+      if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
+        return item._id || item.brandId || item.id || null;
+      }
+      return item._id || item.id || item.productId || item.brandId || null;
+    };
+    
+    const itemId = getId(editingItem);
 
-      let submissionData = { ...formData };
-      
-      // For blog posts, ensure proper data formatting
-      if (activeTab === 'add-blog' || activeTab === 'all-blogs') {
-        // Remove MongoDB-generated fields that shouldn't be in the request
-        const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
-        submissionData = cleanData;
-        
-        if (formData.tagsString) {
-          submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
-        } else if (typeof submissionData.tags === 'string') {
-          submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-        } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
-          submissionData.tags = [];
+    // Use cleanedData if provided (from enhanced form), otherwise use formData
+    let submissionData = cleanedData || { ...formData };
+
+    // Enhanced logging for debugging
+    console.log('=== FORM SUBMISSION DEBUG ===');
+    console.log('Active Tab:', activeTab);
+    console.log('Editing Item:', editingItem);
+    console.log('Item ID:', itemId);
+    console.log('Method:', method);
+    console.log('Original Form Data:', formData);
+    console.log('Submission Data:', submissionData);
+
+    switch (activeTab) {
+      case 'add-product':
+      case 'all-products':
+        endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
+        break;
+      case 'add-category':
+      case 'all-categories':
+        endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
+        break;
+      case 'add-manufacturer':
+      case 'all-manufacturers':
+        if (editingItem && itemId) {
+          // Use the brand identifier (could be _id, brandId, or name)
+          const brandIdentifier = editingItem._id || editingItem.brandId || editingItem.name?.replace(/\s+/g, '-');
+          endpoint = `/api/brands/${brandIdentifier}`;
+        } else {
+          endpoint = '/api/brands';
         }
         
-        submissionData.views = parseInt(submissionData.views, 10) || 0;
-        submissionData.featured = Boolean(submissionData.featured);
-        
-        const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
-        const missingFields = requiredFields.filter(field => {
-          const value = submissionData[field];
-          return !value || value.toString().trim().length === 0;
-        });
-        
-        if (missingFields.length > 0) {
-          throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+        // Enhanced data cleaning for manufacturers
+        if (!cleanedData) {
+          // Clean up specialties data for manufacturers
+          if (submissionData.specialties) {
+            submissionData.specialties = submissionData.specialties
+              .filter(spec => spec && typeof spec === 'string' && spec.trim())
+              .map(spec => spec.trim());
+          }
+          
+          // Clean up products if they exist
+          if (submissionData.products && Array.isArray(submissionData.products)) {
+            submissionData.products = submissionData.products
+              .filter(product => product.productId && product.name)
+              .map(product => ({
+                ...product,
+                price: Number(product.price) || 0,
+                stock: Number(product.stock) || 0,
+                specifications: product.specifications || {},
+                applications: Array.isArray(product.applications) ? product.applications : [],
+                relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts : [],
+                alternativeProducts: Array.isArray(product.alternativeProducts) ? product.alternativeProducts : []
+              }));
+          }
+          
+          // Remove MongoDB-generated fields for manufacturers
+          const { _id, createdAt, updatedAt, __v, ...cleanManufacturerData } = submissionData;
+          submissionData = cleanManufacturerData;
         }
+        break;
+      case 'add-blog':
+      case 'all-blogs':
+        endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
         
-        if (submissionData.publishDate) {
-          const date = new Date(submissionData.publishDate);
-          if (!isNaN(date.getTime())) {
-            submissionData.publishDate = date.toISOString();
+        if (!cleanedData) {
+          // Remove MongoDB-generated fields that shouldn't be in the request
+          const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
+          submissionData = cleanData;
+          
+          if (formData.tagsString) {
+            submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+          } else if (typeof submissionData.tags === 'string') {
+            submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+          } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
+            submissionData.tags = [];
+          }
+          
+          submissionData.views = parseInt(submissionData.views, 10) || 0;
+          submissionData.featured = Boolean(submissionData.featured);
+          
+          const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
+          const missingFields = requiredFields.filter(field => {
+            const value = submissionData[field];
+            return !value || value.toString().trim().length === 0;
+          });
+          
+          if (missingFields.length > 0) {
+            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+          }
+          
+          if (submissionData.publishDate) {
+            const date = new Date(submissionData.publishDate);
+            if (!isNaN(date.getTime())) {
+              submissionData.publishDate = date.toISOString();
+            }
           }
         }
-
-        console.log('Blog submission data:', submissionData);
-      }
-
-      const response = await fetch(endpoint, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(submissionData),
-      });
-
-      console.log('API Response status:', response.status);
-
-      let result;
-      try {
-        result = await response.json();
-        console.log('API Response data:', result);
-      } catch (parseError) {
-        console.error('Failed to parse response as JSON:', parseError);
-        throw new Error('Invalid response format from server');
-      }
-
-      const isSuccess = response.ok && (
-        result.success === true || 
-        result.status === 'success' || 
-        response.status === 200 || 
-        response.status === 201
-      );
-      
-      if (isSuccess) {
-        console.log('Form submission successful');
-        await Swal.fire('Success', result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`, 'success');
-        setShowForm(false);
-        setEditingItem(null);
-        setFormData({});
-        fetchData();
-      } else {
-        console.error('Form submission failed:', result);
-        await Swal.fire('Error', result.message || result.error || 'Operation failed', 'error');
-      }
-    } catch (error) {
-      console.error('Error during form submission:', error);
-      await Swal.fire('Error', error.message || 'Something went wrong during submission.', 'error');
-    } finally {
-      setLoading(false);
+        break;
+      default:
+        throw new Error('Invalid tab for form submission.');
     }
-  };
 
+    console.log('Final API Call Details:', {
+      method,
+      endpoint,
+      editingItem: !!editingItem,
+      itemId,
+      activeTab,
+      submissionData: submissionData
+    });
+    
+    // Validate manufacturer data
+    if (activeTab === 'add-manufacturer' || activeTab === 'all-manufacturers') {
+      const { name, logo } = submissionData;
+      if (!name || !logo) {
+        throw new Error('Name and logo are required for manufacturers');
+      }
+      
+      // Additional validation
+      if (!name.trim()) {
+        throw new Error('Manufacturer name cannot be empty');
+      }
+      
+      try {
+        new URL(logo);
+      } catch {
+        throw new Error('Logo must be a valid URL');
+      }
+      
+      console.log('Manufacturer validation passed');
+      console.log('Final manufacturer data:', submissionData);
+    }
+
+    // Make the API request
+    console.log('Making API request to:', endpoint);
+    console.log('Request method:', method);
+    console.log('Request body:', JSON.stringify(submissionData, null, 2));
+
+    const response = await fetch(endpoint, {
+      method,
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(submissionData),
+    });
+
+    console.log('API Response status:', response.status);
+    console.log('API Response ok:', response.ok);
+    console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
+
+    // Log the raw response text first
+    const responseText = await response.text();
+    console.log('Raw API Response length:', responseText.length);
+    console.log('Raw API Response:', responseText);
+
+    let result;
+    try {
+      // Only try to parse if we have content
+      if (responseText && responseText.trim()) {
+        result = JSON.parse(responseText);
+        console.log('Parsed API Response data:', result);
+      } else {
+        console.warn('Empty response from server');
+        result = { message: 'Empty response from server' };
+      }
+    } catch (parseError) {
+      console.error('Failed to parse response as JSON:', parseError);
+      console.error('Response text was:', responseText);
+      throw new Error(`Invalid response format from server. Status: ${response.status}, Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
+    }
+
+    // Enhanced success detection
+    const isSuccess = response.ok && (
+      result.success === true || 
+      result.status === 'success' || 
+      response.status === 200 || 
+      response.status === 201 ||
+      (response.status >= 200 && response.status < 300)
+    );
+    
+    console.log('Is success:', isSuccess);
+    
+    if (isSuccess) {
+      console.log('Form submission successful');
+      const successMessage = result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`;
+      
+      // Use alert if Swal is not available
+      if (typeof Swal !== 'undefined') {
+        await Swal.fire('Success', successMessage, 'success');
+      } else {
+        alert('Success: ' + successMessage);
+      }
+      
+      setShowForm(false);
+      setEditingItem(null);
+      setFormData({});
+      
+      // Call fetchData if it exists
+      if (typeof fetchData === 'function') {
+        fetchData();
+      }
+    } else {
+      console.error('Form submission failed:', result);
+      const errorMessage = result.message || result.error || `Server returned status ${response.status}`;
+      
+      // Use alert if Swal is not available
+      if (typeof Swal !== 'undefined') {
+        await Swal.fire('Error', errorMessage, 'error');
+      } else {
+        alert('Error: ' + errorMessage);
+      }
+    }
+  } catch (error) {
+    console.error('Error during form submission:', error);
+    console.error('Error stack:', error.stack);
+    
+    const errorMessage = error.message || 'Something went wrong during submission.';
+    
+    // Use alert if Swal is not available
+    if (typeof Swal !== 'undefined') {
+      await Swal.fire('Error', errorMessage, 'error');
+    } else {
+      alert('Error: ' + errorMessage);
+    }
+  } finally {
+    setLoading(false);
+    console.log('=== END FORM SUBMISSION DEBUG ===');
+  }
+};
+    const itemId = getId(editingItem);
+
+    // Use cleanedData if provided (from enhanced form), otherwise use formData
+    let submissionData = cleanedData || { ...formData };
+
+    // Enhanced logging for debugging
+    console.log('=== FORM SUBMISSION DEBUG ===');
+    console.log('Active Tab:', activeTab);
+    console.log('Editing Item:', editingItem);
+    console.log('Item ID:', itemId);
+    console.log('Method:', method);
+    console.log('Original Form Data:', formData);
+    console.log('Submission Data:', submissionData);
+
+    switch (activeTab) {
+      case 'add-product':
+      case 'all-products':
+        endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
+        break;
+      case 'add-category':
+      case 'all-categories':
+        endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
+        break;
+      case 'add-manufacturer':
+      case 'all-manufacturers':
+        if (editingItem && itemId) {
+          // Use the brand identifier (could be _id, brandId, or name)
+          const brandIdentifier = editingItem._id || editingItem.brandId || editingItem.name?.replace(/\s+/g, '-');
+          endpoint = `/api/brands/${brandIdentifier}`;
+        } else {
+          endpoint = '/api/brands';
+        }
+        
+        // Enhanced data cleaning for manufacturers
+        if (!cleanedData) {
+          // Clean up specialties data for manufacturers
+          if (submissionData.specialties) {
+            submissionData.specialties = submissionData.specialties
+              .filter(spec => spec && typeof spec === 'string' && spec.trim())
+              .map(spec => spec.trim());
+          }
+          
+          // Clean up products if they exist
+          if (submissionData.products && Array.isArray(submissionData.products)) {
+            submissionData.products = submissionData.products
+              .filter(product => product.productId && product.name)
+              .map(product => ({
+                ...product,
+                price: Number(product.price) || 0,
+                stock: Number(product.stock) || 0,
+                specifications: product.specifications || {},
+                applications: Array.isArray(product.applications) ? product.applications : [],
+                relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts : [],
+                alternativeProducts: Array.isArray(product.alternativeProducts) ? product.alternativeProducts : []
+              }));
+          }
+          
+          // Remove MongoDB-generated fields for manufacturers
+          const { _id, createdAt, updatedAt, __v, ...cleanManufacturerData } = submissionData;
+          submissionData = cleanManufacturerData;
+        }
+        break;
+      case 'add-blog':
+      case 'all-blogs':
+        endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
+        
+        if (!cleanedData) {
+          // Remove MongoDB-generated fields that shouldn't be in the request
+          const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
+          submissionData = cleanData;
+          
+          if (formData.tagsString) {
+            submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+          } else if (typeof submissionData.tags === 'string') {
+            submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+          } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
+            submissionData.tags = [];
+          }
+          
+          submissionData.views = parseInt(submissionData.views, 10) || 0;
+          submissionData.featured = Boolean(submissionData.featured);
+          
+          const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
+          const missingFields = requiredFields.filter(field => {
+            const value = submissionData[field];
+            return !value || value.toString().trim().length === 0;
+          });
+          
+          if (missingFields.length > 0) {
+            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+          }
+          
+          if (submissionData.publishDate) {
+            const date = new Date(submissionData.publishDate);
+            if (!isNaN(date.getTime())) {
+              submissionData.publishDate = date.toISOString();
+            }
+          }
+        }
+        break;
+      default:
+        throw new Error('Invalid tab for form submission.');
+    }
+
+    console.log('Final API Call Details:', {
+      method,
+      endpoint,
+      editingItem: !!editingItem,
+      itemId,
+      activeTab,
+      submissionData: submissionData
+    });
+    
+    // Validate manufacturer data
+    if (activeTab === 'add-manufacturer' || activeTab === 'all-manufacturers') {
+      const { name, logo } = submissionData;
+      if (!name || !logo) {
+        throw new Error('Name and logo are required for manufacturers');
+      }
+      
+      // Additional validation
+      if (!name.trim()) {
+        throw new Error('Manufacturer name cannot be empty');
+      }
+      
+      try {
+        new URL(logo);
+      } catch {
+        throw new Error('Logo must be a valid URL');
+      }
+      
+      console.log('Manufacturer validation passed');
+      console.log('Final manufacturer data:', submissionData);
+    }
+
+    // Make the API request
+    console.log('Making API request to:', endpoint);
+    console.log('Request method:', method);
+    console.log('Request body:', JSON.stringify(submissionData, null, 2));
+
+    const response = await fetch(endpoint, {
+      method,
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(submissionData),
+    });
+
+    console.log('API Response status:', response.status);
+    console.log('API Response ok:', response.ok);
+    console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
+
+    // Log the raw response text first
+    const responseText = await response.text();
+    console.log('Raw API Response length:', responseText.length);
+    console.log('Raw API Response:', responseText);
+
+    let result;
+    try {
+      // Only try to parse if we have content
+      if (responseText && responseText.trim()) {
+        result = JSON.parse(responseText);
+        console.log('Parsed API Response data:', result);
+      } else {
+        console.warn('Empty response from server');
+        result = { message: 'Empty response from server' };
+      }
+    } catch (parseError) {
+      console.error('Failed to parse response as JSON:', parseError);
+      console.error('Response text was:', responseText);
+      throw new Error(`Invalid response format from server. Status: ${response.status}, Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
+    }
+
+    // Enhanced success detection
+    const isSuccess = response.ok && (
+      result.success === true || 
+      result.status === 'success' || 
+      response.status === 200 || 
+      response.status === 201 ||
+      (response.status >= 200 && response.status < 300)
+    );
+    
+    console.log('Is success:', isSuccess);
+    
+    if (isSuccess) {
+      console.log('Form submission successful');
+      const successMessage = result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`;
+      
+      // Use alert if Swal is not available
+      if (typeof Swal !== 'undefined') {
+        await Swal.fire('Success', successMessage, 'success');
+      } else {
+        alert('Success: ' + successMessage);
+      }
+      
+      setShowForm(false);
+      setEditingItem(null);
+      setFormData({});
+      
+      // Call fetchData if it exists
+      if (typeof fetchData === 'function') {
+        fetchData();
+      }
+    } else {
+      console.error('Form submission failed:', result);
+      const errorMessage = result.message || result.error || `Server returned status ${response.status}`;
+      
+      // Use alert if Swal is not available
+      if (typeof Swal !== 'undefined') {
+        await Swal.fire('Error', errorMessage, 'error');
+      } else {
+        alert('Error: ' + errorMessage);
+      }
+    }
+  } catch (error) {
+    console.error('Error during form submission:', error);
+    console.error('Error stack:', error.stack);
+    
+    const errorMessage = error.message || 'Something went wrong during submission.';
+    
+    // Use alert if Swal is not available
+    if (typeof Swal !== 'undefined') {
+      await Swal.fire('Error', errorMessage, 'error');
+    } else {
+      alert('Error: ' + errorMessage);
+    }
+  } finally {
+    setLoading(false);
+    console.log('=== END FORM SUBMISSION DEBUG ===');
+  }
+};
   // Handle edit
   const handleEdit = (item) => {
     setEditingItem(item);
@@ -393,6 +770,14 @@ const ICDashboard = () => {
       
       editData.views = parseInt(editData.views, 10) || 0;
       editData.featured = Boolean(editData.featured);
+    }
+    
+    // Handle manufacturers
+    if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
+      // Ensure specialties is an array
+      if (!editData.specialties || !Array.isArray(editData.specialties)) {
+        editData.specialties = [];
+      }
     }
     
     setFormData(editData);
@@ -624,6 +1009,7 @@ const ICDashboard = () => {
                   <DataTable
                     data={manufacturers}
                     columns={[
+                      { key: 'brandId', label: 'Brand ID' },
                       { key: 'name', label: 'Manufacturer Name' },
                       { key: 'logo', label: 'Logo', render: (logo) => logo ? (
                         <img src={logo} alt="Manufacturer Logo" className="w-8 h-8 object-contain" />
@@ -636,7 +1022,9 @@ const ICDashboard = () => {
                         ) : 'N/A'
                       },
                       { key: 'specialties', label: 'Specialties', render: (specialties) => 
-                        specialties && Array.isArray(specialties) ? specialties.join(', ') : 'N/A'
+                        specialties && Array.isArray(specialties) && specialties.length > 0 
+                          ? specialties.join(', ') 
+                          : 'N/A'
                       },
                     ]}
                     type="manufacturer"

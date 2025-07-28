@@ -3,9 +3,19 @@ import React, { useState, useEffect } from "react";
 import { FiChevronDown, FiMenu, FiX, FiSettings, FiExternalLink, FiLoader } from "react-icons/fi";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { api, slugify } from '@/lib/utils';
 import { useCategories } from '@/app/hooks/useCategories';
 import { ChevronRight } from "lucide-react";
+
+// Simple slugify function
+const slugify = (text) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-');
+};
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -35,12 +45,40 @@ export default function Navbar() {
     try {
       setBrandsLoading(true);
       setBrandsError(null);
-      const data = await api.get('/api/brands');
-      setBrands(data || []);
+      
+      const response = await fetch('/api/brands');
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch brands: ${response.status} ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log('Navbar API Response:', data); // Debug log
+      
+      // Handle different response structures
+      let brandsArray = [];
+      
+      if (data.success && Array.isArray(data.brands)) {
+        // Response format: { success: true, brands: [...] }
+        brandsArray = data.brands;
+      } else if (Array.isArray(data)) {
+        // Response format: [...]
+        brandsArray = data;
+      } else if (data.brands && Array.isArray(data.brands)) {
+        // Response format: { brands: [...] }
+        brandsArray = data.brands;
+      } else {
+        console.error('Unexpected API response structure:', data);
+        throw new Error('Invalid response format from server');
+      }
+      
+      setBrands(brandsArray);
+      console.log('Navbar brands set:', brandsArray); // Debug log
+      
     } catch (err) {
       console.error('Error fetching brands:', err);
       setBrandsError(err.message);
-      setBrands([]);
+      setBrands([]); // Ensure brands is always an array
     } finally {
       setBrandsLoading(false);
     }
@@ -104,6 +142,7 @@ export default function Navbar() {
       return (
         <div className="p-6 text-center">
           <p className="text-sm text-red-600 mb-2">Error loading manufacturers</p>
+          <p className="text-xs text-gray-500 mb-2">{brandsError}</p>
           <button 
             onClick={fetchBrands}
             className="text-xs text-blue-600 hover:text-blue-800 underline"
@@ -114,7 +153,7 @@ export default function Navbar() {
       );
     }
 
-    if (brands.length === 0) {
+    if (!Array.isArray(brands) || brands.length === 0) {
       return (
         <div className="p-6 text-center">
           <p className="text-sm text-gray-500">No manufacturers found</p>
@@ -127,7 +166,7 @@ export default function Navbar() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 max-h-96 overflow-y-auto custom-scrollbar">
           {brands.map((brand) => (
             <Link 
-              key={brand.brandId || brand.name} 
+              key={brand._id || brand.brandId || brand.name} 
               href={`/brands/${slugify(brand.name)}`}
               className="group"
               onClick={() => setActiveMenu(null)}
@@ -366,10 +405,10 @@ export default function Navbar() {
                   Try again
                 </button>
               </div>
-            ) : brands.length > 0 ? (
+            ) : Array.isArray(brands) && brands.length > 0 ? (
               brands.slice(0, 15).map((brand) => (
                 <Link
-                  key={brand.brandId || brand.name}
+                  key={brand._id || brand.brandId || brand.name}
                   href={`/brands/${slugify(brand.name)}`}
                   className="text-blue-200 text-sm font-medium hover:text-white block py-1"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -382,7 +421,7 @@ export default function Navbar() {
                 No manufacturers found
               </div>
             )}
-            {brands.length > 15 && (
+            {Array.isArray(brands) && brands.length > 15 && (
               <div className="text-blue-100 text-xs px-2 py-1">
                 +{brands.length - 15} more
               </div>

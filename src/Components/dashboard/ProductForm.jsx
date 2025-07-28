@@ -10,7 +10,7 @@ const ProductForm = ({
   onCancel 
 }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+    <div className="bg-white p-6 mb-20 rounded-lg shadow-sm border border-gray-200">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">
           {editingItem ? 'Edit Product' : 'Add New Product'}
@@ -23,7 +23,7 @@ const ProductForm = ({
         </button>
       </div>
       
-      <form onSubmit={onSubmit} className="space-y-6">
+      <form onSubmit={onSubmit} className="space-y-6 mb-16">
         {/* Basic Product Information */}
         <div className="border-b border-gray-200 pb-4">
           <h4 className="text-md font-semibold text-gray-800 mb-3">Basic Information</h4>

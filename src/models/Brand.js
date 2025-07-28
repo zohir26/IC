@@ -1,86 +1,57 @@
+// models/Brand.js - Fixed version without duplicate indexes
 import mongoose from 'mongoose';
 
-const ProductSchema = new mongoose.Schema({
-  productId: {
-    type: String,
-    required: true,
-    unique: true
+const BrandSchema = new mongoose.Schema({
+  brandId: {
+    type: Number,
+    unique: true,
+    required: true
+    // Removed index: true since we're using schema.index() below
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    trim: true
+    // Removed index: true since we're using schema.index() below
   },
-  category: {
+  logo: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   description: {
     type: String,
-    required: true
+    default: '',
+    trim: true
   },
-  specifications: {
-    type: Map,
-    of: String,
-    default: {}
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: 0
-  },
-  stock: {
-    type: Number,
-    required: true,
-    min: 0,
-    default: 0
-  },
-  image: {
+  website: {
     type: String,
-    required: true
+    default: '',
+    trim: true
   },
-  datasheet: {
-    type: String
-  },
-  applications: [{
-    type: String
+  specialties: [{
+    type: String,
+    trim: true
   }],
-  relatedProducts: [{
-    type: String
+  products: [{
+    productId: Number,
+    name: String,
+    type: String,
+    category: String,
+    price: Number,
+    availability: String,
+    description: String,
+    specifications: Object,
+    img: String
   }]
 }, {
   timestamps: true
 });
 
-const BrandSchema = new mongoose.Schema({
-  brandId: {
-    type: Number,
-    required: true,
-    unique: true
-  },
-  name: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  logo: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  website: {
-    type: String
-  },
-  products: [ProductSchema]
-}, {
-  timestamps: true
-});
-
-// Create indexes for better performance
+// Create indexes explicitly (this is the preferred way)
+BrandSchema.index({ brandId: 1 });
 BrandSchema.index({ name: 1 });
-BrandSchema.index({ 'products.productId': 1 });
-BrandSchema.index({ 'products.category': 1 });
 
-export default mongoose.models.Brand || mongoose.model('Brand', BrandSchema);
+const Brand = mongoose.models.Brand || mongoose.model('Brand', BrandSchema);
+
+export default Brand;
