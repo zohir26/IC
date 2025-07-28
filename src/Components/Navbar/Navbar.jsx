@@ -414,7 +414,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10">
-                <img src="/Ic Logo.png" alt="Redwood Logo" />
+                <img src="/Redwood Logo.png" alt="Redwood Logo" />
               </div>
               <Link href="/">
                 <p className="text-white text-xl hidden sm:block">

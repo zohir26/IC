@@ -18,7 +18,7 @@ export default function Banner() {
     <section className="relative min-h-[600px] lg:min-h-[700px] overflow-hidden">
       {/* Background with gradient overlay */}
       {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700"> */}
-      <div className="absolute inset-0 bg-center bg-cover" style={{backgroundImage: "url('/IC banner.jpg')"}}>
+      <div className="absolute inset-0 bg-center bg-cover" style={{backgroundImage: "url('/Redwood banner.jpg')"}}>
         {/* Decorative elements */}
         <div className="absolute top-20 right-10 w-32 h-32 bg-blue-400 rounded-full opacity-20 blur-xl"></div>
         <div className="absolute bottom-32 left-16 w-24 h-24 bg-cyan-400 rounded-full opacity-30 blur-lg"></div>
