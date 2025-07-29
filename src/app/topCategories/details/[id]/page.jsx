@@ -149,7 +149,7 @@ export default function CategoryDetails() {
                   {category.subcategories.map((subcategory) => (
                     <Link 
                       key={subcategory.id} 
-                      href={subcategory.link}
+                      href={`/subcategory/${encodeURIComponent(subcategory.name)}?category=${encodeURIComponent(category.name)}`}
                       className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
                     >
                       <div className="flex items-center justify-between">
