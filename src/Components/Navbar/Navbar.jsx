@@ -121,11 +121,14 @@ export default function Navbar() {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleUserBubble = () => setShowUserBubble((prev) => !prev);
 
+  // Generate URLs for categories and subcategories
   const generateCategoryUrl = (category, subcategory = null) => {
     if (subcategory) {
-      return `/category/${category.id}/${subcategory.id}`;
+      // Link to subcategory products page: /subcategory/[name]?category=[parentCategory]
+      return `/subcategory/${encodeURIComponent(subcategory.name)}?category=${encodeURIComponent(category.name)}`;
     }
-    return `/category/${category.id}`;
+    // Link to category details page
+    return `/topCategories/details/${category.id}`;
   };
 
   const renderManufacturersBrands = () => {
@@ -215,7 +218,7 @@ export default function Navbar() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-h-96 overflow-y-auto custom-scrollbar">
           {categories.map((category) => (
             <div key={category.id} className="space-y-3 min-w-0">
-              {/* Main Category - Removed Icons */}
+              {/* Main Category */}
               <Link
                 href={generateCategoryUrl(category)}
                 className="group flex items-center text-gray-800 font-semibold border-b border-gray-200 pb-2 text-sm hover:text-blue-600 transition-colors"
@@ -494,7 +497,7 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-4">
-              {/* Products Dropdown - Removed Icon */}
+              {/* Products Dropdown */}
               <div
                 onMouseEnter={() => handleMouseEnter('products')}
                 onMouseLeave={handleMouseLeave}

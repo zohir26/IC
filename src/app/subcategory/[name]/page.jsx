@@ -81,11 +81,11 @@ export default function SubCategoryProducts() {
       if (priceRange.max) queryParams.append('maxPrice', priceRange.max);
       if (searchQuery) queryParams.append('search', searchQuery);
 
-      console.log('=== FETCHING PRODUCTS ===');
-      console.log('Original subcategory name:', subcategoryName);
-      console.log('Converted category param:', categoryParam);
-      console.log('Parent category:', parentCategory);
-      console.log('Full API URL:', `/api/products?${queryParams.toString()}`);
+    //   console.log('=== FETCHING PRODUCTS ===');
+    //   console.log('Original subcategory name:', subcategoryName);
+    //   console.log('Converted category param:', categoryParam);
+    //   console.log('Parent category:', parentCategory);
+    //   console.log('Full API URL:', `/api/products?${queryParams.toString()}`);
 
       const response = await fetch(`/api/products?${queryParams}`);
       
@@ -96,11 +96,11 @@ export default function SubCategoryProducts() {
       
       const data = await response.json();
 
-      console.log('=== API RESPONSE ===');
-      console.log('Full response:', data);
-      console.log('Products array:', data.products);
-      console.log('Products count:', data.products?.length || 0);
-      console.log('Pagination:', data.pagination);
+    //   console.log('=== API RESPONSE ===');
+    //   console.log('Full response:', data);
+    //   console.log('Products array:', data.products);
+    //   console.log('Products count:', data.products?.length || 0);
+    //   console.log('Pagination:', data.pagination);
 
       if (!data.success) {
         throw new Error(data.error || 'API returned unsuccessful response');
@@ -110,14 +110,14 @@ export default function SubCategoryProducts() {
       console.log('Setting products:', products.length);
       
       if (products.length > 0) {
-        console.log('First product:', {
-          name: products[0].name,
-          category: products[0].category,
-          brand: products[0].brand,
-          brandName: products[0].brandName,
-          image: products[0].image,
-          price: products[0].price
-        });
+        // console.log('First product:', {
+        //   name: products[0].name,
+        //   category: products[0].category,
+        //   brand: products[0].brand,
+        //   brandName: products[0].brandName,
+        //   image: products[0].image,
+        //   price: products[0].price
+        // });
       } else {
         console.log('No products found. Checking data...');
         // Let's also try without the category filter to see if we get any products
@@ -634,7 +634,7 @@ export default function SubCategoryProducts() {
           {/* Products Content */}
           <div className="flex-1">
             {/* Debug Info (remove in production) */}
-            {process.env.NODE_ENV === 'development' && (
+            {/* {process.env.NODE_ENV === 'development' && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                 <h4 className="font-semibold text-yellow-800 mb-2">Debug Info:</h4>
                 <div className="text-sm text-yellow-700 space-y-1">
@@ -647,7 +647,7 @@ export default function SubCategoryProducts() {
                   <div>Error: {error || 'None'}</div>
                 </div>
               </div>
-            )}
+            )} */}
 
             {error ? (
               <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
