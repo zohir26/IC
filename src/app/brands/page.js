@@ -1,4 +1,4 @@
-import FindByBrands from '../../Components/FindByBrands.jsx';
+import FindByBrands from '@/components/FindByBrands';
 
 export const metadata = {
   title: 'IC Brands | Electronic Components Store',

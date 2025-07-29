@@ -1,18 +1,49 @@
-// models/Brand.js - Fixed version without duplicate indexes
+// models/Brand.js
 import mongoose from 'mongoose';
 
-const BrandSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
+  productId: { type: String, required: true },
+  name: { type: String, required: true },
+  type: String,
+  category: { type: String, required: true },
+  price: { type: Number, required: true },
+  stock: { type: Number, default: 0 },
+  availability: String,
+  description: String,
+  specifications: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {}
+  },
+  applications: [String],
+  img: String,
+  image: String,
+  datasheet: String,
+
+  // Array of product IDs
+  relatedProducts: [String],
+
+  // Embedded alternative products
+  alternativeProducts: [{
+    productId: String,
+    name: String,
+    brandName: String,
+    category: String,
+    price: Number,
+    stock: Number,
+    image: String
+  }]
+}, { _id: false }); // Prevents _id generation for subdocs
+
+const brandSchema = new mongoose.Schema({
   brandId: {
     type: Number,
     unique: true,
     required: true
-    // Removed index: true since we're using schema.index() below
   },
   name: {
     type: String,
     required: true,
     trim: true
-    // Removed index: true since we're using schema.index() below
   },
   logo: {
     type: String,
@@ -33,25 +64,15 @@ const BrandSchema = new mongoose.Schema({
     type: String,
     trim: true
   }],
-  products: [{
-    productId: Number,
-    name: String,
-    type: String,
-    category: String,
-    price: Number,
-    availability: String,
-    description: String,
-    specifications: Object,
-    img: String
-  }]
+  products: [productSchema]
 }, {
   timestamps: true
 });
 
-// Create indexes explicitly (this is the preferred way)
-BrandSchema.index({ brandId: 1 });
-BrandSchema.index({ name: 1 });
+// Indexes
+brandSchema.index({ brandId: 1 });
+brandSchema.index({ name: 1 });
+brandSchema.index({ 'products.productId': 1 });
 
-const Brand = mongoose.models.Brand || mongoose.model('Brand', BrandSchema);
-
+const Brand = mongoose.models.Brand || mongoose.model('Brand', brandSchema);
 export default Brand;

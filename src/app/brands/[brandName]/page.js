@@ -1,14 +1,16 @@
-import BrandProducts from "../../../Components/BrandProducts.jsx";
-
+// app/brands/[brandName]/page.js - FIXED for Next.js 15
+import BrandProducts from '@/components/BrandProducts';
 
 export async function generateMetadata({ params }) {
-  const brandName = params.brandName.replace(/-/g, ' ');
+  const { brandName } = await params; // Await params
+  const brandNameFormatted = brandName.replace(/-/g, ' ');
   return {
-    title: `${brandName} Products | IC Components Store`,
-    description: `Browse ${brandName} integrated circuits and electronic components.`
+    title: `${brandNameFormatted} Products | IC Components Store`,
+    description: `Browse ${brandNameFormatted} integrated circuits and electronic components.`
   };
 }
 
-export default function BrandPage({ params }) {
-  return <BrandProducts brandName={params.brandName} />;
+export default async function BrandPage({ params }) {
+  const { brandName } = await params; // Await params
+  return <BrandProducts brandName={brandName} />;
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Brand from '@/models/Brand';
 
+
 export async function GET(request, { params }) {
   try {
     await dbConnect();

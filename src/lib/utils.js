@@ -4,53 +4,110 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
+
 export const formatPrice = (price) => {
+  if (typeof price !== 'number') return '$0.00';
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD'
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(price);
 };
 
-export const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
-};
-
-export const formatFileSize = (bytes) => {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-};
-
 export const slugify = (text) => {
+  if (!text) return '';
   return text
+    .toString()
     .toLowerCase()
+    .trim()
     .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '');
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
 };
 
 export const unslugify = (slug) => {
-  return slug
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  if (!slug) return '';
+  return slug.replace(/-/g, ' ');
 };
 
-// API utilities
+export const getRelatedProducts = (currentProduct, allProducts, limit = 4) => {
+  if (!currentProduct || !allProducts) return [];
+  
+  return allProducts
+    .filter(product => {
+      // Exclude the current product
+      if (product.productId === currentProduct.productId) return false;
+      
+      // Match by category or type
+      const sameCategory = product.category && currentProduct.category && 
+        product.category.toLowerCase() === currentProduct.category.toLowerCase();
+      
+      const sameType = product.type && currentProduct.type && 
+        product.type.toLowerCase() === currentProduct.type.toLowerCase();
+      
+      return sameCategory || sameType;
+    })
+    .sort((a, b) => {
+      // Prioritize products with same category over same type
+      const aCategory = a.category && currentProduct.category && 
+        a.category.toLowerCase() === currentProduct.category.toLowerCase();
+      const bCategory = b.category && currentProduct.category && 
+        b.category.toLowerCase() === currentProduct.category.toLowerCase();
+      
+      if (aCategory && !bCategory) return -1;
+      if (!aCategory && bCategory) return 1;
+      
+      // Then sort by price similarity
+      const aPriceDiff = Math.abs(a.price - currentProduct.price);
+      const bPriceDiff = Math.abs(b.price - currentProduct.price);
+      
+      return aPriceDiff - bPriceDiff;
+    })
+    .slice(0, limit);
+};
+
+export const getAlternativeProducts = (currentProduct, allProducts, limit = 4) => {
+  if (!currentProduct || !allProducts) return [];
+  
+  const priceRange = currentProduct.price * 0.4; // 40% price tolerance
+  
+  return allProducts
+    .filter(product => {
+      // Exclude the current product
+      if (product.productId === currentProduct.productId) return false;
+      
+      // Different category but similar price range
+      const differentCategory = !product.category || !currentProduct.category || 
+        product.category.toLowerCase() !== currentProduct.category.toLowerCase();
+      
+      const similarPrice = Math.abs(product.price - currentProduct.price) <= priceRange;
+      
+      return differentCategory && similarPrice;
+    })
+    .sort((a, b) => {
+      // Sort by price similarity
+      const aPriceDiff = Math.abs(a.price - currentProduct.price);
+      const bPriceDiff = Math.abs(b.price - currentProduct.price);
+      
+      return aPriceDiff - bPriceDiff;
+    })
+    .slice(0, limit);
+};
+
+// API utility class
 export const api = {
-  get: async (url) => {
+  async get(url) {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json();
   },
-
-  post: async (url, data) => {
+  
+  async post(url, data) {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -63,8 +120,22 @@ export const api = {
     }
     return response.json();
   },
-
-  delete: async (url) => {
+  
+  async put(url, data) {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  },
+  
+  async delete(url) {
     const response = await fetch(url, {
       method: 'DELETE',
     });
@@ -72,16 +143,6 @@ export const api = {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json();
-  },
-
-  uploadFiles: async (url, formData) => {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
   }
 };
+

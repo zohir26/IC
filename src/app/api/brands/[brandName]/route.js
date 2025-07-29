@@ -1,4 +1,4 @@
-// api/brands/[brandName]/route.js - CORRECTED VERSION
+// api/brands/[brandName]/route.js
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Brand from '@/models/Brand';
@@ -6,51 +6,101 @@ import Brand from '@/models/Brand';
 export async function GET(request, { params }) {
   try {
     await dbConnect();
+
+    const { brandName } = await params;
     
-    // FIXED: Use params.brandName consistently (your file structure is [brandName])
-    const brandName = params.brandName;
-    console.log('GET brand with identifier:', brandName);
+    console.log('=== BRAND API DEBUG ===');
+    console.log('Requested brandName:', brandName);
     
-    // If brandName looks like an ID (MongoDB ObjectId pattern or number), search by ID first
-    if (brandName.match(/^[0-9a-fA-F]{24}$/) || !isNaN(brandName)) {
-      const brand = await Brand.findOne({
-        $or: [
-          { _id: brandName },
-          { brandId: parseInt(brandName) || brandName }
-        ]
+    let brand = null;
+    
+    // Try to find by brandId if numeric, otherwise by name
+    if (!isNaN(brandName)) {
+      console.log('Searching by brandId:', parseInt(brandName));
+      brand = await Brand.findOne({ brandId: parseInt(brandName) });
+    } else {
+      // Convert URL-friendly name back to searchable format
+      const searchName = brandName.replace(/-/g, ' ');
+      console.log('Searching by name (case-insensitive):', searchName);
+      
+      // Case-insensitive regex search
+      const regex = new RegExp(`^${searchName}$`, 'i');
+      console.log('Using regex:', regex);
+      
+      brand = await Brand.findOne({
+        name: { $regex: regex }
       });
       
-      if (brand) {
-        return NextResponse.json({
-          success: true,
-          brand: brand
+      // If still not found, try without anchors (partial match)
+      if (!brand) {
+        console.log('Trying partial match...');
+        const partialRegex = new RegExp(searchName, 'i');
+        brand = await Brand.findOne({
+          name: { $regex: partialRegex }
         });
       }
+      
+      // If still not found, try with different case variations
+      if (!brand) {
+        console.log('Trying exact string match variations...');
+        const variations = [
+          searchName.toLowerCase(),
+          searchName.toUpperCase(),
+          searchName.charAt(0).toUpperCase() + searchName.slice(1).toLowerCase(),
+          brandName.toLowerCase(),
+          brandName.toUpperCase(),
+          brandName.charAt(0).toUpperCase() + brandName.slice(1).toLowerCase()
+        ];
+        
+        for (const variation of variations) {
+          console.log('Trying variation:', variation);
+          brand = await Brand.findOne({
+            name: { $regex: new RegExp(`^${variation}$`, 'i') }
+          });
+          if (brand) {
+            console.log('Found with variation:', variation);
+            break;
+          }
+        }
+      }
     }
-    
-    // Convert URL-friendly name back to actual brand name
-    const searchName = brandName.replace(/-/g, ' ');
-    
-    const brand = await Brand.findOne({
-      name: { $regex: new RegExp(`^${searchName}$`, 'i') }
-    });
-    
+
+    // Debug: Show all available brands if not found
     if (!brand) {
+      console.log('❌ Brand not found. Available brands:');
+      const allBrands = await Brand.find({}, { name: 1, brandId: 1 }).limit(10);
+      allBrands.forEach(b => {
+        console.log(`  - ID: ${b.brandId}, Name: "${b.name}"`);
+      });
+      
       return NextResponse.json(
-        { success: false, error: 'Brand not found' },
+        { error: 'Brand not found' },
         { status: 404 }
       );
     }
+
+    console.log('✅ Found brand:', brand.name);
+    console.log('📦 Products count:', brand.products?.length || 0);
     
-    return NextResponse.json({
-      success: true,
-      brand: brand
-    });
-    
+    if (brand.products && brand.products.length > 0) {
+      console.log('📋 First product:', brand.products[0].name);
+      console.log('🔗 First product related:', brand.products[0].relatedProducts);
+      console.log('🔄 First product alternatives:', brand.products[0].alternativeProducts?.length || 0);
+    }
+
+    const response = {
+      ...brand.toObject(),
+      products: brand.products || []
+    };
+
+    console.log('📤 Sending response with products:', response.products.length);
+    console.log('=== END DEBUG ===');
+
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Error fetching brand:', error);
+    console.error('❌ Error fetching brand:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch brand', details: error.message },
+      { error: 'Failed to fetch brand', details: error.message },
       { status: 500 }
     );
   }
@@ -60,35 +110,14 @@ export async function PUT(request, { params }) {
   try {
     await dbConnect();
     
-    // FIXED: Use params.brandName consistently
-    const brandName = params.brandName;
+    const { brandName } = await params;
     const body = await request.json();
-    console.log('PUT - Updating brand with identifier:', brandName, 'Data:', body);
-    
-    // Validate required fields
-    const { name, logo } = body;
-    
-    if (!name || !logo) {
-      return NextResponse.json(
-        { success: false, error: 'Name and logo are required fields' },
-        { status: 400 }
-      );
-    }
     
     let existingBrand;
     
-    // If brandName looks like an ID, search by ID first
-    if (brandName.match(/^[0-9a-fA-F]{24}$/) || !isNaN(brandName)) {
-      existingBrand = await Brand.findOne({
-        $or: [
-          { _id: brandName },
-          { brandId: parseInt(brandName) || brandName }
-        ]
-      });
-    }
-    
-    // If not found by ID or brandName is not ID-like, search by name
-    if (!existingBrand) {
+    if (!isNaN(brandName)) {
+      existingBrand = await Brand.findOne({ brandId: parseInt(brandName) });
+    } else {
       const searchName = brandName.replace(/-/g, ' ');
       existingBrand = await Brand.findOne({
         name: { $regex: new RegExp(`^${searchName}$`, 'i') }
@@ -102,58 +131,21 @@ export async function PUT(request, { params }) {
       );
     }
     
-    // Check if another brand with the same name exists (excluding current brand)
-    const duplicateBrand = await Brand.findOne({
-      name: { $regex: new RegExp(`^${name.trim()}$`, 'i') },
-      _id: { $ne: existingBrand._id }
-    });
-    
-    if (duplicateBrand) {
-      return NextResponse.json(
-        { success: false, error: 'Another brand with this name already exists' },
-        { status: 400 }
-      );
-    }
-    
-    // Update the brand
-    const updateData = {
-      name: name.trim(),
-      logo: logo.trim(),
-      description: body.description?.trim() || '',
-      website: body.website?.trim() || '',
-      specialties: Array.isArray(body.specialties) ? body.specialties.filter(spec => spec && spec.trim()) : []
-    };
-    
-    console.log('Updating brand with data:', updateData);
-    
     const updatedBrand = await Brand.findByIdAndUpdate(
       existingBrand._id,
-      updateData,
+      body,
       { new: true, runValidators: true }
     );
     
-    console.log('Brand updated successfully:', updatedBrand);
-    
     return NextResponse.json({
       success: true,
-      message: 'Brand updated successfully',
       brand: updatedBrand
     });
     
   } catch (error) {
     console.error('Error updating brand:', error);
-    
-    // Handle validation errors
-    if (error.name === 'ValidationError') {
-      const validationErrors = Object.values(error.errors).map(err => err.message);
-      return NextResponse.json(
-        { success: false, error: 'Validation failed', details: validationErrors },
-        { status: 400 }
-      );
-    }
-    
     return NextResponse.json(
-      { success: false, error: 'Failed to update brand', details: error.message },
+      { success: false, error: 'Failed to update brand' },
       { status: 500 }
     );
   }
@@ -163,24 +155,13 @@ export async function DELETE(request, { params }) {
   try {
     await dbConnect();
     
-    // FIXED: Use params.brandName consistently
-    const brandName = params.brandName;
-    console.log('DELETE - Deleting brand with identifier:', brandName);
+    const { brandName } = await params;
     
     let brandToDelete;
     
-    // If brandName looks like an ID, search by ID first
-    if (brandName.match(/^[0-9a-fA-F]{24}$/) || !isNaN(brandName)) {
-      brandToDelete = await Brand.findOne({
-        $or: [
-          { _id: brandName },
-          { brandId: parseInt(brandName) || brandName }
-        ]
-      });
-    }
-    
-    // If not found by ID or brandName is not ID-like, search by name
-    if (!brandToDelete) {
+    if (!isNaN(brandName)) {
+      brandToDelete = await Brand.findOne({ brandId: parseInt(brandName) });
+    } else {
       const searchName = brandName.replace(/-/g, ' ');
       brandToDelete = await Brand.findOne({
         name: { $regex: new RegExp(`^${searchName}$`, 'i') }
@@ -194,20 +175,7 @@ export async function DELETE(request, { params }) {
       );
     }
     
-    // Check if brand has products
-    if (brandToDelete.products && brandToDelete.products.length > 0) {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Cannot delete brand with existing products' 
-        },
-        { status: 400 }
-      );
-    }
-    
-    // Delete the brand
     await Brand.findByIdAndDelete(brandToDelete._id);
-    console.log('Brand deleted successfully:', brandToDelete.name);
     
     return NextResponse.json({
       success: true,
@@ -217,7 +185,7 @@ export async function DELETE(request, { params }) {
   } catch (error) {
     console.error('Error deleting brand:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to delete brand', details: error.message },
+      { success: false, error: 'Failed to delete brand' },
       { status: 500 }
     );
   }
