@@ -59,6 +59,7 @@ export default async function BlogsPage() {
             return (
               <Link href={`/blogs/${blogId}`} key={blogId}>
                 <div className="block bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-cyan-500/50 transition-shadow duration-300 h-full flex flex-col">
+                  {/* img should be image */}
                   <img 
                     src={blog.img} 
                     alt={blog.title} 
