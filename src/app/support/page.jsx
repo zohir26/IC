@@ -380,7 +380,7 @@ const Support = () => {
       </section>
 
       {/* Submit Ticket */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+      {/* <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -468,7 +468,7 @@ const Support = () => {
             </form>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Status Banner */}
       <section className="py-8 bg-green-50 border-t border-green-200">

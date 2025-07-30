@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 
 const blogSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    unique: true
+  },
   img: {
     type: String,
-    required: [true, 'Image URL is required']
+    required: [true, 'Image URL is required'],
+    trim: true
   },
   title: {
     type: String,
@@ -17,7 +22,7 @@ const blogSchema = new mongoose.Schema({
     trim: true
   },
   publishDate: {
-    type: Date, // Changed from String to Date for better handling
+    type: Date,
     required: [true, 'Publish date is required']
   },
   category: {
@@ -56,7 +61,21 @@ const blogSchema = new mongoose.Schema({
   collection: 'blogs'
 });
 
+// Auto-assign ID before saving
+blogSchema.pre('save', async function(next) {
+  if (this.isNew && !this.id) {
+    try {
+      const lastBlog = await this.constructor.findOne({}, {}, { sort: { id: -1 } });
+      this.id = lastBlog ? lastBlog.id + 1 : 1;
+    } catch (error) {
+      return next(error);
+    }
+  }
+  next();
+});
+
 // Create indexes for better performance
+blogSchema.index({ id: 1 }, { unique: true });
 blogSchema.index({ publishDate: -1 });
 blogSchema.index({ category: 1 });
 blogSchema.index({ featured: 1 });
@@ -73,5 +92,26 @@ blogSchema.methods.incrementViews = function() {
   this.views += 1;
   return this.save();
 };
+
+// Transform function to ensure id field is included in JSON output
+blogSchema.set('toJSON', {
+  transform: function(doc, ret) {
+    // Ensure id field is present
+    if (!ret.id && ret._id) {
+      ret.id = ret._id.toString();
+    }
+    return ret;
+  }
+});
+
+blogSchema.set('toObject', {
+  transform: function(doc, ret) {
+    // Ensure id field is present
+    if (!ret.id && ret._id) {
+      ret.id = ret._id.toString();
+    }
+    return ret;
+  }
+});
 
 export default mongoose.models.Blog || mongoose.model('Blog', blogSchema);

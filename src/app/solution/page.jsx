@@ -1,314 +1,115 @@
-// 'use client'
-// import React from 'react';
-// import { motion } from 'framer-motion';
-// import { 
-//   Shield, 
-//   Zap, 
-//   Users, 
-//   BarChart3, 
-//   Cloud, 
-//   Lock,
-//   ArrowRight,
-//   Check
-// } from 'lucide-react';
-// import Navbar from '../../Components/Navbar/Navbar';
-// import Footer from '../Shared/Footer';
-
-// const solutions = () => {
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: {
-//         staggerChildren: 0.1
-//       }
-//     }
-//   };
-
-//   const itemVariants = {
-//     hidden: { y: 20, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: {
-//         duration: 0.5
-//       }
-//     }
-//   };
-
-//   const solutions = [
-//     {
-//       icon: Shield,
-//       title: "Security Solutions",
-//       description: "Enterprise-grade security infrastructure to protect your digital assets and ensure compliance.",
-//       features: [
-//         "End-to-end encryption",
-//         "Multi-factor authentication",
-//         "Real-time threat monitoring",
-//         "Compliance management"
-//       ],
-//       color: "from-blue-500 to-blue-600"
-//     },
-//     {
-//       icon: Zap,
-//       title: "Performance Optimization",
-//       description: "Accelerate your applications with our cutting-edge performance solutions.",
-//       features: [
-//         "CDN integration",
-//         "Load balancing",
-//         "Caching strategies",
-//         "Database optimization"
-//       ],
-//       color: "from-purple-500 to-purple-600"
-//     },
-//     {
-//       icon: Cloud,
-//       title: "Cloud Infrastructure",
-//       description: "Scalable cloud solutions that grow with your business needs.",
-//       features: [
-//         "Auto-scaling",
-//         "Container orchestration",
-//         "Serverless architecture",
-//         "Multi-cloud support"
-//       ],
-//       color: "from-cyan-500 to-cyan-600"
-//     },
-//     {
-//       icon: BarChart3,
-//       title: "Analytics & Insights",
-//       description: "Data-driven insights to make informed business decisions.",
-//       features: [
-//         "Real-time analytics",
-//         "Custom dashboards",
-//         "Predictive modeling",
-//         "Data visualization"
-//       ],
-//       color: "from-green-500 to-green-600"
-//     },
-//     {
-//       icon: Users,
-//       title: "Team Collaboration",
-//       description: "Enhanced collaboration tools for distributed teams.",
-//       features: [
-//         "Real-time communication",
-//         "Project management",
-//         "Document sharing",
-//         "Video conferencing"
-//       ],
-//       color: "from-orange-500 to-orange-600"
-//     },
-//     {
-//       icon: Lock,
-//       title: "Compliance & Governance",
-//       description: "Stay compliant with industry regulations and standards.",
-//       features: [
-//         "GDPR compliance",
-//         "SOC 2 certification",
-//         "Audit trails",
-//         "Policy management"
-//       ],
-//       color: "from-red-500 to-red-600"
-//     }
-//   ];
-
-//   return (
-//   <>
-//   <Navbar></Navbar>
-//     <div className=" bg-gradient-to-b from-gray-50 to-white">
-//       {/* Hero Section */}
-//       <section className="relative overflow-hidden">
-//         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 opacity-70"></div>
-//         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-16">
-//           <motion.div
-//             initial={{ opacity: 0, y: -20 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ duration: 0.6 }}
-//             className="text-center"
-//           >
-//             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-//               Innovative Solutions for
-//               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-//                 Modern Challenges
-//               </span>
-//             </h1>
-//             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-//               Discover our comprehensive suite of solutions designed to transform your business 
-//               and drive growth in the digital age.
-//             </p>
-//             <motion.button
-//               whileHover={{ scale: 1.05 }}
-//               whileTap={{ scale: 0.95 }}
-//               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-//             >
-//               Get Started Today
-//             </motion.button>
-//           </motion.div>
-//         </div>
-//       </section>
-
-//       {/* Solutions Grid */}
-//       {/* <section className="py-20">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//           <motion.div
-//             variants={containerVariants}
-//             initial="hidden"
-//             whileInView="visible"
-//             viewport={{ once: true, amount: 0.1 }}
-//             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-//           >
-//             {solutions.map((solution, index) => (
-//               <motion.div
-//                 key={index}
-//                 variants={itemVariants}
-//                 whileHover={{ y: -10 }}
-//                 className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
-//               >
-//                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br opacity-10 rounded-bl-full"
-//                   style={{
-//                     backgroundImage: `linear-gradient(to bottom right, ${solution.color.split(' ')[1].replace('to-', '')}, ${solution.color.split(' ')[3]})`
-//                   }}
-//                 ></div>
-                
-//                 <div className="p-8">
-//                   <div className={`inline-flex p-3 rounded-lg bg-gradient-to-r ${solution.color} text-white mb-4`}>
-//                     <solution.icon size={24} />
-//                   </div>
-                  
-//                   <h3 className="text-2xl font-bold text-gray-900 mb-3">
-//                     {solution.title}
-//                   </h3>
-                  
-//                   <p className="text-gray-600 mb-6">
-//                     {solution.description}
-//                   </p>
-                  
-//                   <ul className="space-y-2 mb-6">
-//                     {solution.features.map((feature, idx) => (
-//                       <li key={idx} className="flex items-center text-gray-700">
-//                         <Check className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-//                         <span className="text-sm">{feature}</span>
-//                       </li>
-//                     ))}
-//                   </ul>
-                  
-//                   <motion.a
-//                     href="#"
-//                     className="inline-flex items-center text-blue-600 font-semibold group-hover:text-blue-700"
-//                     whileHover={{ x: 5 }}
-//                   >
-//                     Learn More
-//                     <ArrowRight className="w-4 h-4 ml-2" />
-//                   </motion.a>
-//                 </div>
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//         </div>
-//       </section> */}
-
-//       {/* CTA Section */}
-//       {/* <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
-//         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-//           <motion.div
-//             initial={{ opacity: 0, scale: 0.9 }}
-//             whileInView={{ opacity: 1, scale: 1 }}
-//             viewport={{ once: true }}
-//             transition={{ duration: 0.5 }}
-//           >
-//             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-//               Ready to Transform Your Business?
-//             </h2>
-//             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-//               Join thousands of companies that trust our solutions to power their success.
-//             </p>
-//             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-//               <motion.button
-//                 whileHover={{ scale: 1.05 }}
-//                 whileTap={{ scale: 0.95 }}
-//                 className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-//               >
-//                 Schedule a Demo
-//               </motion.button>
-//               <motion.button
-//                 whileHover={{ scale: 1.05 }}
-//                 whileTap={{ scale: 0.95 }}
-//                 className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
-//               >
-//                 Contact Sales
-//               </motion.button>
-//             </div>
-//           </motion.div>
-//         </div>
-//       </section> */}
-
-//       {/* Features Comparison */}
-//       {/* <section className="py-20">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//           <motion.div
-//             initial={{ opacity: 0, y: 20 }}
-//             whileInView={{ opacity: 1, y: 0 }}
-//             viewport={{ once: true }}
-//             transition={{ duration: 0.6 }}
-//             className="text-center mb-12"
-//           >
-//             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-//               Why Choose Our Solutions?
-//             </h2>
-//             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-//               We provide comprehensive features that set us apart from the competition.
-//             </p>
-//           </motion.div>
-          
-//           <motion.div
-//             initial={{ opacity: 0 }}
-//             whileInView={{ opacity: 1 }}
-//             viewport={{ once: true }}
-//             transition={{ duration: 0.8, delay: 0.2 }}
-//             className="grid grid-cols-1 md:grid-cols-3 gap-8"
-//           >
-//             {[
-//               {
-//                 title: "24/7 Support",
-//                 description: "Round-the-clock assistance from our expert team",
-//                 icon: "🎯"
-//               },
-//               {
-//                 title: "99.9% Uptime",
-//                 description: "Industry-leading reliability you can count on",
-//                 icon: "⚡"
-//               },
-//               {
-//                 title: "Global Scale",
-//                 description: "Solutions that grow with your business worldwide",
-//                 icon: "🌍"
-//               }
-//             ].map((feature, index) => (
-//               <motion.div
-//                 key={index}
-//                 whileHover={{ scale: 1.05 }}
-//                 className="text-center p-8 bg-gray-50 rounded-2xl"
-//               >
-//                 <div className="text-5xl mb-4">{feature.icon}</div>
-//                 <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-//                 <p className="text-gray-600">{feature.description}</p>
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//         </div>
-//       </section> */}
-//     </div>
-//     <Footer></Footer>
-//     </>
-//   );
-// };
-
-// export default solutions;
-
+"use client"
 import Navbar from '@/Components/Navbar/Navbar';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Footer from '../Shared/Footer';
+import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
 
 const solutions = () => {
+  const form = useRef();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    organization: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validation
+    if (!formData.name || !formData.email || !formData.message) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Information',
+        text: 'Please fill in all required fields (Name, Email, and Message)',
+        confirmButtonColor: '#10b981'
+      });
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Email',
+        text: 'Please enter a valid email address',
+        confirmButtonColor: '#10b981'
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare template parameters to match EmailJS template structure
+      const templateParams = {
+        from_name: formData.name,        // EmailJS service field (who the email is from)
+        reply_to: formData.email,        // EmailJS service field (reply-to address)  
+        name: formData.name,             // Template variable {{name}}
+        email: formData.email,           // Template variable {{email}}
+        company: formData.organization || 'Not specified', // Template variable {{company}}
+        message: formData.message,       // Template variable {{message}}
+        time: new Date().toLocaleString(), // Template variable {{time}}
+        subject: `Contact Form Submission from ${formData.name}` // Template variable {{subject}}
+      };
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        'service_pqlqfv6',        // Your service ID
+        'template_t5wmrsl',       // Your template ID
+        templateParams,
+        'HOzdPc1wp7Jfl8nCj'    // Replace with your EmailJS public key
+      );
+
+      console.log('Email sent successfully:', result);
+
+      // Show success alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Ticket Submitted Successfully!',
+        text: 'Thank you for contacting us. We\'ll get back to you within 24 hours.',
+        confirmButtonColor: '#10b981',
+        timer: 5000,
+        timerProgressBar: true
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        organization: '',
+        message: ''
+      });
+
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      
+      // Show error alert
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Failed',
+        text: 'There was an error submitting your ticket. Please try again or contact us directly.',
+        confirmButtonColor: '#10b981',
+        footer: 'If the problem persists, please email us directly.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
    <>
    <Navbar></Navbar>
@@ -394,8 +195,6 @@ const solutions = () => {
             </div>
           </div>
         </div>
-
-        {/* Who We Are Section - Removed */}
 
         {/* How We Add Value Section */}
         <div>
@@ -549,39 +348,74 @@ const solutions = () => {
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto border border-slate-700/50">
             <h4 className="text-xl font-semibold text-white mb-6">Submit a Ticket</h4>
             
-            <div className="space-y-4">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <input 
                   type="text" 
-                  placeholder="Your Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Your Name *"
                   className="bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none transition-colors"
+                  required
                 />
                 <input 
                   type="email" 
-                  placeholder="Email Address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email Address *"
                   className="bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none transition-colors"
+                  required
                 />
               </div>
               
-              <select className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors">
+              <select 
+                name="organization"
+                value={formData.organization}
+                onChange={handleInputChange}
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors"
+              >
                 <option value="">Select Your Organization Type</option>
-                <option value="manufacturer">Semiconductor Manufacturer</option>
-                <option value="startup">Tech Startup</option>
-                <option value="enterprise">Enterprise Company</option>
-                <option value="research">Research Institution</option>
-                <option value="other">Other</option>
+                <option value="Semiconductor Manufacturer">Semiconductor Manufacturer</option>
+                <option value="Tech Startup">Tech Startup</option>
+                <option value="Enterprise Company">Enterprise Company</option>
+                <option value="Research Institution">Research Institution</option>
+                <option value="Other">Other</option>
               </select>
               
               <textarea 
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
                 rows="4"
-                placeholder="Tell us about your project or how we can help..."
+                placeholder="Tell us about your project or how we can help... *"
                 className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none transition-colors resize-none"
+                required
               ></textarea>
               
-              <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-8 py-4 rounded-lg transition-colors text-lg">
-                Submit Ticket
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full font-semibold px-8 py-4 rounded-lg transition-all text-lg relative overflow-hidden ${
+                  isSubmitting 
+                    ? 'bg-emerald-700 cursor-not-allowed' 
+                    : 'bg-emerald-600 hover:bg-emerald-500 hover:scale-105'
+                } text-white`}
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </div>
+                ) : (
+                  'Submit Ticket'
+                )}
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

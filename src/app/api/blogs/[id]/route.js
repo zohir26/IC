@@ -2,12 +2,19 @@ import dbConnect from '../../../../lib/dbConnect';
 import Blog from '../../../../models/Blog';
 import { NextResponse } from 'next/server';
 
+// Helper function to determine if ID is MongoDB ObjectId or custom numeric ID
+function isObjectId(id) {
+  return /^[0-9a-fA-F]{24}$/.test(id);
+}
+
 // GET single blog by ID
 export async function GET(request, { params }) {
   try {
     await dbConnect();
     
-    const { id } = params;
+    const { id } = await params; // Await params
+    
+    console.log('GET Blog - ID received:', id);
     
     if (!id) {
       return NextResponse.json(
@@ -16,7 +23,26 @@ export async function GET(request, { params }) {
       );
     }
 
-    const blog = await Blog.findById(id).lean();
+    let query;
+    if (isObjectId(id)) {
+      // If it's a MongoDB ObjectId
+      query = { _id: id };
+    } else {
+      // If it's a numeric ID, try to parse it
+      const numericId = parseInt(id, 10);
+      if (isNaN(numericId)) {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid blog ID format'
+        }, { status: 400 });
+      }
+      query = { id: numericId };
+    }
+
+    console.log('GET Blog - Query:', query);
+
+    const blog = await Blog.findOne(query).lean();
+    console.log('GET Blog - Found:', !!blog);
 
     if (!blog) {
       return NextResponse.json(
@@ -25,9 +51,17 @@ export async function GET(request, { params }) {
       );
     }
 
+    // Increment views when blog is fetched
+    try {
+      await Blog.findOneAndUpdate(query, { $inc: { views: 1 } });
+    } catch (viewError) {
+      console.warn('Failed to increment views:', viewError);
+    }
+
     return NextResponse.json({
       success: true,
       blog: blog,
+      data: blog // Also include for compatibility
     });
   } catch (error) {
     console.error('Error fetching blog:', error);
@@ -43,7 +77,9 @@ export async function PUT(request, { params }) {
   try {
     await dbConnect();
     
-    const { id } = params;
+    const { id } = await params; // Await params
+    
+    console.log('PUT Blog - ID received:', id);
     
     if (!id) {
       return NextResponse.json(
@@ -53,13 +89,14 @@ export async function PUT(request, { params }) {
     }
 
     const body = await request.json();
+    console.log('PUT Blog - Body:', body);
     
     // Remove any _id field from the body to prevent conflicts
     const { _id, ...updateData } = body;
 
     // Validate required fields
     const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
-    const missingFields = requiredFields.filter(field => !updateData[field]);
+    const missingFields = requiredFields.filter(field => !updateData[field] || updateData[field].toString().trim() === '');
     
     if (missingFields.length > 0) {
       return NextResponse.json(
@@ -76,10 +113,8 @@ export async function PUT(request, { params }) {
     }
 
     // Ensure views is a number
-    if (updateData.views) {
+    if (updateData.views !== undefined) {
       updateData.views = parseInt(updateData.views, 10) || 0;
-    } else {
-      updateData.views = 0;
     }
 
     // Ensure featured is a boolean
@@ -93,14 +128,35 @@ export async function PUT(request, { params }) {
       }
     }
 
-    const updatedBlog = await Blog.findByIdAndUpdate(
-      id,
+    let query;
+    if (isObjectId(id)) {
+      // If it's a MongoDB ObjectId
+      query = { _id: id };
+    } else {
+      // If it's a numeric ID, try to parse it
+      const numericId = parseInt(id, 10);
+      if (isNaN(numericId)) {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid blog ID format'
+        }, { status: 400 });
+      }
+      query = { id: numericId };
+    }
+
+    console.log('PUT Blog - Query:', query);
+    console.log('PUT Blog - Update data:', updateData);
+
+    const updatedBlog = await Blog.findOneAndUpdate(
+      query,
       updateData,
       { 
         new: true, // Return the updated document
         runValidators: true // Run model validations
       }
     );
+
+    console.log('PUT Blog - Updated:', !!updatedBlog);
 
     if (!updatedBlog) {
       return NextResponse.json(
@@ -112,14 +168,16 @@ export async function PUT(request, { params }) {
     return NextResponse.json({
       success: true,
       blog: updatedBlog,
+      data: updatedBlog,
       message: 'Blog updated successfully'
     });
   } catch (error) {
     console.error('Error updating blog:', error);
     // Handle potential validation errors from Mongoose
     if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map(err => err.message);
       return NextResponse.json(
-        { success: false, error: 'Validation Error', details: error.errors },
+        { success: false, error: 'Validation failed', details: validationErrors },
         { status: 400 }
       );
     }
@@ -135,7 +193,9 @@ export async function DELETE(request, { params }) {
   try {
     await dbConnect();
     
-    const { id } = params;
+    const { id } = await params; // Await params
+    
+    console.log('DELETE Blog - ID received:', id);
     
     if (!id) {
       return NextResponse.json(
@@ -144,7 +204,26 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    const deletedBlog = await Blog.findByIdAndDelete(id);
+    let query;
+    if (isObjectId(id)) {
+      // If it's a MongoDB ObjectId
+      query = { _id: id };
+    } else {
+      // If it's a numeric ID, try to parse it
+      const numericId = parseInt(id, 10);
+      if (isNaN(numericId)) {
+        return NextResponse.json({
+          success: false,
+          error: 'Invalid blog ID format'
+        }, { status: 400 });
+      }
+      query = { id: numericId };
+    }
+
+    console.log('DELETE Blog - Query:', query);
+
+    const deletedBlog = await Blog.findOneAndDelete(query);
+    console.log('DELETE Blog - Deleted:', !!deletedBlog);
 
     if (!deletedBlog) {
       return NextResponse.json(
@@ -156,7 +235,8 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({
       success: true,
       message: 'Blog deleted successfully',
-      blog: deletedBlog
+      blog: deletedBlog,
+      data: deletedBlog
     });
   } catch (error) {
     console.error('Error deleting blog:', error);
