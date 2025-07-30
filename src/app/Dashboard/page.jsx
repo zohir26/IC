@@ -186,67 +186,88 @@ const ICDashboard = () => {
   };
 
   // Handle delete
-  const handleDelete = async (id, type) => {
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: `You won't be able to revert this ${type} deletion!`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    });
+const handleDelete = async (id, type) => {
+  const result = await Swal.fire({
+    title: 'Are you sure?',
+    text: `You won't be able to revert this ${type} deletion!`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  });
 
-    if (result.isConfirmed) {
-      setLoading(true);
-      try {
-        let endpoint = '';
-        switch (type) {
-          case 'product':
-            endpoint = `/api/products/${id}`;
-            break;
-          case 'category':
-            endpoint = `/api/categories/${id}`;
-            break;
-          case 'manufacturer':
-            // Find the manufacturer item to get the correct identifier
-            const manufacturerItem = manufacturers.find(m => 
-              m._id === id || m.brandId === id || m.id === id
-            );
-            const brandIdentifier = manufacturerItem?._id || manufacturerItem?.brandId || manufacturerItem?.name?.replace(/\s+/g, '-') || id;
-            endpoint = `/api/brands/${brandIdentifier}`;
-            break;
-          case 'blog':
-            endpoint = `/api/blogs/${id}`;
-            break;
-          default:
-            Swal.fire('Error', 'Invalid type for deletion.', 'error');
-            setLoading(false);
-            return;
-        }
+  if (result.isConfirmed) {
+    setLoading(true);
+    try {
+      let endpoint = '';
+      let itemToDelete = null;
 
-        const response = await fetch(endpoint, {
-          method: 'DELETE',
-        });
-
-        const result = await response.json();
-
-        if (response.ok && (result.success === true || result.status === 'success')) {
-          Swal.fire('Deleted!', `${type} has been deleted.`, 'success');
-          fetchData();
-        } else {
-          Swal.fire('Error', result.message || 'Failed to delete', 'error');
-        }
-      } catch (error) {
-        console.error('Error during deletion:', error);
-        Swal.fire('Error', 'Something went wrong during deletion.', 'error');
-      } finally {
-        setLoading(false);
+      switch (type) {
+        case 'product':
+          endpoint = `/api/products/${id}`;
+          break;
+        case 'category':
+          endpoint = `/api/categories/${id}`;
+          break;
+        case 'manufacturer':
+          // Find the manufacturer item to get the correct identifier
+          itemToDelete = manufacturers.find(m => 
+            m._id === id || m.brandId === id || m.id === id
+          );
+          
+          console.log('Deleting manufacturer:', itemToDelete);
+          
+          if (!itemToDelete) {
+            throw new Error('Manufacturer not found');
+          }
+          
+          // Use _id as primary identifier, fallback to brandId
+          const brandIdentifier = itemToDelete._id || itemToDelete.brandId;
+          endpoint = `/api/brands/${brandIdentifier}`;
+          break;
+        case 'blog':
+          endpoint = `/api/blogs/${id}`;
+          break;
+        default:
+          throw new Error('Invalid type for deletion.');
       }
+
+      console.log('DELETE request to:', endpoint);
+
+      const response = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log('DELETE response status:', response.status);
+      console.log('DELETE response ok:', response.ok);
+
+      const result = await response.json();
+      console.log('DELETE response data:', result);
+
+      if (response.ok && (result.success === true || result.status === 'success')) {
+        Swal.fire('Deleted!', `${type} has been deleted.`, 'success');
+        fetchData(); // Refresh the data
+      } else {
+        const errorMessage = result.error || result.message || 'Failed to delete';
+        Swal.fire('Error', errorMessage, 'error');
+      }
+    } catch (error) {
+      console.error('Error during deletion:', error);
+      Swal.fire('Error', error.message || 'Something went wrong during deletion.', 'error');
+    } finally {
+      setLoading(false);
     }
-  };
+  }
+};
 
   // Handle submit
+
+// Updated handleSubmit function for dashboard/page.jsx
+
 const handleSubmit = async (e, cleanedData = null) => {
   e.preventDefault();
   
@@ -264,24 +285,13 @@ const handleSubmit = async (e, cleanedData = null) => {
       if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
         return item._id || item.brandId || item.id || null;
       }
-      return item._id || item.id || item.productId || item.brandId || null;
-    };
-    const handleSubmit = async (e, cleanedData = null) => {
-  e.preventDefault();
-  
-  if (loading) return;
-  
-  setLoading(true);
-
-  try {
-    let endpoint = '';
-    let method = editingItem ? 'PUT' : 'POST';
-    
-    const getId = (item) => {
-      if (!item) return null;
-      // For manufacturers, prioritize _id, then brandId, then other IDs
-      if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
-        return item._id || item.brandId || item.id || null;
+      // For categories, prioritize _id, then id
+      if (activeTab === 'all-categories' || activeTab === 'add-category') {
+        return item._id || item.id || null;
+      }
+      // For products, prioritize _id, then other IDs
+      if (activeTab === 'all-products' || activeTab === 'add-product') {
+        return item._id || item.id || item.productId || null;
       }
       return item._id || item.id || item.productId || item.brandId || null;
     };
@@ -304,16 +314,97 @@ const handleSubmit = async (e, cleanedData = null) => {
       case 'add-product':
       case 'all-products':
         endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
+        
+        // For products, if no cleanedData provided, do basic cleaning
+        if (!cleanedData) {
+          // Remove MongoDB-generated fields that shouldn't be in the request
+          const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
+          submissionData = cleanData;
+          
+          // Validate required fields for products
+          const requiredFields = ['name', 'type', 'category', 'price'];
+          const missingFields = requiredFields.filter(field => {
+            const value = submissionData[field];
+            if (field === 'price') {
+              return !value || isNaN(parseFloat(value));
+            }
+            return !value || value.toString().trim().length === 0;
+          });
+          
+          if (missingFields.length > 0) {
+            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+          }
+
+          // Clean and validate product data
+          submissionData.name = submissionData.name.trim();
+          submissionData.type = submissionData.type.trim();
+          submissionData.category = submissionData.category.trim();
+          submissionData.price = parseFloat(submissionData.price);
+
+          // Clean optional fields
+          if (submissionData.parentCategory) submissionData.parentCategory = submissionData.parentCategory.trim();
+          if (submissionData.brand) submissionData.brand = submissionData.brand.trim();
+          if (submissionData.brandName) submissionData.brandName = submissionData.brandName.trim();
+          if (submissionData.manufacturer) submissionData.manufacturer = submissionData.manufacturer.trim();
+          if (submissionData.manufacturerName) submissionData.manufacturerName = submissionData.manufacturerName.trim();
+          if (submissionData.description) submissionData.description = submissionData.description.trim();
+          if (submissionData.image) submissionData.image = submissionData.image.trim();
+          if (submissionData.datasheet) submissionData.datasheet = submissionData.datasheet.trim();
+          if (submissionData.videoUrl) submissionData.videoUrl = submissionData.videoUrl.trim();
+
+          // Clean specifications
+          if (submissionData.specifications) {
+            submissionData.specifications = Object.fromEntries(
+              Object.entries(submissionData.specifications)
+                .filter(([key, value]) => key.trim() && value.trim())
+                .map(([key, value]) => [key.trim(), value.trim()])
+            );
+          }
+
+          // Clean applications
+          if (submissionData.applications) {
+            submissionData.applications = submissionData.applications
+              .filter(app => app && app.trim())
+              .map(app => app.trim());
+          }
+
+          // Clean features
+          if (submissionData.features) {
+            submissionData.features = submissionData.features
+              .filter(feature => feature && feature.trim())
+              .map(feature => feature.trim());
+          }
+        }
         break;
+        
       case 'add-category':
       case 'all-categories':
         endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
+        
+        // For categories, if no cleanedData provided, do basic cleaning
+        if (!cleanedData) {
+          // Remove MongoDB-generated fields that shouldn't be in the request
+          const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
+          submissionData = cleanData;
+          
+          // Validate required fields for categories
+          const requiredFields = ['name', 'icon', 'link'];
+          const missingFields = requiredFields.filter(field => {
+            const value = submissionData[field];
+            return !value || value.toString().trim().length === 0;
+          });
+          
+          if (missingFields.length > 0) {
+            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+          }
+        }
         break;
+        
       case 'add-manufacturer':
       case 'all-manufacturers':
         if (editingItem && itemId) {
-          // Use the brand identifier (could be _id, brandId, or name)
-          const brandIdentifier = editingItem._id || editingItem.brandId || editingItem.name?.replace(/\s+/g, '-');
+          // Use the _id as primary identifier
+          const brandIdentifier = editingItem._id || editingItem.brandId;
           endpoint = `/api/brands/${brandIdentifier}`;
         } else {
           endpoint = '/api/brands';
@@ -328,26 +419,12 @@ const handleSubmit = async (e, cleanedData = null) => {
               .map(spec => spec.trim());
           }
           
-          // Clean up products if they exist
-          if (submissionData.products && Array.isArray(submissionData.products)) {
-            submissionData.products = submissionData.products
-              .filter(product => product.productId && product.name)
-              .map(product => ({
-                ...product,
-                price: Number(product.price) || 0,
-                stock: Number(product.stock) || 0,
-                specifications: product.specifications || {},
-                applications: Array.isArray(product.applications) ? product.applications : [],
-                relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts : [],
-                alternativeProducts: Array.isArray(product.alternativeProducts) ? product.alternativeProducts : []
-              }));
-          }
-          
           // Remove MongoDB-generated fields for manufacturers
           const { _id, createdAt, updatedAt, __v, ...cleanManufacturerData } = submissionData;
           submissionData = cleanManufacturerData;
         }
         break;
+        
       case 'add-blog':
       case 'all-blogs':
         endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
@@ -386,6 +463,7 @@ const handleSubmit = async (e, cleanedData = null) => {
           }
         }
         break;
+        
       default:
         throw new Error('Invalid tab for form submission.');
     }
@@ -421,236 +499,32 @@ const handleSubmit = async (e, cleanedData = null) => {
       console.log('Final manufacturer data:', submissionData);
     }
 
-    // Make the API request
-    console.log('Making API request to:', endpoint);
-    console.log('Request method:', method);
-    console.log('Request body:', JSON.stringify(submissionData, null, 2));
-
-    const response = await fetch(endpoint, {
-      method,
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(submissionData),
-    });
-
-    console.log('API Response status:', response.status);
-    console.log('API Response ok:', response.ok);
-    console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
-
-    // Log the raw response text first
-    const responseText = await response.text();
-    console.log('Raw API Response length:', responseText.length);
-    console.log('Raw API Response:', responseText);
-
-    let result;
-    try {
-      // Only try to parse if we have content
-      if (responseText && responseText.trim()) {
-        result = JSON.parse(responseText);
-        console.log('Parsed API Response data:', result);
-      } else {
-        console.warn('Empty response from server');
-        result = { message: 'Empty response from server' };
-      }
-    } catch (parseError) {
-      console.error('Failed to parse response as JSON:', parseError);
-      console.error('Response text was:', responseText);
-      throw new Error(`Invalid response format from server. Status: ${response.status}, Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
-    }
-
-    // Enhanced success detection
-    const isSuccess = response.ok && (
-      result.success === true || 
-      result.status === 'success' || 
-      response.status === 200 || 
-      response.status === 201 ||
-      (response.status >= 200 && response.status < 300)
-    );
-    
-    console.log('Is success:', isSuccess);
-    
-    if (isSuccess) {
-      console.log('Form submission successful');
-      const successMessage = result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`;
-      
-      // Use alert if Swal is not available
-      if (typeof Swal !== 'undefined') {
-        await Swal.fire('Success', successMessage, 'success');
-      } else {
-        alert('Success: ' + successMessage);
-      }
-      
-      setShowForm(false);
-      setEditingItem(null);
-      setFormData({});
-      
-      // Call fetchData if it exists
-      if (typeof fetchData === 'function') {
-        fetchData();
-      }
-    } else {
-      console.error('Form submission failed:', result);
-      const errorMessage = result.message || result.error || `Server returned status ${response.status}`;
-      
-      // Use alert if Swal is not available
-      if (typeof Swal !== 'undefined') {
-        await Swal.fire('Error', errorMessage, 'error');
-      } else {
-        alert('Error: ' + errorMessage);
-      }
-    }
-  } catch (error) {
-    console.error('Error during form submission:', error);
-    console.error('Error stack:', error.stack);
-    
-    const errorMessage = error.message || 'Something went wrong during submission.';
-    
-    // Use alert if Swal is not available
-    if (typeof Swal !== 'undefined') {
-      await Swal.fire('Error', errorMessage, 'error');
-    } else {
-      alert('Error: ' + errorMessage);
-    }
-  } finally {
-    setLoading(false);
-    console.log('=== END FORM SUBMISSION DEBUG ===');
-  }
-};
-    const itemId = getId(editingItem);
-
-    // Use cleanedData if provided (from enhanced form), otherwise use formData
-    let submissionData = cleanedData || { ...formData };
-
-    // Enhanced logging for debugging
-    console.log('=== FORM SUBMISSION DEBUG ===');
-    console.log('Active Tab:', activeTab);
-    console.log('Editing Item:', editingItem);
-    console.log('Item ID:', itemId);
-    console.log('Method:', method);
-    console.log('Original Form Data:', formData);
-    console.log('Submission Data:', submissionData);
-
-    switch (activeTab) {
-      case 'add-product':
-      case 'all-products':
-        endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
-        break;
-      case 'add-category':
-      case 'all-categories':
-        endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
-        break;
-      case 'add-manufacturer':
-      case 'all-manufacturers':
-        if (editingItem && itemId) {
-          // Use the brand identifier (could be _id, brandId, or name)
-          const brandIdentifier = editingItem._id || editingItem.brandId || editingItem.name?.replace(/\s+/g, '-');
-          endpoint = `/api/brands/${brandIdentifier}`;
-        } else {
-          endpoint = '/api/brands';
-        }
-        
-        // Enhanced data cleaning for manufacturers
-        if (!cleanedData) {
-          // Clean up specialties data for manufacturers
-          if (submissionData.specialties) {
-            submissionData.specialties = submissionData.specialties
-              .filter(spec => spec && typeof spec === 'string' && spec.trim())
-              .map(spec => spec.trim());
-          }
-          
-          // Clean up products if they exist
-          if (submissionData.products && Array.isArray(submissionData.products)) {
-            submissionData.products = submissionData.products
-              .filter(product => product.productId && product.name)
-              .map(product => ({
-                ...product,
-                price: Number(product.price) || 0,
-                stock: Number(product.stock) || 0,
-                specifications: product.specifications || {},
-                applications: Array.isArray(product.applications) ? product.applications : [],
-                relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts : [],
-                alternativeProducts: Array.isArray(product.alternativeProducts) ? product.alternativeProducts : []
-              }));
-          }
-          
-          // Remove MongoDB-generated fields for manufacturers
-          const { _id, createdAt, updatedAt, __v, ...cleanManufacturerData } = submissionData;
-          submissionData = cleanManufacturerData;
-        }
-        break;
-      case 'add-blog':
-      case 'all-blogs':
-        endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
-        
-        if (!cleanedData) {
-          // Remove MongoDB-generated fields that shouldn't be in the request
-          const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
-          submissionData = cleanData;
-          
-          if (formData.tagsString) {
-            submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
-          } else if (typeof submissionData.tags === 'string') {
-            submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-          } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
-            submissionData.tags = [];
-          }
-          
-          submissionData.views = parseInt(submissionData.views, 10) || 0;
-          submissionData.featured = Boolean(submissionData.featured);
-          
-          const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
-          const missingFields = requiredFields.filter(field => {
-            const value = submissionData[field];
-            return !value || value.toString().trim().length === 0;
-          });
-          
-          if (missingFields.length > 0) {
-            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-          }
-          
-          if (submissionData.publishDate) {
-            const date = new Date(submissionData.publishDate);
-            if (!isNaN(date.getTime())) {
-              submissionData.publishDate = date.toISOString();
-            }
-          }
-        }
-        break;
-      default:
-        throw new Error('Invalid tab for form submission.');
-    }
-
-    console.log('Final API Call Details:', {
-      method,
-      endpoint,
-      editingItem: !!editingItem,
-      itemId,
-      activeTab,
-      submissionData: submissionData
-    });
-    
-    // Validate manufacturer data
-    if (activeTab === 'add-manufacturer' || activeTab === 'all-manufacturers') {
-      const { name, logo } = submissionData;
-      if (!name || !logo) {
-        throw new Error('Name and logo are required for manufacturers');
+    // Validate product data
+    if (activeTab === 'add-product' || activeTab === 'all-products') {
+      const { name, type, category, price } = submissionData;
+      if (!name || !type || !category || !price) {
+        throw new Error('Name, type, category, and price are required for products');
       }
       
       // Additional validation
       if (!name.trim()) {
-        throw new Error('Manufacturer name cannot be empty');
+        throw new Error('Product name cannot be empty');
       }
       
-      try {
-        new URL(logo);
-      } catch {
-        throw new Error('Logo must be a valid URL');
+      if (!type.trim()) {
+        throw new Error('Product type cannot be empty');
       }
       
-      console.log('Manufacturer validation passed');
-      console.log('Final manufacturer data:', submissionData);
+      if (!category.trim()) {
+        throw new Error('Product category cannot be empty');
+      }
+      
+      if (isNaN(parseFloat(price))) {
+        throw new Error('Product price must be a valid number');
+      }
+      
+      console.log('Product validation passed');
+      console.log('Final product data:', submissionData);
     }
 
     // Make the API request
@@ -669,11 +543,9 @@ const handleSubmit = async (e, cleanedData = null) => {
 
     console.log('API Response status:', response.status);
     console.log('API Response ok:', response.ok);
-    console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
 
     // Log the raw response text first
     const responseText = await response.text();
-    console.log('Raw API Response length:', responseText.length);
     console.log('Raw API Response:', responseText);
 
     let result;
@@ -688,8 +560,7 @@ const handleSubmit = async (e, cleanedData = null) => {
       }
     } catch (parseError) {
       console.error('Failed to parse response as JSON:', parseError);
-      console.error('Response text was:', responseText);
-      throw new Error(`Invalid response format from server. Status: ${response.status}, Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
+      throw new Error(`Invalid response format from server. Status: ${response.status}`);
     }
 
     // Enhanced success detection
@@ -707,44 +578,21 @@ const handleSubmit = async (e, cleanedData = null) => {
       console.log('Form submission successful');
       const successMessage = result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`;
       
-      // Use alert if Swal is not available
-      if (typeof Swal !== 'undefined') {
-        await Swal.fire('Success', successMessage, 'success');
-      } else {
-        alert('Success: ' + successMessage);
-      }
+      await Swal.fire('Success', successMessage, 'success');
       
       setShowForm(false);
       setEditingItem(null);
       setFormData({});
-      
-      // Call fetchData if it exists
-      if (typeof fetchData === 'function') {
-        fetchData();
-      }
+      fetchData();
     } else {
       console.error('Form submission failed:', result);
       const errorMessage = result.message || result.error || `Server returned status ${response.status}`;
-      
-      // Use alert if Swal is not available
-      if (typeof Swal !== 'undefined') {
-        await Swal.fire('Error', errorMessage, 'error');
-      } else {
-        alert('Error: ' + errorMessage);
-      }
+      await Swal.fire('Error', errorMessage, 'error');
     }
   } catch (error) {
     console.error('Error during form submission:', error);
-    console.error('Error stack:', error.stack);
-    
     const errorMessage = error.message || 'Something went wrong during submission.';
-    
-    // Use alert if Swal is not available
-    if (typeof Swal !== 'undefined') {
-      await Swal.fire('Error', errorMessage, 'error');
-    } else {
-      alert('Error: ' + errorMessage);
-    }
+    await Swal.fire('Error', errorMessage, 'error');
   } finally {
     setLoading(false);
     console.log('=== END FORM SUBMISSION DEBUG ===');

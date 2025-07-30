@@ -507,7 +507,7 @@ const ManufacturerForm = ({
         </div>
 
         {/* Debug information */}
-        <div className="border-t pt-6">
+        {/* <div className="border-t pt-6">
           <details className="bg-gray-50 p-4 rounded-lg">
             <summary className="cursor-pointer text-sm font-medium text-gray-700">Debug Information</summary>
             <div className="mt-2 space-y-2">
@@ -522,7 +522,7 @@ const ManufacturerForm = ({
               </pre>
             </div>
           </details>
-        </div>
+        </div> */}
 
         <div className="mb-20 flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
           <button
