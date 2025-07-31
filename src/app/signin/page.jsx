@@ -51,7 +51,7 @@ export default function SignInPage() {
         setTimeout(() => {
           if (isAdmin) {
             console.log('Redirecting to dashboard');
-            router.push("/dashboard");
+            router.push("/");
           } else {
             console.log('Redirecting to homepage');
             router.push("/");
