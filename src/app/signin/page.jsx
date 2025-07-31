@@ -133,16 +133,6 @@ export default function SignInPage() {
             {loading ? "Signing In..." : "Sign In"}
           </button>
         </div>
-
-        {/* Admin Credentials Helper */}
-        <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-          <p className="text-xs text-gray-600 text-center">
-            <strong>Admin Access:</strong><br />
-            Username: tanvir<br />
-            Email: tanvir@gmail.com<br />
-            Password: 123456
-          </p>
-        </div>
       </form>
     </div>
   );
