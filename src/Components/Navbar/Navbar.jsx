@@ -35,13 +35,12 @@ export default function Navbar() {
     useAPI: false // Set to true if you want to use the MongoDB API
   });
 
-  // Static navigation items (non-categories)
+  // Static navigation items (non-categories)n
   const staticNavItems = [
     { id: 'manufacturers', name: 'Manufacturers', type: 'manufacturers' },
     { id: 'solution', name: 'Solutions', type: 'link', href: '/solution' },
     { id: 'support', name: 'Support', type: 'link', href: '/support' },
-    { id: 'about', name: 'About', type: 'link', href: '/about' },
-    {id:'dashboard',name:'dashboard', type:'link', href:'/dashboard'}
+    { id: 'about', name: 'About', type: 'link', href: '/about' }
   ];
 
   const fetchBrands = async () => {
