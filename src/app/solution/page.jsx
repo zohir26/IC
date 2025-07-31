@@ -1,6 +1,6 @@
 "use client"
 import Navbar from '@/Components/Navbar/Navbar';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Footer from '../Shared/Footer';
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2';
@@ -14,6 +14,19 @@ const solutions = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle hash navigation for direct linking to submit-ticket section
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100); // Add delay to ensure it's mounted
+      }
+    }
+  }, []);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -114,9 +127,34 @@ const solutions = () => {
    <>
    <Navbar></Navbar>
      <div id='solutions' className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900">
-      {/* Hero Section */}
+      {/* Hero Section with Border */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/20 to-slate-900/40"></div>
+        
+        {/* Custom Border for "WE OFFER" Section */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="relative h-full">
+            {/* Border that starts from middle of "WE OFFER" and covers the whole section */}
+            <div className="absolute top-32 left-1/2 transform -translate-x-1/2">
+              <div className="relative">
+                {/* Starting point at "WE OFFER" */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                {/* Vertical line down */}
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-0.5 h-16 bg-gradient-to-b from-cyan-400 to-blue-500"></div>
+                {/* Horizontal expanding border */}
+                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-60"></div>
+                {/* Side borders */}
+                <div className="absolute top-16 -left-96 w-0.5 h-80 bg-gradient-to-b from-blue-500 to-cyan-400 opacity-40"></div>
+                <div className="absolute top-16 left-96 w-0.5 h-80 bg-gradient-to-b from-blue-500 to-cyan-400 opacity-40"></div>
+                {/* Bottom border */}
+                <div className="absolute top-96 left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60"></div>
+                {/* End point opposite side */}
+                <div className="absolute top-96 right-96 w-2 h-2 bg-cyan-400 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           <div className="text-center">
             {/* We Offer Badge */}
@@ -151,15 +189,22 @@ const solutions = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-20">
         
-        {/* Why Leading Brands Choose Us */}
-        <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
-          <div className="max-w-4xl mx-auto">
+        {/* Why Leading Brands Choose Us with Yellow Border */}
+        <div className="relative bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
+          {/* Yellow Border between quotations */}
+          <div className="absolute inset-4 border-2 border-yellow-400/60 rounded-xl pointer-events-none"></div>
+          <div className="absolute top-6 left-6 w-8 h-8 border-l-2 border-t-2 border-yellow-400 rounded-tl-lg"></div>
+          <div className="absolute top-6 right-6 w-8 h-8 border-r-2 border-t-2 border-yellow-400 rounded-tr-lg"></div>
+          <div className="absolute bottom-6 left-6 w-8 h-8 border-l-2 border-b-2 border-yellow-400 rounded-bl-lg"></div>
+          <div className="absolute bottom-6 right-6 w-8 h-8 border-r-2 border-b-2 border-yellow-400 rounded-br-lg"></div>
+          
+          <div className="max-w-4xl mx-auto relative z-10">
             <h2 className="text-3xl font-bold text-white mb-8 text-center">
               <span className="text-emerald-400">Why</span> Leading Brands Choose Us?
             </h2>
             
             <div className="relative">
-              <div className="text-4xl text-emerald-400/30 font-serif absolute -top-4 -left-2">"</div>
+              <div className="text-4xl text-yellow-400/80 font-serif absolute -top-4 -left-2">"</div>
               <div className="pl-8 pr-4">
                 <p className="text-lg text-slate-300 leading-relaxed italic">
                   Our expertise lies in turning complex technical data into meaningful 
@@ -169,7 +214,7 @@ const solutions = () => {
                   your brand with an audience actively seeking cutting-edge solutions.
                 </p>
               </div>
-              <div className="text-4xl text-emerald-400/30 font-serif absolute -bottom-4 -right-2">"</div>
+              <div className="text-4xl text-yellow-400/80 font-serif absolute -bottom-4 -right-2">"</div>
             </div>
             
             {/* Process Timeline */}
@@ -335,13 +380,13 @@ const solutions = () => {
           </div>
         </div>
 
-        {/* Connect With Us - Call to Action */}
-        <div className="text-center bg-emerald-900/30 backdrop-blur-sm rounded-2xl p-12 border border-emerald-700/50">
+        {/* Connect With Us - Call to Action with Submit Ticket */}
+        <div id="submit-ticket" className="text-center bg-emerald-900/30 backdrop-blur-sm rounded-2xl p-12 border border-emerald-700/50">
           <h3 className="text-3xl font-bold text-white mb-6">
             Connect With Us - <span className="text-emerald-400">"Discover Our Approach"</span>
           </h3>
           <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Ready to amplify your semiconductor innovation and build an industry-leading global presence?
+            Share your thoughts – how we can help
           </p>
           
           {/* Contact Form Section */}
@@ -370,19 +415,14 @@ const solutions = () => {
                 />
               </div>
               
-              <select 
+              <input 
+                type="text"
                 name="organization"
                 value={formData.organization}
                 onChange={handleInputChange}
-                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors"
-              >
-                <option value="">Select Your Organization Type</option>
-                <option value="Semiconductor Manufacturer">Semiconductor Manufacturer</option>
-                <option value="Tech Startup">Tech Startup</option>
-                <option value="Enterprise Company">Enterprise Company</option>
-                <option value="Research Institution">Research Institution</option>
-                <option value="Other">Other</option>
-              </select>
+                placeholder="Name of Your Organization"
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:border-emerald-500 focus:outline-none transition-colors"
+              />
               
               <textarea 
                 name="message"
