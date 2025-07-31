@@ -40,7 +40,8 @@ export default function Navbar() {
     { id: 'manufacturers', name: 'Manufacturers', type: 'manufacturers' },
     { id: 'solution', name: 'Solutions', type: 'link', href: '/solution' },
     { id: 'support', name: 'Support', type: 'link', href: '/support' },
-    { id: 'about', name: 'About', type: 'link', href: '/about' }
+    { id: 'about', name: 'About', type: 'link', href: '/about' },
+    {id:'dashboard',name:'dashboard', type:'link', href:'/dashboard'}
   ];
 
   const fetchBrands = async () => {
