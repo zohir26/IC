@@ -5,6 +5,8 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useCategories } from '@/app/hooks/useCategories';
 import { ChevronRight } from "lucide-react";
+import NavbarSearch from "../NavbarSearch";
+
 
 // Simple slugify function
 const slugify = (text) => {
@@ -326,6 +328,11 @@ export default function Navbar() {
   const renderMobileMenu = () => (
     <div className="lg:hidden bg-blue-900 border-t border-blue-700 max-h-96 overflow-y-auto">
       <div className="px-4 py-2 space-y-2">
+        {/* Mobile Search */}
+        <div className="py-2">
+          <NavbarSearch />
+        </div>
+
         {/* Products Section */}
         <div className="space-y-1">
           <div className="flex items-center justify-between py-2 text-white">
@@ -496,7 +503,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-6">
               {/* Products Dropdown */}
               <div
                 onMouseEnter={() => handleMouseEnter('products')}
@@ -533,6 +540,11 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Search Bar - Desktop Only */}
+              <div className="ml-4">
+                <NavbarSearch />
+              </div>
             </div>
 
             {/* User Auth & Actions */}

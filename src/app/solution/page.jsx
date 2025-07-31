@@ -142,10 +142,10 @@ const solutions = () => {
                 {/* Vertical line down */}
                 <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-0.5 h-16 bg-gradient-to-b from-cyan-400 to-blue-500"></div>
                 {/* Horizontal expanding border */}
-                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-60"></div>
+                <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-60"></div>
                 {/* Side borders */}
-                <div className="absolute top-16 -left-96 w-0.5 h-80 bg-gradient-to-b from-blue-500 to-cyan-400 opacity-40"></div>
-                <div className="absolute top-16 left-96 w-0.5 h-80 bg-gradient-to-b from-blue-500 to-cyan-400 opacity-40"></div>
+                <div className="absolute top-16 -left-140 w-0.5 h-80 bg-gradient-to-b from-blue-500 to-cyan-400 opacity-40"></div>
+                <div className="absolute top-16 left-140 w-0.5 h-80 bg-gradient-to-b from-blue-500 to-cyan-400 opacity-40"></div>
                 {/* Bottom border */}
                 <div className="absolute top-96 left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60"></div>
                 {/* End point opposite side */}
