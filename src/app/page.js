@@ -17,21 +17,26 @@ export default async function Home() {
   const session = await getServerSession(authOptions)
   return (
     <>
-
       <div>
-        <Navbar session={session}>
-        </Navbar>
+        <Navbar session={session} />
       </div>
-      <Banner></Banner>
-      <CompareSection></CompareSection>
-      <RecentlyViewed></RecentlyViewed>
-      <TopCategory></TopCategory>
-      <FindByBrands></FindByBrands>
-      <TopSearched></TopSearched>
-      <OurClients></OurClients>
-       <BlogsPage></BlogsPage>
-      <Footer></Footer>
-      
+      <Banner />
+      <CompareSection />
+      <RecentlyViewed />
+      <div id="categories">
+        <TopCategory />
+      </div>
+      <div id="manufacturers">
+        <FindByBrands />
+      </div>
+      <TopSearched />
+      <div id="about">
+        <OurClients />
+      </div>
+      <div id="blogs">
+        <BlogsPage />
+      </div>
+      <Footer />
     </>
   );
 }
