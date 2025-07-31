@@ -131,7 +131,7 @@ function SearchResults() {
               <h1 className="text-2xl font-bold text-gray-900 mb-2">
                 Search Results
                 {query && (
-                  <span className="text-blue-600"> for "{query}"</span>
+                  <span className="text-blue-600"> for &quot;{query}&quot;</span>
                 )}
               </h1>
               <p className="text-gray-600">

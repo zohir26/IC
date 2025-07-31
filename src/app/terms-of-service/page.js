@@ -82,7 +82,7 @@ export default async function TermsOfService() {
                   5. Disclaimer of Warranties
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  Our services are provided "as is" without any warranties, express or implied. We do not warrant that:
+                  Our services are provided &quot;as is&quot; without any warranties, express or implied. We do not warrant that:
                 </p>
                 <ul className="list-disc pl-6 text-gray-700 space-y-2">
                   <li>The service will meet your specific requirements</li>
