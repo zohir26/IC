@@ -107,7 +107,7 @@ export default async function PrivacyPolicy() {
                   7. Changes to This Privacy Policy
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+                  We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the Last updated date.
                 </p>
               </section>
 
