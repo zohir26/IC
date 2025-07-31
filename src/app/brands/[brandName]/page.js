@@ -1,5 +1,7 @@
 // app/brands/[brandName]/page.js - FIXED for Next.js 15
-import BrandProducts from '@/components/BrandProducts';
+
+import BrandProducts from "@/Components/BrandProducts";
+
 
 export async function generateMetadata({ params }) {
   const { brandName } = await params; // Await params

@@ -4,7 +4,8 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiSearch, FiFilter, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/Components/ProductCard';
+
 
 function SearchResults() {
   const searchParams = useSearchParams();
