@@ -1,12 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// The file should be named route.js and located in app/api/auth/[...nextauth]/
-
-// export const metadata = {
-//   title: 'Admin | Login',
-// };
-
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -15,41 +9,44 @@ export const authOptions = {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
         email: { label: "Email", type: "email" },
-        image: { label: "Photo", type: "text" }, // Correctly define the 'image' field
+        image: { label: "Photo", type: "text" },
       },
       async authorize(credentials) {
+        console.log('NextAuth: Attempting to authorize:', credentials);
+        
         if (!credentials) {
+          console.log('NextAuth: No credentials provided');
           return null;
         }
-        
-        // This is a placeholder for your actual user validation logic.
-        // In a real application, you would look up the user in your database.
-        const user = {
-          id: "1",
-          name: credentials.username, // Use the provided username
-          email: credentials.email,
-          image: credentials.image // Pass along the image
-        };
 
-        // Example validation logic
+        // Validate credentials
         if (
           credentials.username === "tanvir" &&
           credentials.password === "123456" &&
           credentials.email === "tanvir@gmail.com"
         ) {
+          console.log('NextAuth: Credentials valid, creating user session');
+          const user = {
+            id: "1",
+            name: credentials.username,
+            email: credentials.email,
+            image: credentials.image || '/default-avatar.png'
+          };
           return user;
         } else {
-          // If you return null, an error will be displayed to the user.
+          console.log('NextAuth: Invalid credentials');
           return null;
         }
       },
     }),
   ],
   pages: {
-    signIn: "/signin", // Ensure this path points to your custom sign-in page component.
+    signIn: "/signin", // Make sure this matches your signin page path
+    error: "/signin?error=true", // Redirect errors to signin page
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -68,8 +65,8 @@ export const authOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development', // Enable debug in development
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

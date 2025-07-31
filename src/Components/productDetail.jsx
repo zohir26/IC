@@ -786,7 +786,7 @@ export default function ProductDetail({ brandName, productId }) {
           </div>
         )}
 
-        {/* Alternative Products */}
+        {/* Alternative Products for products*/}
         {alternativeProducts.length > 0 && (
           <div className="mb-8">
             <div className="flex items-center mb-6">

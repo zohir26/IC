@@ -48,19 +48,24 @@ const ICDashboard = () => {
   ];
 
   // Redirect if not admin or not authenticated
-  useEffect(() => {
-    if (status === 'loading') return;
+useEffect(() => {
+  if (status === 'loading') return;
 
-    if (!session) {
-      signIn();
-      return;
-    }
-    
-    if (session && !isAdmin) {
-      window.location.href = '/unauthorized';
-      return;
-    }
-  }, [session, status, isAdmin]);
+  if (!session) {
+    console.log('No session, redirecting to signin page');
+    // Redirect to your custom signin page instead of calling signIn()
+    window.location.href = '/signin';
+    return;
+  }
+  
+  if (session && !isAdmin) {
+    console.log('Not admin user, access denied');
+    window.location.href = '/unauthorized';
+    return;
+  }
+
+  console.log('Admin access granted');
+}, [session, status, isAdmin]);
 
   // Data fetching
   useEffect(() => {
