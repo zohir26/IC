@@ -13,6 +13,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import BlogsPage from "./blogs/page";
 import FindByBrands from "@/Components/FindByBrands";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 export default async function Home() {
   const session = await getServerSession(authOptions)
   return (

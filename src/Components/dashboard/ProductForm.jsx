@@ -39,6 +39,17 @@ const ProductForm = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
+             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name *</label>
+              <input
+                type="text"
+                required
+                value={formData.brandName || ''}
+                onChange={(e) => setFormData({...formData, brandName: e.target.value})}
+                placeholder="e.g., Analog device"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Product Type *</label>
@@ -279,7 +290,62 @@ const ProductForm = ({
             </button>
           </div>
         </div>
-        
+        {/* Documents */}
+<div className="border-b border-gray-200 pb-4">
+  <h4 className="text-md font-semibold text-gray-800 mb-3">Documents</h4>
+  <div className="space-y-3">
+    {(formData.documents || []).map((doc, index) => (
+      <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input
+          type="text"
+          placeholder="Document Label (e.g., User Manual)"
+          value={doc.label}
+          onChange={(e) => {
+            const newDocs = [...(formData.documents || [])];
+            newDocs[index].label = e.target.value;
+            setFormData({ ...formData, documents: newDocs });
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <div className="flex space-x-2">
+          <input
+            type="url"
+            placeholder="Document URL"
+            value={doc.url}
+            onChange={(e) => {
+              const newDocs = [...(formData.documents || [])];
+              newDocs[index].url = e.target.value;
+              setFormData({ ...formData, documents: newDocs });
+            }}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const newDocs = formData.documents.filter((_, i) => i !== index);
+              setFormData({ ...formData, documents: newDocs });
+            }}
+            className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            <Trash2 size={14} />
+          </button>
+        </div>
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() => {
+        const newDocs = [...(formData.documents || []), { label: '', url: '' }];
+        setFormData({ ...formData, documents: newDocs });
+      }}
+      className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600"
+    >
+      <Plus size={16} className="inline mr-1" />
+      Add Document
+    </button>
+  </div>
+</div>
+
         <div className="flex space-x-3">
           <button
             type="submit"
