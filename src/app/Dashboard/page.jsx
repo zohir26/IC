@@ -48,24 +48,23 @@ const ICDashboard = () => {
   ];
 
   // Redirect if not admin or not authenticated
-useEffect(() => {
-  if (status === 'loading') return;
+  useEffect(() => {
+    if (status === 'loading') return;
 
-  if (!session) {
-    console.log('No session, redirecting to signin page');
-    // Redirect to your custom signin page instead of calling signIn()
-    window.location.href = '/signin';
-    return;
-  }
-  
-  if (session && !isAdmin) {
-    console.log('Not admin user, access denied');
-    window.location.href = '/unauthorized';
-    return;
-  }
+    if (!session) {
+      console.log('No session, redirecting to signin page');
+      window.location.href = '/signin';
+      return;
+    }
+    
+    if (session && !isAdmin) {
+      console.log('Not admin user, access denied');
+      window.location.href = '/unauthorized';
+      return;
+    }
 
-  console.log('Admin access granted');
-}, [session, status, isAdmin]);
+    console.log('Admin access granted');
+  }, [session, status, isAdmin]);
 
   // Data fetching
   useEffect(() => {
@@ -83,9 +82,9 @@ useEffect(() => {
       let data;
       switch (activeTab) {
         case 'all-products':
-          res = await fetch('/api/products');
+          res = await fetch('/api/brands');
           if (!res.ok) {
-            console.error('Failed to fetch products:', res.status, res.statusText);
+            console.error('Failed to fetch brands for products:', res.status, res.statusText);
             setProducts([]);
             Swal.fire('Error', `Failed to load products: ${res.statusText}`, 'error');
             return;
@@ -93,8 +92,8 @@ useEffect(() => {
           data = await res.json();
           
           let extractedProducts = [];
-          if (data.success && Array.isArray(data.brands)) {
-            data.brands.forEach(brand => {
+          if (Array.isArray(data)) {
+            data.forEach(brand => {
               if (brand.products && Array.isArray(brand.products)) {
                 brand.products.forEach(product => {
                   extractedProducts.push({
@@ -105,10 +104,6 @@ useEffect(() => {
                 });
               }
             });
-          } else if (data.success && Array.isArray(data.products)) {
-            extractedProducts = data.products;
-          } else if (Array.isArray(data)) {
-            extractedProducts = data;
           }
           
           setProducts(extractedProducts);
@@ -147,12 +142,11 @@ useEffect(() => {
           data = await res.json();
           
           let extractedBrands = [];
-          if (data.success && Array.isArray(data.brands)) {
-            extractedBrands = data.brands;
-          } else if (data.success && Array.isArray(data.data)) {
-            extractedBrands = data.data;
-          } else if (Array.isArray(data)) {
-            extractedBrands = data;
+          if (Array.isArray(data)) {
+            extractedBrands = data.map(brand => ({
+              ...brand,
+              products: brand.products || []
+            }));
           }
           
           setManufacturers(extractedBrands);
@@ -191,418 +185,340 @@ useEffect(() => {
   };
 
   // Handle delete
-const handleDelete = async (id, type) => {
-  const result = await Swal.fire({
-    title: 'Are you sure?',
-    text: `You won't be able to revert this ${type} deletion!`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-  });
+  const handleDelete = async (id, type) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: `You won't be able to revert this ${type} deletion!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
 
-  if (result.isConfirmed) {
+    if (result.isConfirmed) {
+      setLoading(true);
+      try {
+        let endpoint = '';
+        let itemToDelete = null;
+
+        switch (type) {
+          case 'product':
+            itemToDelete = products.find(p => p.productId === id || p._id === id);
+            if (!itemToDelete) {
+              throw new Error('Product not found');
+            }
+            endpoint = `/api/brands/${itemToDelete.brandName.replace(/\s+/g, '-')}/products/${id}`;
+            break;
+          case 'category':
+            endpoint = `/api/categories/${id}`;
+            break;
+          case 'manufacturer':
+            itemToDelete = manufacturers.find(m => 
+              m._id === id || m.brandId === id
+            );
+            if (!itemToDelete) {
+              throw new Error('Manufacturer not found');
+            }
+            endpoint = `/api/brands/${itemToDelete.brandId}`;
+            break;
+          case 'blog':
+            endpoint = `/api/blogs/${id}`;
+            break;
+          default:
+            throw new Error('Invalid type for deletion.');
+        }
+
+        console.log('DELETE request to:', endpoint);
+
+        const response = await fetch(endpoint, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const result = await response.json();
+        if (response.ok && result.success) {
+          Swal.fire('Deleted!', `${type} has been deleted.`, 'success');
+          fetchData(); // Refresh the data
+        } else {
+          const errorMessage = result.error || result.message || 'Failed to delete';
+          Swal.fire('Error', errorMessage, 'error');
+        }
+      } catch (error) {
+        console.error('Error during deletion:', error);
+        Swal.fire('Error', error.message || 'Something went wrong during deletion.', 'error');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  // Handle submit
+  const handleSubmit = async (e, cleanedData = null) => {
+    e.preventDefault();
+    
+    if (loading) return;
+    
     setLoading(true);
+
     try {
       let endpoint = '';
-      let itemToDelete = null;
+      let method = editingItem ? 'PUT' : 'POST';
+      
+      const getId = (item) => {
+        if (!item) return null;
+        if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
+          return item._id || item.brandId;
+        }
+        if (activeTab === 'all-categories' || activeTab === 'add-category') {
+          return item._id || item.id;
+        }
+        if (activeTab === 'all-products' || activeTab === 'add-product') {
+          return item._id || item.productId;
+        }
+        return item._id || item.id || item.productId || item.brandId;
+      };
+      
+      const itemId = getId(editingItem);
+      let submissionData = cleanedData || { ...formData };
 
-      switch (type) {
-        case 'product':
-          endpoint = `/api/products/${id}`;
-          break;
-        case 'category':
-          endpoint = `/api/categories/${id}`;
-          break;
-        case 'manufacturer':
-          // Find the manufacturer item to get the correct identifier
-          itemToDelete = manufacturers.find(m => 
-            m._id === id || m.brandId === id || m.id === id
-          );
-          
-          console.log('Deleting manufacturer:', itemToDelete);
-          
-          if (!itemToDelete) {
-            throw new Error('Manufacturer not found');
+      console.log('=== FORM SUBMISSION DEBUG ===');
+      console.log('Active Tab:', activeTab);
+      console.log('Editing Item:', editingItem);
+      console.log('Item ID:', itemId);
+      console.log('Method:', method);
+      console.log('Submission Data:', submissionData);
+
+      switch (activeTab) {
+        case 'add-product':
+        case 'all-products':
+          endpoint = editingItem && itemId ? `/api/brands/${submissionData.brandName.replace(/\s+/g, '-')}/products/${itemId}` : '/api/products';
+          if (!cleanedData) {
+            const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
+            submissionData = cleanData;
+            
+            const requiredFields = ['name', 'category', 'price', 'brandName'];
+            const missingFields = requiredFields.filter(field => {
+              const value = submissionData[field];
+              return !value || value.toString().trim().length === 0 || (field === 'price' && isNaN(parseFloat(value)));
+            });
+            
+            if (missingFields.length > 0) {
+              throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+            }
+
+            submissionData.name = submissionData.name.trim();
+            submissionData.category = submissionData.category.trim();
+            submissionData.brandName = submissionData.brandName.trim();
+            submissionData.price = parseFloat(submissionData.price) || 0;
+            submissionData.stock = parseInt(submissionData.stock) || 0;
+            submissionData.description = submissionData.description?.trim() || '';
+            submissionData.image = submissionData.image?.trim() || '';
+            submissionData.datasheet = submissionData.datasheet?.trim() || '';
+            submissionData.relatedProducts = Array.isArray(submissionData.relatedProducts) ? submissionData.relatedProducts.filter(rel => rel && rel.trim()) : [];
+            submissionData.alternativeProducts = Array.isArray(submissionData.alternativeProducts) ? submissionData.alternativeProducts.map(alt => ({
+              productId: alt.productId?.trim() || '',
+              name: alt.name?.trim() || '',
+              brandName: alt.brandName?.trim() || '',
+              category: alt.category?.trim() || '',
+              price: Number(alt.price) || 0,
+              stock: Number(alt.stock) || 0,
+              image: alt.image?.trim() || ''
+            })).filter(alt => alt.productId && alt.name) : [];
           }
+          break;
           
-          // Use _id as primary identifier, fallback to brandId
-          const brandIdentifier = itemToDelete._id || itemToDelete.brandId;
-          endpoint = `/api/brands/${brandIdentifier}`;
+        case 'add-category':
+        case 'all-categories':
+          endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
+          if (!cleanedData) {
+            const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
+            submissionData = cleanData;
+            
+            const requiredFields = ['name', 'icon', 'link'];
+            const missingFields = requiredFields.filter(field => {
+              const value = submissionData[field];
+              return !value || value.toString().trim().length === 0;
+            });
+            
+            if (missingFields.length > 0) {
+              throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+            }
+          }
           break;
-        case 'blog':
-          endpoint = `/api/blogs/${id}`;
+          
+        case 'add-manufacturer':
+        case 'all-manufacturers':
+          endpoint = editingItem && itemId ? `/api/brands/${encodeURIComponent(submissionData.name.replace(/\s+/g, '-'))}` : '/api/brands';
+          if (!cleanedData) {
+            const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
+            submissionData = cleanData;
+            
+            // Validate required fields for manufacturers
+            const requiredFields = ['name', 'logo'];
+            const missingFields = requiredFields.filter(field => {
+              const value = submissionData[field];
+              return !value || value.toString().trim().length === 0;
+            });
+            
+            if (missingFields.length > 0) {
+              throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+            }
+
+            // Clean and validate manufacturer data
+            submissionData.name = submissionData.name.trim();
+            submissionData.logo = submissionData.logo?.trim() || '';
+            try {
+              new URL(submissionData.logo);
+            } catch {
+              throw new Error('Logo must be a valid URL');
+            }
+            
+            // Clean specialties
+            submissionData.specialties = Array.isArray(submissionData.specialties)
+              ? submissionData.specialties.filter(spec => spec && typeof spec === 'string' && spec.trim()).map(spec => spec.trim())
+              : [];
+
+            // Clean and validate products
+            if (submissionData.products) {
+              // Check for duplicate product IDs
+              const productIds = submissionData.products.map(p => p.productId?.trim());
+              const uniqueProductIds = new Set(productIds);
+              if (uniqueProductIds.size !== productIds.length) {
+                throw new Error('Duplicate product IDs found in the products list');
+              }
+
+              submissionData.products = submissionData.products.map(product => ({
+                productId: product.productId?.trim() || '',
+                name: product.name?.trim() || '',
+                category: product.category?.trim() || '',
+                description: product.description?.trim() || '',
+                specifications: product.specifications || {},
+                price: Number(product.price) || 0,
+                stock: Number(product.stock) || 0,
+                image: product.image?.trim() || '',
+                datasheet: product.datasheet?.trim() || '',
+                applications: Array.isArray(product.applications) ? product.applications.filter(app => app && app.trim()) : [],
+                relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts.filter(rel => rel && rel.trim()) : [],
+                alternativeProducts: Array.isArray(product.alternativeProducts) ? product.alternativeProducts.map(alt => ({
+                  productId: alt.productId?.trim() || '',
+                  name: alt.name?.trim() || '',
+                  brandName: alt.brandName?.trim() || '',
+                  category: alt.category?.trim() || '',
+                  price: Number(alt.price) || 0,
+                  stock: Number(alt.stock) || 0,
+                  image: alt.image?.trim() || ''
+                })).filter(alt => alt.productId && alt.name) : []
+              })).filter(product => product.productId && product.name);
+            } else {
+              submissionData.products = [];
+            }
+          }
           break;
+          
+        case 'add-blog':
+        case 'all-blogs':
+          endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
+          if (!cleanedData) {
+            const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
+            submissionData = cleanData;
+            
+            if (formData.tagsString) {
+              submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+            } else if (typeof submissionData.tags === 'string') {
+              submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+            } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
+              submissionData.tags = [];
+            }
+            
+            submissionData.views = parseInt(submissionData.views, 10) || 0;
+            submissionData.featured = Boolean(submissionData.featured);
+            
+            const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
+            const missingFields = requiredFields.filter(field => {
+              const value = submissionData[field];
+              return !value || value.toString().trim().length === 0;
+            });
+            
+            if (missingFields.length > 0) {
+              throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+            }
+            
+            if (submissionData.publishDate) {
+              const date = new Date(submissionData.publishDate);
+              if (!isNaN(date.getTime())) {
+                submissionData.publishDate = date.toISOString();
+              }
+            }
+          }
+          break;
+          
         default:
-          throw new Error('Invalid type for deletion.');
+          throw new Error('Invalid tab for form submission.');
       }
 
-      console.log('DELETE request to:', endpoint);
+      console.log('Making API request to:', endpoint);
+      console.log('Request method:', method);
+      console.log('Request body:', JSON.stringify(submissionData, null, 2));
 
       const response = await fetch(endpoint, {
-        method: 'DELETE',
-        headers: {
+        method,
+        headers: { 
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
+        body: JSON.stringify(submissionData),
       });
 
-      console.log('DELETE response status:', response.status);
-      console.log('DELETE response ok:', response.ok);
+      const responseText = await response.text();
+      console.log('Raw API Response:', responseText);
 
-      const result = await response.json();
-      console.log('DELETE response data:', result);
+      let result;
+      try {
+        if (responseText && responseText.trim()) {
+          result = JSON.parse(responseText);
+          console.log('Parsed API Response data:', result);
+        } else {
+          console.warn('Empty response from server');
+          result = { message: 'Empty response from server' };
+        }
+      } catch (parseError) {
+        console.error('Failed to parse response as JSON:', parseError);
+        throw new Error(`Invalid response format from server. Status: ${response.status}`);
+      }
 
-      if (response.ok && (result.success === true || result.status === 'success')) {
-        Swal.fire('Deleted!', `${type} has been deleted.`, 'success');
-        fetchData(); // Refresh the data
+      const isSuccess = response.ok && (
+        result.success === true || 
+        result.status === 'success' || 
+        response.status === 200 || 
+        response.status === 201
+      );
+      
+      if (isSuccess) {
+        const successMessage = result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`;
+        await Swal.fire('Success', successMessage, 'success');
+        setShowForm(false);
+        setEditingItem(null);
+        setFormData({});
+        fetchData();
       } else {
-        const errorMessage = result.error || result.message || 'Failed to delete';
-        Swal.fire('Error', errorMessage, 'error');
+        const errorMessage = result.message || result.error || `Server returned status ${response.status}`;
+        if (errorMessage.includes('duplicate key')) {
+          throw new Error('Duplicate key error: A brand or product with this identifier already exists');
+        }
+        await Swal.fire('Error', errorMessage, 'error');
       }
     } catch (error) {
-      console.error('Error during deletion:', error);
-      Swal.fire('Error', error.message || 'Something went wrong during deletion.', 'error');
+      console.error('Error during form submission:', error);
+      const errorMessage = error.message || 'Something went wrong during submission.';
+      await Swal.fire('Error', errorMessage, 'error');
     } finally {
       setLoading(false);
     }
-  }
-};
+  };
 
-  // Handle submit
-
-// Updated handleSubmit function for dashboard/page.jsx
-
-const handleSubmit = async (e, cleanedData = null) => {
-  e.preventDefault();
-  
-  if (loading) return;
-  
-  setLoading(true);
-
-  try {
-    let endpoint = '';
-    let method = editingItem ? 'PUT' : 'POST';
-    
-    const getId = (item) => {
-      if (!item) return null;
-      // For manufacturers, prioritize _id, then brandId, then other IDs
-      if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
-        return item._id || item.brandId || item.id || null;
-      }
-      // For categories, prioritize _id, then id
-      if (activeTab === 'all-categories' || activeTab === 'add-category') {
-        return item._id || item.id || null;
-      }
-      // For products, prioritize _id, then other IDs
-      if (activeTab === 'all-products' || activeTab === 'add-product') {
-        return item._id || item.id || item.productId || null;
-      }
-      return item._id || item.id || item.productId || item.brandId || null;
-    };
-    
-    const itemId = getId(editingItem);
-
-    // Use cleanedData if provided (from enhanced form), otherwise use formData
-    let submissionData = cleanedData || { ...formData };
-
-    // Enhanced logging for debugging
-    console.log('=== FORM SUBMISSION DEBUG ===');
-    console.log('Active Tab:', activeTab);
-    console.log('Editing Item:', editingItem);
-    console.log('Item ID:', itemId);
-    console.log('Method:', method);
-    console.log('Original Form Data:', formData);
-    console.log('Submission Data:', submissionData);
-
-    switch (activeTab) {
-      case 'add-product':
-      case 'all-products':
-        endpoint = editingItem && itemId ? `/api/products/${itemId}` : '/api/products';
-        
-        // For products, if no cleanedData provided, do basic cleaning
-        if (!cleanedData) {
-          // Remove MongoDB-generated fields that shouldn't be in the request
-          const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
-          submissionData = cleanData;
-          
-          // Validate required fields for products
-          const requiredFields = ['name', 'type', 'category', 'price'];
-          const missingFields = requiredFields.filter(field => {
-            const value = submissionData[field];
-            if (field === 'price') {
-              return !value || isNaN(parseFloat(value));
-            }
-            return !value || value.toString().trim().length === 0;
-          });
-          
-          if (missingFields.length > 0) {
-            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-          }
-
-          // Clean and validate product data
-          submissionData.name = submissionData.name.trim();
-          submissionData.type = submissionData.type.trim();
-          submissionData.category = submissionData.category.trim();
-          submissionData.price = parseFloat(submissionData.price);
-
-          // Clean optional fields
-          if (submissionData.parentCategory) submissionData.parentCategory = submissionData.parentCategory.trim();
-          if (submissionData.brand) submissionData.brand = submissionData.brand.trim();
-          if (submissionData.brandName) submissionData.brandName = submissionData.brandName.trim();
-          if (submissionData.manufacturer) submissionData.manufacturer = submissionData.manufacturer.trim();
-          if (submissionData.manufacturerName) submissionData.manufacturerName = submissionData.manufacturerName.trim();
-          if (submissionData.description) submissionData.description = submissionData.description.trim();
-          if (submissionData.image) submissionData.image = submissionData.image.trim();
-          if (submissionData.datasheet) submissionData.datasheet = submissionData.datasheet.trim();
-          if (submissionData.videoUrl) submissionData.videoUrl = submissionData.videoUrl.trim();
-
-          // Clean specifications
-          if (submissionData.specifications) {
-            submissionData.specifications = Object.fromEntries(
-              Object.entries(submissionData.specifications)
-                .filter(([key, value]) => key.trim() && value.trim())
-                .map(([key, value]) => [key.trim(), value.trim()])
-            );
-          }
-
-          // Clean applications
-          if (submissionData.applications) {
-            submissionData.applications = submissionData.applications
-              .filter(app => app && app.trim())
-              .map(app => app.trim());
-          }
-
-          // Clean features
-          if (submissionData.features) {
-            submissionData.features = submissionData.features
-              .filter(feature => feature && feature.trim())
-              .map(feature => feature.trim());
-          }
-        }
-        break;
-        
-      case 'add-category':
-      case 'all-categories':
-        endpoint = editingItem && itemId ? `/api/categories/${itemId}` : '/api/categories';
-        
-        // For categories, if no cleanedData provided, do basic cleaning
-        if (!cleanedData) {
-          // Remove MongoDB-generated fields that shouldn't be in the request
-          const { _id, createdAt, updatedAt, __v, ...cleanData } = submissionData;
-          submissionData = cleanData;
-          
-          // Validate required fields for categories
-          const requiredFields = ['name', 'icon', 'link'];
-          const missingFields = requiredFields.filter(field => {
-            const value = submissionData[field];
-            return !value || value.toString().trim().length === 0;
-          });
-          
-          if (missingFields.length > 0) {
-            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-          }
-        }
-        break;
-        
-      case 'add-manufacturer':
-      case 'all-manufacturers':
-        if (editingItem && itemId) {
-          // Use the _id as primary identifier
-          const brandIdentifier = editingItem._id || editingItem.brandId;
-          endpoint = `/api/brands/${brandIdentifier}`;
-        } else {
-          endpoint = '/api/brands';
-        }
-        
-        // Enhanced data cleaning for manufacturers
-        if (!cleanedData) {
-          // Clean up specialties data for manufacturers
-          if (submissionData.specialties) {
-            submissionData.specialties = submissionData.specialties
-              .filter(spec => spec && typeof spec === 'string' && spec.trim())
-              .map(spec => spec.trim());
-          }
-          
-          // Remove MongoDB-generated fields for manufacturers
-          const { _id, createdAt, updatedAt, __v, ...cleanManufacturerData } = submissionData;
-          submissionData = cleanManufacturerData;
-        }
-        break;
-        
-      case 'add-blog':
-      case 'all-blogs':
-        endpoint = editingItem && itemId ? `/api/blogs/${itemId}` : '/api/blogs';
-        
-        if (!cleanedData) {
-          // Remove MongoDB-generated fields that shouldn't be in the request
-          const { _id, createdAt, updatedAt, __v, tagsString, ...cleanData } = submissionData;
-          submissionData = cleanData;
-          
-          if (formData.tagsString) {
-            submissionData.tags = formData.tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
-          } else if (typeof submissionData.tags === 'string') {
-            submissionData.tags = submissionData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-          } else if (!submissionData.tags || !Array.isArray(submissionData.tags)) {
-            submissionData.tags = [];
-          }
-          
-          submissionData.views = parseInt(submissionData.views, 10) || 0;
-          submissionData.featured = Boolean(submissionData.featured);
-          
-          const requiredFields = ['title', 'author', 'category', 'publishDate', 'readTime', 'summary', 'content', 'img'];
-          const missingFields = requiredFields.filter(field => {
-            const value = submissionData[field];
-            return !value || value.toString().trim().length === 0;
-          });
-          
-          if (missingFields.length > 0) {
-            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-          }
-          
-          if (submissionData.publishDate) {
-            const date = new Date(submissionData.publishDate);
-            if (!isNaN(date.getTime())) {
-              submissionData.publishDate = date.toISOString();
-            }
-          }
-        }
-        break;
-        
-      default:
-        throw new Error('Invalid tab for form submission.');
-    }
-
-    console.log('Final API Call Details:', {
-      method,
-      endpoint,
-      editingItem: !!editingItem,
-      itemId,
-      activeTab,
-      submissionData: submissionData
-    });
-    
-    // Validate manufacturer data
-    if (activeTab === 'add-manufacturer' || activeTab === 'all-manufacturers') {
-      const { name, logo } = submissionData;
-      if (!name || !logo) {
-        throw new Error('Name and logo are required for manufacturers');
-      }
-      
-      // Additional validation
-      if (!name.trim()) {
-        throw new Error('Manufacturer name cannot be empty');
-      }
-      
-      try {
-        new URL(logo);
-      } catch {
-        throw new Error('Logo must be a valid URL');
-      }
-      
-      console.log('Manufacturer validation passed');
-      console.log('Final manufacturer data:', submissionData);
-    }
-
-    // Validate product data
-    if (activeTab === 'add-product' || activeTab === 'all-products') {
-      const { name, type, category, price } = submissionData;
-      if (!name || !type || !category || !price) {
-        throw new Error('Name, type, category, and price are required for products');
-      }
-      
-      // Additional validation
-      if (!name.trim()) {
-        throw new Error('Product name cannot be empty');
-      }
-      
-      if (!type.trim()) {
-        throw new Error('Product type cannot be empty');
-      }
-      
-      if (!category.trim()) {
-        throw new Error('Product category cannot be empty');
-      }
-      
-      if (isNaN(parseFloat(price))) {
-        throw new Error('Product price must be a valid number');
-      }
-      
-      console.log('Product validation passed');
-      console.log('Final product data:', submissionData);
-    }
-
-    // Make the API request
-    console.log('Making API request to:', endpoint);
-    console.log('Request method:', method);
-    console.log('Request body:', JSON.stringify(submissionData, null, 2));
-
-    const response = await fetch(endpoint, {
-      method,
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(submissionData),
-    });
-
-    console.log('API Response status:', response.status);
-    console.log('API Response ok:', response.ok);
-
-    // Log the raw response text first
-    const responseText = await response.text();
-    console.log('Raw API Response:', responseText);
-
-    let result;
-    try {
-      // Only try to parse if we have content
-      if (responseText && responseText.trim()) {
-        result = JSON.parse(responseText);
-        console.log('Parsed API Response data:', result);
-      } else {
-        console.warn('Empty response from server');
-        result = { message: 'Empty response from server' };
-      }
-    } catch (parseError) {
-      console.error('Failed to parse response as JSON:', parseError);
-      throw new Error(`Invalid response format from server. Status: ${response.status}`);
-    }
-
-    // Enhanced success detection
-    const isSuccess = response.ok && (
-      result.success === true || 
-      result.status === 'success' || 
-      response.status === 200 || 
-      response.status === 201 ||
-      (response.status >= 200 && response.status < 300)
-    );
-    
-    console.log('Is success:', isSuccess);
-    
-    if (isSuccess) {
-      console.log('Form submission successful');
-      const successMessage = result.message || `${editingItem ? 'Updated' : 'Added'} successfully!`;
-      
-      await Swal.fire('Success', successMessage, 'success');
-      
-      setShowForm(false);
-      setEditingItem(null);
-      setFormData({});
-      fetchData();
-    } else {
-      console.error('Form submission failed:', result);
-      const errorMessage = result.message || result.error || `Server returned status ${response.status}`;
-      await Swal.fire('Error', errorMessage, 'error');
-    }
-  } catch (error) {
-    console.error('Error during form submission:', error);
-    const errorMessage = error.message || 'Something went wrong during submission.';
-    await Swal.fire('Error', errorMessage, 'error');
-  } finally {
-    setLoading(false);
-    console.log('=== END FORM SUBMISSION DEBUG ===');
-  }
-};
   // Handle edit
   const handleEdit = (item) => {
     setEditingItem(item);
@@ -613,24 +529,19 @@ const handleSubmit = async (e, cleanedData = null) => {
       if (editData.tags && Array.isArray(editData.tags)) {
         editData.tagsString = editData.tags.join(', ');
       }
-      
       if (editData.publishDate) {
         const date = new Date(editData.publishDate);
         if (!isNaN(date.getTime())) {
           editData.publishDate = date.toISOString().split('T')[0];
         }
       }
-      
       editData.views = parseInt(editData.views, 10) || 0;
       editData.featured = Boolean(editData.featured);
     }
     
-    // Handle manufacturers
     if (activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') {
-      // Ensure specialties is an array
-      if (!editData.specialties || !Array.isArray(editData.specialties)) {
-        editData.specialties = [];
-      }
+      editData.specialties = Array.isArray(editData.specialties) ? editData.specialties : [];
+      editData.products = Array.isArray(editData.products) ? editData.products : [];
     }
     
     setFormData(editData);
@@ -645,7 +556,6 @@ const handleSubmit = async (e, cleanedData = null) => {
     setEditingItem(null);
     setFormData({});
     
-    // If switching to an "add" tab, show the form immediately
     if (['add-product', 'add-category', 'add-manufacturer', 'add-blog'].includes(tabId)) {
       console.log('Switching to add mode for:', tabId);
       setShowForm(true);
@@ -732,230 +642,257 @@ const handleSubmit = async (e, cleanedData = null) => {
         <main className="flex-1 overflow-hidden">
           <div className="h-full overflow-y-auto p-6">
             <AnimatePresence mode="wait">
-            {activeTab === 'dashboard' && (
-              <motion.div
-                key="dashboard"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <DashboardContent />
-              </motion.div>
-            )}
+              {activeTab === 'dashboard' && (
+                <motion.div
+                  key="dashboard"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <DashboardContent />
+                </motion.div>
+              )}
 
-            {(activeTab === 'all-products' || activeTab === 'add-product') && (
-              <motion.div
-                key="products-crud"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Product Management</h1>
-                {showForm || activeTab === 'add-product' ? (
-                  <ProductForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onSubmit={handleSubmit}
-                    loading={loading}
-                    editingItem={editingItem}
-                    onCancel={() => {
-                      setShowForm(false);
-                      setEditingItem(null);
-                      setFormData({});
-                    }}
-                  />
-                ) : (
-                  <DataTable
-                    data={products}
-                    columns={[
-                      { key: 'name', label: 'Product Name' },
-                      { key: 'type', label: 'Type' },
-                      { key: 'category', label: 'Category' },
-                      { key: 'brandName', label: 'Brand', render: (val) => val || 'N/A' },
-                      { key: 'price', label: 'Price', render: (price) => `${price?.toFixed(2) || '0.00'}` },
-                      { key: 'availability', label: 'Availability', render: (val) => (
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          val === 'In Stock' ? 'bg-green-100 text-green-800' :
-                          val === 'Out of Stock' ? 'bg-red-100 text-red-800' :
-                          'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {val || 'Unknown'}
-                        </span>
-                      )},
-                    ]}
-                    type="product"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={() => setShowForm(true)}
-                  />
-                )}
-              </motion.div>
-            )}
+              {(activeTab === 'all-products' || activeTab === 'add-product') && (
+                <motion.div
+                  key="products-crud"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h1 className="text-2xl font-bold text-gray-900 mb-6">Product Management</h1>
+                  {showForm || activeTab === 'add-product' ? (
+                    <ProductForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onSubmit={handleSubmit}
+                      loading={loading}
+                      editingItem={editingItem}
+                      onCancel={() => {
+                        setShowForm(false);
+                        setEditingItem(null);
+                        setFormData({});
+                      }}
+                    />
+                  ) : (
+                    <DataTable
+                      data={products}
+                      columns={[
+                        { key: 'productId', label: 'Product ID' },
+                        { key: 'name', label: 'Product Name' },
+                        { key: 'category', label: 'Category' },
+                        { key: 'brandName', label: 'Brand', render: (val) => val || 'N/A' },
+                        { key: 'price', label: 'Price', render: (price) => `${price?.toFixed(2) || '0.00'}` },
+                        { key: 'stock', label: 'Stock', render: (stock) => (
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {stock > 0 ? `In Stock (${stock})` : 'Out of Stock'}
+                          </span>
+                        )},
+                      ]}
+                      type="product"
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      onAdd={() => setShowForm(true)}
+                    />
+                  )}
+                </motion.div>
+              )}
 
-            {(activeTab === 'all-categories' || activeTab === 'add-category') && (
-              <motion.div
-                key="categories-crud"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Category Management</h1>
-                {showForm || activeTab === 'add-category' ? (
-                  <CategoryForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onSubmit={handleSubmit}
-                    loading={loading}
-                    editingItem={editingItem}
-                    onCancel={() => {
-                      setShowForm(false);
-                      setEditingItem(null);
-                      setFormData({});
-                    }}
-                  />
-                ) : (
-                  <DataTable
-                    data={categories}
-                    columns={[
-                      { key: 'id', label: 'ID' },
-                      { key: 'name', label: 'Category Name' },
-                      { key: 'icon', label: 'Icon', render: (icon) => icon ? (
-                        <img src={icon} alt="Category Icon" className="w-8 h-8 object-contain" />
-                      ) : 'N/A' },
-                      { key: 'link', label: 'Link', render: (link) => link || 'N/A' },
-                    ]}
-                    type="category"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={() => setShowForm(true)}
-                  />
-                )}
-              </motion.div>
-            )}
+              {(activeTab === 'all-categories' || activeTab === 'add-category') && (
+                <motion.div
+                  key="categories-crud"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h1 className="text-2xl font-bold text-gray-900 mb-6">Category Management</h1>
+                  {showForm || activeTab === 'add-category' ? (
+                    <CategoryForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onSubmit={handleSubmit}
+                      loading={loading}
+                      editingItem={editingItem}
+                      onCancel={() => {
+                        setShowForm(false);
+                        setEditingItem(null);
+                        setFormData({});
+                      }}
+                    />
+                  ) : (
+                    <DataTable
+                      data={categories}
+                      columns={[
+                        { key: 'id', label: 'ID' },
+                        { key: 'name', label: 'Category Name' },
+                        { 
+                          key: 'icon', 
+                          label: 'Icon', 
+                          render: (icon) => icon ? (
+                            <img src={icon} alt="Category Icon" className="w-8 h-8 object-contain" />
+                          ) : 'N/A' 
+                        },
+                        { key: 'link', label: 'Link', render: (link) => link || 'N/A' },
+                      ]}
+                      type="category"
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      onAdd={() => setShowForm(true)}
+                    />
+                  )}
+                </motion.div>
+              )}
 
-            {(activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') && (
-              <motion.div
-                key="manufacturers-crud"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Manufacturer Management</h1>
-                {showForm || activeTab === 'add-manufacturer' ? (
-                  <ManufacturerForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onSubmit={handleSubmit}
-                    loading={loading}
-                    editingItem={editingItem}
-                    onCancel={() => {
-                      setShowForm(false);
-                      setEditingItem(null);
-                      setFormData({});
-                    }}
-                  />
-                ) : (
-                  <DataTable
-                    data={manufacturers}
-                    columns={[
-                      { key: 'brandId', label: 'Brand ID' },
-                      { key: 'name', label: 'Manufacturer Name' },
-                      { key: 'logo', label: 'Logo', render: (logo) => logo ? (
-                        <img src={logo} alt="Manufacturer Logo" className="w-8 h-8 object-contain" />
-                      ) : 'N/A' },
-                      { key: 'website', label: 'Website', render: (website) => 
-                        website ? (
-                          <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                            Visit Site
-                          </a>
-                        ) : 'N/A'
-                      },
-                      { key: 'specialties', label: 'Specialties', render: (specialties) => 
-                        specialties && Array.isArray(specialties) && specialties.length > 0 
-                          ? specialties.join(', ') 
-                          : 'N/A'
-                      },
-                    ]}
-                    type="manufacturer"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={() => setShowForm(true)}
-                  />
-                )}
-              </motion.div>
-            )}
+              {(activeTab === 'all-manufacturers' || activeTab === 'add-manufacturer') && (
+                <motion.div
+                  key="manufacturers-crud"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h1 className="text-2xl font-bold text-gray-900 mb-6">Manufacturer Management</h1>
+                  {showForm || activeTab === 'add-manufacturer' ? (
+                    <ManufacturerForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onSubmit={handleSubmit}
+                      loading={loading}
+                      editingItem={editingItem}
+                      onCancel={() => {
+                        setShowForm(false);
+                        setEditingItem(null);
+                        setFormData({});
+                      }}
+                    />
+                  ) : (
+                    <DataTable
+                      data={manufacturers}
+                      columns={[
+                        { key: 'brandId', label: 'Brand ID' },
+                        { key: 'name', label: 'Manufacturer Name' },
+                        { 
+                          key: 'logo', 
+                          label: 'Logo', 
+                          render: (logo) => logo ? (
+                            <img src={logo} alt="Manufacturer Logo" className="w-8 h-8 object-contain" />
+                          ) : 'N/A' 
+                        },
+                        { 
+                          key: 'website', 
+                          label: 'Website', 
+                          render: (website) => website ? (
+                            <a href={website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                              Visit Site
+                            </a>
+                          ) : 'N/A'
+                        },
+                        { 
+                          key: 'specialties', 
+                          label: 'Specialties', 
+                          render: (specialties) => 
+                            specialties && Array.isArray(specialties) && specialties.length > 0 
+                              ? specialties.join(', ') 
+                              : 'N/A'
+                        },
+                        { 
+                          key: 'products', 
+                          label: 'Products', 
+                          render: (products) => 
+                            products && Array.isArray(products) ? products.length : 0
+                        },
+                      ]}
+                      type="manufacturer"
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      onAdd={() => setShowForm(true)}
+                    />
+                  )}
+                </motion.div>
+              )}
 
-            {(activeTab === 'all-blogs' || activeTab === 'add-blog') && (
-              <motion.div
-                key="blogs-crud"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-              >
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Blog Post Management</h1>
-                {showForm || activeTab === 'add-blog' ? (
-                  <BlogForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    onSubmit={handleSubmit}
-                    loading={loading}
-                    editingItem={editingItem}
-                    onCancel={() => {
-                      setShowForm(false);
-                      setEditingItem(null);
-                      setFormData({});
-                    }}
-                  />
-                ) : (
-                  <DataTable
-                    data={blogs}
-                    columns={[
-                      { key: 'id', label: 'ID' },
-                      { key: 'title', label: 'Title', render: (title) => (
-                        <div className="max-w-xs truncate" title={title}>{title}</div>
-                      )},
-                      { key: 'author', label: 'Author', render: (val) => val || 'N/A' },
-                      { key: 'category', label: 'Category' },
-                      { key: 'publishDate', label: 'Publish Date', render: (date) => 
-                        date ? new Date(date).toLocaleDateString() : 'N/A'
-                      },
-                      { key: 'views', label: 'Views', render: (views) => views?.toLocaleString() || '0' },
-                      { key: 'featured', label: 'Featured', render: (featured) => (
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          featured ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {featured ? 'Featured' : 'Regular'}
-                        </span>
-                      )},
-                    ]}
-                    type="blog"
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    onAdd={() => setShowForm(true)}
-                  />
-                )}
-              </motion.div>
-            )}
+              {(activeTab === 'all-blogs' || activeTab === 'add-blog') && (
+                <motion.div
+                  key="blogs-crud"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h1 className="text-2xl font-bold text-gray-900 mb-6">Blog Post Management</h1>
+                  {showForm || activeTab === 'add-blog' ? (
+                    <BlogForm
+                      formData={formData}
+                      setFormData={setFormData}
+                      onSubmit={handleSubmit}
+                      loading={loading}
+                      editingItem={editingItem}
+                      onCancel={() => {
+                        setShowForm(false);
+                        setEditingItem(null);
+                        setFormData({});
+                      }}
+                    />
+                  ) : (
+                    <DataTable
+                      data={blogs}
+                      columns={[
+                        { key: 'id', label: 'ID' },
+                        { 
+                          key: 'title', 
+                          label: 'Title', 
+                          render: (title) => (
+                            <div className="max-w-xs truncate" title={title}>{title}</div>
+                          )
+                        },
+                        { key: 'author', label: 'Author', render: (val) => val || 'N/A' },
+                        { key: 'category', label: 'Category' },
+                        { 
+                          key: 'publishDate', 
+                          label: 'Publish Date', 
+                          render: (date) => date ? new Date(date).toLocaleDateString() : 'N/A'
+                        },
+                        { key: 'views', label: 'Views', render: (views) => views?.toLocaleString() || '0' },
+                        { 
+                          key: 'featured', 
+                          label: 'Featured', 
+                          render: (featured) => (
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                              featured ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {featured ? 'Featured' : 'Regular'}
+                            </span>
+                          )
+                        },
+                      ]}
+                      type="blog"
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                      onAdd={() => setShowForm(true)}
+                    />
+                  )}
+                </motion.div>
+              )}
 
-            {activeTab === 'settings' && (
-              <motion.div
-                key="settings"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
-                className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
-              >
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
-                <p className="text-gray-700">Manage your dashboard settings here.</p>
-              </motion.div>
-            )}
-                      </AnimatePresence>
+              {activeTab === 'settings' && (
+                <motion.div
+                  key="settings"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2 }}
+                  className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+                >
+                  <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+                  <p className="text-gray-700">Manage your dashboard settings here.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </main>
       </div>

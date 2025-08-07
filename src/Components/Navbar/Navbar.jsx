@@ -47,19 +47,19 @@ export default function Navbar() {
     try {
       setBrandsLoading(true);
       setBrandsError(null);
-      
+
       const response = await fetch('/api/brands');
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch brands: ${response.status} ${response.statusText}`);
       }
-      
+
       const data = await response.json();
       console.log('Navbar API Response:', data); // Debug log
-      
+
       // Handle different response structures
       let brandsArray = [];
-      
+
       if (data.success && Array.isArray(data.brands)) {
         // Response format: { success: true, brands: [...] }
         brandsArray = data.brands;
@@ -73,10 +73,10 @@ export default function Navbar() {
         console.error('Unexpected API response structure:', data);
         throw new Error('Invalid response format from server');
       }
-      
+
       setBrands(brandsArray);
       console.log('Navbar brands set:', brandsArray); // Debug log
-      
+
     } catch (err) {
       console.error('Error fetching brands:', err);
       setBrandsError(err.message);
@@ -96,11 +96,11 @@ export default function Navbar() {
   useEffect(() => {
     let sequence = [];
     const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-    
+
     const handleKeyDown = (e) => {
       sequence.push(e.code);
       sequence = sequence.slice(-konamiCode.length);
-      
+
       if (sequence.join('') === konamiCode.join('')) {
         setShowAdminAccess(true);
         setTimeout(() => setShowAdminAccess(false), 5000);
@@ -148,7 +148,7 @@ export default function Navbar() {
         <div className="p-6 text-center">
           <p className="text-sm text-red-600 mb-2">Error loading manufacturers</p>
           <p className="text-xs text-gray-500 mb-2">{brandsError}</p>
-          <button 
+          <button
             onClick={fetchBrands}
             className="text-xs text-blue-600 hover:text-blue-800 underline"
           >
@@ -170,8 +170,8 @@ export default function Navbar() {
       <div className="p-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 max-h-96 overflow-y-auto custom-scrollbar">
           {brands.map((brand) => (
-            <Link 
-              key={brand._id || brand.brandId || brand.name} 
+            <Link
+              key={brand._id || brand.brandId || brand.name}
               href={`/brands/${slugify(brand.name)}`}
               className="group"
               onClick={() => setActiveMenu(null)}
@@ -228,7 +228,7 @@ export default function Navbar() {
               >
                 <span className="group-hover:text-blue-600 truncate">{category.name}</span>
               </Link>
-              
+
               {/* Subcategories */}
               {category.subcategories && category.subcategories.length > 0 && (
                 <ul className="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
@@ -271,7 +271,7 @@ export default function Navbar() {
         >
           <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden min-w-[700px] max-w-[1200px]">
             {renderManufacturersBrands()}
-            
+
             {/* Footer section */}
             <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
               <div className="flex items-center justify-between">
@@ -301,7 +301,7 @@ export default function Navbar() {
         >
           <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden min-w-[800px] max-w-[1200px]">
             {renderCategoriesMegaMenu()}
-            
+
             {/* Footer section */}
             <div className="bg-gray-50 px-6 py-3 border-t border-gray-100">
               <div className="flex items-center justify-between">
@@ -408,7 +408,7 @@ export default function Navbar() {
             ) : brandsError ? (
               <div className="text-red-300 text-sm py-2">
                 Error loading manufacturers
-                <button 
+                <button
                   onClick={fetchBrands}
                   className="block text-blue-200 hover:text-white underline text-xs mt-1"
                 >
@@ -442,9 +442,9 @@ export default function Navbar() {
         {/* Static Navigation Items */}
         <div className="border-t border-blue-700 pt-2 space-y-2">
           {staticNavItems.filter(item => item.type === 'link').map((item) => (
-            <Link 
+            <Link
               key={item.id}
-              href={item.href} 
+              href={item.href}
               className="block py-2 text-white hover:text-blue-200"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -462,14 +462,10 @@ export default function Navbar() {
         <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10">
-                <img src="/Redwood Logo.png" alt="Redwood Logo" />
-              </div>
               <Link href="/">
-                <p className="text-white text-xl hidden sm:block">
-                  <span className="font-bold mr-4">Redwood</span>
-                  <span>Analytics and Intelligence</span>
-                </p>
+                <div className="w-10 h-10">
+                  <img src="/Redwood Logo.png" alt="Redwood Logo" />
+                </div>
               </Link>
             </div>
             <div className="text-white flex items-center">
@@ -488,17 +484,13 @@ export default function Navbar() {
         <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-2 cursor-pointer">
-              <div className="w-10 h-10">
+            <div className="flex items-center space-x-2 cursor-pointer">             
+              <Link href="/">
+                <div className="w-10 h-10">
                 <Link href="/">
                   <img src="/Ic Logo.png" alt="Redwood Logo" />
                 </Link>
               </div>
-              <Link href="/">
-                <p className="text-white text-xl hidden sm:block">
-                  <span className="font-bold mr-4">Redwood</span>
-                  <span>Analytics and Intelligence</span>
-                </p>
               </Link>
             </div>
 
@@ -529,12 +521,12 @@ export default function Navbar() {
                 </div>
                 {activeMenu === 'manufacturers' && renderMegaMenu('manufacturers')}
               </div>
-              
+
               {/* Static Navigation Items */}
               {staticNavItems.filter(item => item.type === 'link').map((item) => (
-                <Link 
+                <Link
                   key={item.id}
-                  href={item.href} 
+                  href={item.href}
                   className="px-4 py-2 text-white hover:text-blue-200 transition-colors"
                 >
                   {item.name}
@@ -572,8 +564,8 @@ export default function Navbar() {
                             <p className="text-gray-500 text-xs">{session.user.email}</p>
                           </div>
                         </div>
-                        <Link 
-                          href="/dashboard" 
+                        <Link
+                          href="/dashboard"
                           className="flex items-center text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-2 rounded transition-colors"
                           onClick={() => setShowUserBubble(false)}
                         >
@@ -625,7 +617,7 @@ export default function Navbar() {
       </nav>
 
       {/* Footer admin access hint */}
-      <div 
+      <div
         className="fixed bottom-4 right-4 text-xs text-gray-400 cursor-pointer hover:text-gray-600 transition-colors"
         onDoubleClick={() => setShowAdminAccess(true)}
         title="Double-click for admin access"

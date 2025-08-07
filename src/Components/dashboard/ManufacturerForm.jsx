@@ -23,7 +23,6 @@ const ManufacturerForm = ({
     if (!formData.logo?.trim()) {
       errors.push('Logo URL is required');
     } else {
-      // Basic URL validation
       try {
         new URL(formData.logo);
       } catch {
@@ -60,6 +59,30 @@ const ManufacturerForm = ({
           } catch {
             errors.push(`Product ${index + 1}: Image URL must be valid`);
           }
+        }
+        // Validate alternative products
+        if (product.alternativeProducts && product.alternativeProducts.length > 0) {
+          product.alternativeProducts.forEach((alt, altIndex) => {
+            if (!alt.productId?.trim()) {
+              errors.push(`Product ${index + 1}, Alternative ${altIndex + 1}: Product ID is required`);
+            }
+            if (!alt.name?.trim()) {
+              errors.push(`Product ${index + 1}, Alternative ${altIndex + 1}: Name is required`);
+            }
+            if (alt.price && (isNaN(alt.price) || alt.price < 0)) {
+              errors.push(`Product ${index + 1}, Alternative ${altIndex + 1}: Price must be a valid positive number`);
+            }
+            if (alt.stock && (isNaN(alt.stock) || alt.stock < 0)) {
+              errors.push(`Product ${index + 1}, Alternative ${altIndex + 1}: Stock must be a valid positive number`);
+            }
+            if (alt.image && alt.image.trim()) {
+              try {
+                new URL(alt.image);
+              } catch {
+                errors.push(`Product ${index + 1}, Alternative ${altIndex + 1}: Image URL must be valid`);
+              }
+            }
+          });
         }
       });
     }
@@ -135,13 +158,54 @@ const ManufacturerForm = ({
 
   const updateProduct = (index, field, value) => {
     const newProducts = [...(formData.products || [])];
-    if (field.includes('.')) {
+    if (field === 'relatedProducts') {
+      // Handle comma-separated related product IDs
+      newProducts[index][field] = value.split(',').map(id => id.trim()).filter(id => id);
+    } else if (field.includes('.')) {
       const [parent, child] = field.split('.');
       if (!newProducts[index][parent]) newProducts[index][parent] = {};
       newProducts[index][parent][child] = value;
     } else {
       newProducts[index][field] = value;
     }
+    setFormData(prev => ({
+      ...prev,
+      products: newProducts
+    }));
+  };
+
+  const addAlternativeProduct = (productIndex) => {
+    const newProducts = [...(formData.products || [])];
+    newProducts[productIndex].alternativeProducts = [
+      ...(newProducts[productIndex].alternativeProducts || []),
+      {
+        productId: '',
+        name: '',
+        brandName: '',
+        category: '',
+        price: 0,
+        stock: 0,
+        image: ''
+      }
+    ];
+    setFormData(prev => ({
+      ...prev,
+      products: newProducts
+    }));
+  };
+
+  const removeAlternativeProduct = (productIndex, altIndex) => {
+    const newProducts = [...(formData.products || [])];
+    newProducts[productIndex].alternativeProducts = newProducts[productIndex].alternativeProducts.filter((_, i) => i !== altIndex);
+    setFormData(prev => ({
+      ...prev,
+      products: newProducts
+    }));
+  };
+
+  const updateAlternativeProduct = (productIndex, altIndex, field, value) => {
+    const newProducts = [...(formData.products || [])];
+    newProducts[productIndex].alternativeProducts[altIndex][field] = value;
     setFormData(prev => ({
       ...prev,
       products: newProducts
@@ -178,6 +242,7 @@ const ManufacturerForm = ({
       specialties: (formData.specialties || [])
         .map(s => s?.trim())
         .filter(s => s && s.length > 0),
+      brandId: formData.brandId || undefined // Include brandId for updates
     };
 
     // Only include products if they exist and are valid
@@ -483,6 +548,17 @@ const ManufacturerForm = ({
                             disabled={loading}
                           />
                         </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Related Product IDs</label>
+                          <input
+                            type="text"
+                            placeholder="MUR002,MUR003"
+                            value={product.relatedProducts ? product.relatedProducts.join(',') : ''}
+                            onChange={(e) => updateProduct(productIndex, 'relatedProducts', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            disabled={loading}
+                          />
+                        </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
@@ -495,6 +571,119 @@ const ManufacturerForm = ({
                           disabled={loading}
                         />
                       </div>
+                      <div className="border-t pt-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <label className="block text-sm font-medium text-gray-700">Alternative Products</label>
+                          <button
+                            type="button"
+                            onClick={() => addAlternativeProduct(productIndex)}
+                            className="flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                            disabled={loading}
+                          >
+                            <Plus className="h-4 w-4 mr-1" /> Add Alternative Product
+                          </button>
+                        </div>
+                        {(product.alternativeProducts || []).map((altProduct, altIndex) => (
+                          <div key={altIndex} className="border border-gray-200 rounded-lg p-4 mb-2 bg-white">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-gray-700">Alternative Product {altIndex + 1}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeAlternativeProduct(productIndex, altIndex)}
+                                className="text-red-600 hover:text-red-800 transition-colors"
+                                disabled={loading}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Product ID *</label>
+                                <input
+                                  type="text"
+                                  placeholder="KEM001"
+                                  value={altProduct.productId || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'productId', e.target.value)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                                <input
+                                  type="text"
+                                  placeholder="C1206C104K5RACTU"
+                                  value={altProduct.name || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'name', e.target.value)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name</label>
+                                <input
+                                  type="text"
+                                  placeholder="Kemet"
+                                  value={altProduct.brandName || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'brandName', e.target.value)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                <input
+                                  type="text"
+                                  placeholder="Ceramic Capacitor"
+                                  value={altProduct.category || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'category', e.target.value)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  placeholder="0.12"
+                                  value={altProduct.price || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'price', parseFloat(e.target.value) || 0)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                                <input
+                                  type="number"
+                                  min="0"
+                                  placeholder="18000"
+                                  value={altProduct.stock || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'stock', parseInt(e.target.value) || 0)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                                <input
+                                  type="url"
+                                  placeholder="https://via.placeholder.com/300x200?text=Alternative"
+                                  value={altProduct.image || ''}
+                                  onChange={(e) => updateAlternativeProduct(productIndex, altIndex, 'image', e.target.value)}
+                                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  disabled={loading}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        {(!product.alternativeProducts || product.alternativeProducts.length === 0) && (
+                          <p className="text-sm text-gray-500 italic">No alternative products added yet. Click "Add Alternative Product" to add one.</p>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -505,24 +694,6 @@ const ManufacturerForm = ({
             </div>
           )}
         </div>
-
-        {/* Debug information */}
-        {/* <div className="border-t pt-6">
-          <details className="bg-gray-50 p-4 rounded-lg">
-            <summary className="cursor-pointer text-sm font-medium text-gray-700">Debug Information</summary>
-            <div className="mt-2 space-y-2">
-              <div className="text-xs text-gray-600">
-                <strong>Form Valid:</strong> {isFormValid() ? 'Yes' : 'No'}
-              </div>
-              <div className="text-xs text-gray-600">
-                <strong>Validation Errors:</strong> {formErrors.length === 0 ? 'None' : formErrors.join(', ')}
-              </div>
-              <pre className="text-xs text-gray-600 overflow-auto max-h-40 bg-white p-2 rounded border">
-                {JSON.stringify(formData, null, 2)}
-              </pre>
-            </div>
-          </details>
-        </div> */}
 
         <div className="mb-20 flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
           <button

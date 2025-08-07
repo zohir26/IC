@@ -1,4 +1,3 @@
-// api/brands/[brandName]/route.js - FIXED VERSION
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Brand from '@/models/Brand';
@@ -16,18 +15,15 @@ export async function GET(request, { params }) {
     
     // Try multiple search strategies
     if (!isNaN(brandName)) {
-      // Search by brandId if numeric
       console.log('Searching by brandId:', parseInt(brandName));
       brand = await Brand.findOne({ brandId: parseInt(brandName) });
     }
     
-    // If not found and looks like MongoDB ObjectId, search by _id
     if (!brand && brandName.match(/^[0-9a-fA-F]{24}$/)) {
       console.log('Searching by _id:', brandName);
       brand = await Brand.findById(brandName);
     }
     
-    // If still not found, search by name (case-insensitive)
     if (!brand) {
       const searchName = brandName.replace(/-/g, ' ');
       console.log('Searching by name (case-insensitive):', searchName);
@@ -78,7 +74,7 @@ export async function PUT(request, { params }) {
     console.log('PUT - Updating brand with identifier:', brandName, 'Data:', body);
     
     // Validate required fields
-    const { name, logo } = body;
+    const { name, logo, products } = body;
     
     if (!name || !logo) {
       return NextResponse.json(
@@ -91,16 +87,13 @@ export async function PUT(request, { params }) {
     
     // Try to find brand by multiple methods
     if (!isNaN(brandName)) {
-      // Search by brandId if numeric
       existingBrand = await Brand.findOne({ brandId: parseInt(brandName) });
     }
     
-    // If not found and looks like MongoDB ObjectId, search by _id
     if (!existingBrand && brandName.match(/^[0-9a-fA-F]{24}$/)) {
       existingBrand = await Brand.findById(brandName);
     }
     
-    // If still not found, search by name
     if (!existingBrand) {
       const searchName = brandName.replace(/-/g, ' ');
       existingBrand = await Brand.findOne({
@@ -115,7 +108,7 @@ export async function PUT(request, { params }) {
       );
     }
     
-    // Check if another brand with the same name exists (excluding current brand)
+    // Check for duplicate brand name (excluding current brand)
     const duplicateBrand = await Brand.findOne({
       name: { $regex: new RegExp(`^${name.trim()}$`, 'i') },
       _id: { $ne: existingBrand._id }
@@ -128,22 +121,74 @@ export async function PUT(request, { params }) {
       );
     }
     
+    // Validate products array
+    if (products && Array.isArray(products)) {
+      for (const product of products) {
+        if (!product.productId || !product.name) {
+          return NextResponse.json(
+            { success: false, error: 'Each product must have a productId and name' },
+            { status: 400 }
+          );
+        }
+        // Validate alternative products
+        if (product.alternativeProducts && Array.isArray(product.alternativeProducts)) {
+          for (const altProduct of product.alternativeProducts) {
+            if (!altProduct.productId || !altProduct.name) {
+              return NextResponse.json(
+                { success: false, error: 'Each alternative product must have a productId and name' },
+                { status: 400 }
+              );
+            }
+          }
+        }
+      }
+    }
+    
     // Update the brand
     const updateData = {
       name: name.trim(),
       logo: logo.trim(),
       description: body.description?.trim() || '',
       website: body.website?.trim() || '',
-      specialties: Array.isArray(body.specialties) ? body.specialties.filter(spec => spec && spec.trim()) : []
+      specialties: Array.isArray(body.specialties) ? body.specialties.filter(spec => spec && spec.trim()) : [],
+      products: Array.isArray(products) ? products.map(product => ({
+        productId: product.productId.trim(),
+        name: product.name.trim(),
+        category: product.category?.trim() || '',
+        description: product.description?.trim() || '',
+        specifications: product.specifications || {},
+        price: Number(product.price) || 0,
+        stock: Number(product.stock) || 0,
+        image: product.image?.trim() || '',
+        datasheet: product.datasheet?.trim() || '',
+        applications: Array.isArray(product.applications) ? product.applications.filter(app => app && app.trim()) : [],
+        relatedProducts: Array.isArray(product.relatedProducts) ? product.relatedProducts.filter(rel => rel && rel.trim()) : [],
+        alternativeProducts: Array.isArray(product.alternativeProducts) ? product.alternativeProducts.map(alt => ({
+          productId: alt.productId.trim(),
+          name: alt.name.trim(),
+          brandName: alt.brandName?.trim() || '',
+          category: alt.category?.trim() || '',
+          price: Number(alt.price) || 0,
+          stock: Number(alt.stock) || 0,
+          image: alt.image?.trim() || ''
+        })) : []
+      })) : []
     };
     
     console.log('Updating brand with data:', updateData);
     
     const updatedBrand = await Brand.findByIdAndUpdate(
       existingBrand._id,
-      updateData,
+      { $set: updateData },
       { new: true, runValidators: true }
     );
+    
+    if (!updatedBrand) {
+      return NextResponse.json(
+        { success: false, error: 'Failed to update brand' },
+        { status: 500 }
+      );
+    }
     
     console.log('Brand updated successfully:', updatedBrand);
     
@@ -156,11 +201,17 @@ export async function PUT(request, { params }) {
   } catch (error) {
     console.error('Error updating brand:', error);
     
-    // Handle validation errors
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => err.message);
       return NextResponse.json(
         { success: false, error: 'Validation failed', details: validationErrors },
+        { status: 400 }
+      );
+    }
+    
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { success: false, error: 'Duplicate key error' },
         { status: 400 }
       );
     }
@@ -181,20 +232,16 @@ export async function DELETE(request, { params }) {
     
     let brandToDelete;
     
-    // Try to find brand by multiple methods
     if (!isNaN(brandName)) {
-      // Search by brandId if numeric
       console.log('Searching by brandId:', parseInt(brandName));
       brandToDelete = await Brand.findOne({ brandId: parseInt(brandName) });
     }
     
-    // If not found and looks like MongoDB ObjectId, search by _id
     if (!brandToDelete && brandName.match(/^[0-9a-fA-F]{24}$/)) {
       console.log('Searching by _id:', brandName);
       brandToDelete = await Brand.findById(brandName);
     }
     
-    // If still not found, search by name
     if (!brandToDelete) {
       const searchName = brandName.replace(/-/g, ' ');
       console.log('Searching by name:', searchName);
@@ -223,18 +270,7 @@ export async function DELETE(request, { params }) {
       productsCount: brandToDelete.products?.length || 0
     });
     
-    // Check if brand has products
-    if (brandToDelete.products && brandToDelete.products.length > 0) {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: `Cannot delete brand "${brandToDelete.name}" as it has ${brandToDelete.products.length} existing products. Please remove all products first.` 
-        },
-        { status: 400 }
-      );
-    }
-    
-    // Delete the brand
+    // Allow deletion even if products exist, as products are managed separately
     const deletedBrand = await Brand.findByIdAndDelete(brandToDelete._id);
     
     if (!deletedBrand) {
