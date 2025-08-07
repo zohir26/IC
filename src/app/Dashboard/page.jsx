@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import Sidebar from '@/Components/dashboard/Sidebar';
 import BlogForm from '@/Components/dashboard/BlogForm';
 import CategoryForm from '@/Components/dashboard/CategoryForm';
-import DashboardContent from '@/Components/dashboard/DashboardContent';
+// import DashboardContent from '@/Components/dashboard/DashboardContent';
 import DataTable from '@/Components/dashboard/DataTable';
 import Header from '@/Components/dashboard/Header';
 import ManufacturerForm from '@/Components/dashboard/ManufacturerForm';
@@ -35,7 +35,7 @@ const ICDashboard = () => {
 
   // Navigation items
   const navigation = [
-    { name: 'Dashboard', icon: 'Home', id: 'dashboard' },
+    // { name: 'Dashboard', icon: 'Home', id: 'dashboard' },
     { name: 'All Products', icon: 'Package', id: 'all-products' },
     { name: 'All Categories', icon: 'Layers', id: 'all-categories' },
     { name: 'All Manufacturers', icon: 'Building2', id: 'all-manufacturers' },
@@ -642,7 +642,7 @@ const ICDashboard = () => {
         <main className="flex-1 overflow-hidden">
           <div className="h-full overflow-y-auto p-6">
             <AnimatePresence mode="wait">
-              {activeTab === 'dashboard' && (
+              {/* {activeTab === 'dashboard' && (
                 <motion.div
                   key="dashboard"
                   initial={{ opacity: 0, y: 20 }}
@@ -652,7 +652,7 @@ const ICDashboard = () => {
                 >
                   <DashboardContent />
                 </motion.div>
-              )}
+              )} */}
 
               {(activeTab === 'all-products' || activeTab === 'add-product') && (
                 <motion.div
