@@ -1,13 +1,13 @@
 import React from 'react';
 import { X, Save, Plus, Trash2 } from 'lucide-react';
 
-const ProductForm = ({ 
-  formData, 
-  setFormData, 
-  onSubmit, 
-  loading, 
-  editingItem, 
-  onCancel 
+const ProductForm = ({
+  formData,
+  setFormData,
+  onSubmit,
+  loading,
+  editingItem,
+  onCancel
 }) => {
   return (
     <div className="bg-white p-6 mb-20 rounded-lg shadow-sm border border-gray-200">
@@ -22,7 +22,7 @@ const ProductForm = ({
           <X size={20} />
         </button>
       </div>
-      
+
       <form onSubmit={onSubmit} className="space-y-6 mb-16">
         {/* Basic Product Information */}
         <div className="border-b border-gray-200 pb-4">
@@ -34,18 +34,29 @@ const ProductForm = ({
                 type="text"
                 required
                 value={formData.name || ''}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g., BME280 Pressure Sensor"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-             <div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Parent Category *</label>
+              <input
+                type="text"
+                required
+                value={formData.parentCategory || ''}
+                onChange={(e) => setFormData({ ...formData, parentCategory: e.target.value })}
+                placeholder="e.g., IC"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name *</label>
               <input
                 type="text"
                 required
                 value={formData.brandName || ''}
-                onChange={(e) => setFormData({...formData, brandName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, brandName: e.target.value })}
                 placeholder="e.g., Analog device"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -57,7 +68,7 @@ const ProductForm = ({
                 type="text"
                 required
                 value={formData.type || ''}
-                onChange={(e) => setFormData({...formData, type: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                 placeholder="e.g., Sensor"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -69,12 +80,12 @@ const ProductForm = ({
                 type="text"
                 required
                 value={formData.category || ''}
-                onChange={(e) => setFormData({...formData, category: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 placeholder="e.g., Environmental Sensors"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Price ($) *</label>
               <input
@@ -82,17 +93,17 @@ const ProductForm = ({
                 step="0.01"
                 required
                 value={formData.price || ''}
-                onChange={(e) => setFormData({...formData, price: parseFloat(e.target.value)})}
+                onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
                 placeholder="e.g., 6.80"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Availability *</label>
               <select
                 value={formData.availability || 'In Stock'}
-                onChange={(e) => setFormData({...formData, availability: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="In Stock">In Stock</option>
@@ -100,35 +111,35 @@ const ProductForm = ({
                 <option value="Limited Stock">Limited Stock</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
               <input
                 type="url"
                 value={formData.image || ''}
-                onChange={(e) => setFormData({...formData, image: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                 placeholder="https://img.icons8.com/color/48/000000/pressure.png"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Datasheet URL</label>
               <input
                 type="url"
                 value={formData.datasheet || ''}
-                onChange={(e) => setFormData({...formData, datasheet: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, datasheet: e.target.value })}
                 placeholder="https://example.com/bme280-datasheet.pdf"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Video URL</label>
               <input
                 type="url"
                 value={formData.videoUrl || ''}
-                onChange={(e) => setFormData({...formData, videoUrl: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
                 placeholder="https://www.youtube.com/embed/OgcQtOfq3ZI"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -140,7 +151,7 @@ const ProductForm = ({
             <textarea
               rows="3"
               value={formData.description || ''}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Product description..."
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -158,10 +169,10 @@ const ProductForm = ({
                   placeholder="Specification key (e.g., pressureRange)"
                   value={key}
                   onChange={(e) => {
-                    const newSpecs = {...(formData.specifications || {})};
+                    const newSpecs = { ...(formData.specifications || {}) };
                     delete newSpecs[key];
                     newSpecs[e.target.value] = value;
-                    setFormData({...formData, specifications: newSpecs});
+                    setFormData({ ...formData, specifications: newSpecs });
                   }}
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -171,18 +182,18 @@ const ProductForm = ({
                     placeholder="Value (e.g., 300 to 1100 hPa)"
                     value={value}
                     onChange={(e) => {
-                      const newSpecs = {...(formData.specifications || {})};
+                      const newSpecs = { ...(formData.specifications || {}) };
                       newSpecs[key] = e.target.value;
-                      setFormData({...formData, specifications: newSpecs});
+                      setFormData({ ...formData, specifications: newSpecs });
                     }}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <button
                     type="button"
                     onClick={() => {
-                      const newSpecs = {...(formData.specifications || {})};
+                      const newSpecs = { ...(formData.specifications || {}) };
                       delete newSpecs[key];
-                      setFormData({...formData, specifications: newSpecs});
+                      setFormData({ ...formData, specifications: newSpecs });
                     }}
                     className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                   >
@@ -194,8 +205,8 @@ const ProductForm = ({
             <button
               type="button"
               onClick={() => {
-                const newSpecs = {...(formData.specifications || {}), '': ''};
-                setFormData({...formData, specifications: newSpecs});
+                const newSpecs = { ...(formData.specifications || {}), '': '' };
+                setFormData({ ...formData, specifications: newSpecs });
               }}
               className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600"
             >
@@ -218,7 +229,7 @@ const ProductForm = ({
                   onChange={(e) => {
                     const newApps = [...(formData.applications || [])];
                     newApps[index] = e.target.value;
-                    setFormData({...formData, applications: newApps});
+                    setFormData({ ...formData, applications: newApps });
                   }}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -226,7 +237,7 @@ const ProductForm = ({
                   type="button"
                   onClick={() => {
                     const newApps = formData.applications.filter((_, i) => i !== index);
-                    setFormData({...formData, applications: newApps});
+                    setFormData({ ...formData, applications: newApps });
                   }}
                   className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                 >
@@ -238,7 +249,7 @@ const ProductForm = ({
               type="button"
               onClick={() => {
                 const newApps = [...(formData.applications || []), ''];
-                setFormData({...formData, applications: newApps});
+                setFormData({ ...formData, applications: newApps });
               }}
               className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600"
             >
@@ -261,7 +272,7 @@ const ProductForm = ({
                   onChange={(e) => {
                     const newFeatures = [...(formData.features || [])];
                     newFeatures[index] = e.target.value;
-                    setFormData({...formData, features: newFeatures});
+                    setFormData({ ...formData, features: newFeatures });
                   }}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -269,7 +280,7 @@ const ProductForm = ({
                   type="button"
                   onClick={() => {
                     const newFeatures = formData.features.filter((_, i) => i !== index);
-                    setFormData({...formData, features: newFeatures});
+                    setFormData({ ...formData, features: newFeatures });
                   }}
                   className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                 >
@@ -281,7 +292,7 @@ const ProductForm = ({
               type="button"
               onClick={() => {
                 const newFeatures = [...(formData.features || []), ''];
-                setFormData({...formData, features: newFeatures});
+                setFormData({ ...formData, features: newFeatures });
               }}
               className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600"
             >
@@ -291,60 +302,60 @@ const ProductForm = ({
           </div>
         </div>
         {/* Documents */}
-<div className="border-b border-gray-200 pb-4">
-  <h4 className="text-md font-semibold text-gray-800 mb-3">Documents</h4>
-  <div className="space-y-3">
-    {(formData.documents || []).map((doc, index) => (
-      <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <input
-          type="text"
-          placeholder="Document Label (e.g., User Manual)"
-          value={doc.label}
-          onChange={(e) => {
-            const newDocs = [...(formData.documents || [])];
-            newDocs[index].label = e.target.value;
-            setFormData({ ...formData, documents: newDocs });
-          }}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <div className="flex space-x-2">
-          <input
-            type="url"
-            placeholder="Document URL"
-            value={doc.url}
-            onChange={(e) => {
-              const newDocs = [...(formData.documents || [])];
-              newDocs[index].url = e.target.value;
-              setFormData({ ...formData, documents: newDocs });
-            }}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="button"
-            onClick={() => {
-              const newDocs = formData.documents.filter((_, i) => i !== index);
-              setFormData({ ...formData, documents: newDocs });
-            }}
-            className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-          >
-            <Trash2 size={14} />
-          </button>
+        <div className="border-b border-gray-200 pb-4">
+          <h4 className="text-md font-semibold text-gray-800 mb-3">Documents</h4>
+          <div className="space-y-3">
+            {(formData.documents || []).map((doc, index) => (
+              <div key={index} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <input
+                  type="text"
+                  placeholder="Document Label (e.g., User Manual)"
+                  value={doc.label}
+                  onChange={(e) => {
+                    const newDocs = [...(formData.documents || [])];
+                    newDocs[index].label = e.target.value;
+                    setFormData({ ...formData, documents: newDocs });
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div className="flex space-x-2">
+                  <input
+                    type="url"
+                    placeholder="Document URL"
+                    value={doc.url}
+                    onChange={(e) => {
+                      const newDocs = [...(formData.documents || [])];
+                      newDocs[index].url = e.target.value;
+                      setFormData({ ...formData, documents: newDocs });
+                    }}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newDocs = formData.documents.filter((_, i) => i !== index);
+                      setFormData({ ...formData, documents: newDocs });
+                    }}
+                    className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => {
+                const newDocs = [...(formData.documents || []), { label: '', url: '' }];
+                setFormData({ ...formData, documents: newDocs });
+              }}
+              className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600"
+            >
+              <Plus size={16} className="inline mr-1" />
+              Add Document
+            </button>
+          </div>
         </div>
-      </div>
-    ))}
-    <button
-      type="button"
-      onClick={() => {
-        const newDocs = [...(formData.documents || []), { label: '', url: '' }];
-        setFormData({ ...formData, documents: newDocs });
-      }}
-      className="w-full px-3 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-600 hover:border-blue-400 hover:text-blue-600"
-    >
-      <Plus size={16} className="inline mr-1" />
-      Add Document
-    </button>
-  </div>
-</div>
 
         <div className="flex space-x-3">
           <button

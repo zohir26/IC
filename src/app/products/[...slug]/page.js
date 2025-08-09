@@ -178,27 +178,49 @@ export default function ProductsPage() {
   const [pagination, setPagination] = useState({});
   const [filters, setFilters] = useState({});
 
-  const baseFilters = useMemo(() => {
-    const slugParts = params.slug || [];
-    if (slugParts.length < 2) return {};
+const baseFilters = useMemo(() => {
+  const slugParts = params.slug || [];
+  if (slugParts.length < 2) return {};
 
-    const filterKey = slugParts[0];
-    const filterValue = slugParts[1];
+  const filterKey = slugParts[0];
+  const filterValue = slugParts[1];
 
-    switch (filterKey) {
-      case 'category':
-        return { category: filterValue };
-      case 'brand':
-        return { brand: [filterValue] }; // Use array for consistency
-      case 'manufacturer':
-        return { manufacturer: [filterValue] }; // Use array for consistency
-      case 'type':
-        return { type: filterValue };
-      default:
-        return {};
-    }
-  }, [params.slug]);
+  switch (filterKey) {
+    case 'category':
+      return { category: filterValue };
+    case 'brand':
+      return { brandName: filterValue }; // Changed from brand: [filterValue]
+    case 'manufacturer':
+      return { manufacturerName: filterValue }; // Changed from manufacturer: [filterValue]
+    case 'type':
+      return { type: filterValue };
+    default:
+      return {};
+  }
+}, [params.slug]);
 
+//   const baseFilters = useMemo(() => {
+//   const slugParts = params.slug || [];
+//   if (slugParts.length < 2) return {};
+
+//   const filterKey = slugParts[0];
+//   const filterValue = slugParts[1];
+
+//   switch (filterKey) {
+//     case 'category':
+//       return { category: filterValue };
+//       case 'subcategory': // Add subcategory case
+//       return { category: filterValue };
+//     case 'brand':
+//       return { brand: filterValue }; // Changed from brand to brandName
+//     case 'manufacturer':
+//       return { manufacturerName: filterValue }; // Changed from manufacturer to manufacturerName
+//     case 'type':
+//       return { type: filterValue };
+//     default:
+//       return {};
+//   }
+// }, [params.slug]);
   const fetchProducts = useCallback(async (filterParams) => {
     setLoading(true);
     try {

@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  CheckCircle, 
-  Star, 
-  Package, 
-  ExternalLink, 
+import {
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+  Star,
+  Package,
+  ExternalLink,
   TrendingUp,
   Users,
   ShoppingCart,
@@ -20,7 +20,7 @@ import { useCategory } from '@/app/hooks/useCategories';
 export default function CategoryDetails() {
   const params = useParams();
   const router = useRouter();
-  
+
   // Use the custom hook - switch useAPI to true for MongoDB, false for static JSON
   const { category, loading, error } = useCategory(params.id, false);
 
@@ -89,11 +89,11 @@ export default function CategoryDetails() {
             <ChevronLeft className="w-5 h-5" />
             Back to Categories
           </button>
-          
+
           <div className="flex items-center gap-6">
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <img 
-                src={category.icon} 
+              <img
+                src={category.icon}
                 alt={category.name}
                 className="w-20 h-20"
               />
@@ -101,7 +101,7 @@ export default function CategoryDetails() {
             <div>
               <h1 className="text-4xl font-bold mb-2">{category.name}</h1>
               <p className="text-blue-100 mb-4">Comprehensive information and resources</p>
-              
+
               {/* Quick Stats */}
               <div className="flex flex-wrap gap-6 text-sm">
                 {category.subcategories && (
@@ -147,9 +147,9 @@ export default function CategoryDetails() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Subcategories</h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   {category.subcategories.map((subcategory) => (
-                    <Link 
-                      key={subcategory.id} 
-                      href={`/subcategory/${encodeURIComponent(subcategory.name)}?category=${encodeURIComponent(category.name)}`}
+                    <Link
+                      key={subcategory.id}
+                      href={`/products/category/${encodeURIComponent(subcategory.name)}`}
                       className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
                     >
                       <div className="flex items-center justify-between">
@@ -180,12 +180,12 @@ export default function CategoryDetails() {
                 </div>
                 <div className="grid gap-4">
                   {category.popularParts.slice(0, 6).map((part) => (
-                    <div 
-                      key={part.id} 
+                    <div
+                      key={part.id}
                       className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
                     >
-                      <img 
-                        src={part.image} 
+                      <img
+                        src={part.image}
                         alt={part.partNumber}
                         className="w-16 h-16 object-contain bg-gray-50 rounded-lg p-2"
                         onError={(e) => {
@@ -235,7 +235,7 @@ export default function CategoryDetails() {
                     </div>
                   ))}
                 </div>
-                
+
                 {category.popularParts.length > 6 && (
                   <div className="text-center mt-6">
                     <button className="text-blue-600 hover:text-blue-800 font-medium px-6 py-2 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
@@ -283,8 +283,8 @@ export default function CategoryDetails() {
                   {category.topManufacturers.map((manufacturer) => (
                     <div key={manufacturer.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                       <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                        <img 
-                          src={manufacturer.logo} 
+                        <img
+                          src={manufacturer.logo}
                           alt={manufacturer.name}
                           className="w-8 h-8 object-contain"
                           onError={(e) => {
@@ -292,7 +292,7 @@ export default function CategoryDetails() {
                             e.target.nextSibling.style.display = 'block';
                           }}
                         />
-                        <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-xs font-bold text-gray-600" style={{display: 'none'}}>
+                        <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-xs font-bold text-gray-600" style={{ display: 'none' }}>
                           {manufacturer.name.charAt(0)}
                         </div>
                       </div>
@@ -303,7 +303,7 @@ export default function CategoryDetails() {
                           {manufacturer.specialties.length > 2 && ` +${manufacturer.specialties.length - 2}`}
                         </div>
                       </div>
-                      <a 
+                      <a
                         href={manufacturer.website}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -330,21 +330,21 @@ export default function CategoryDetails() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Links</h3>
               <div className="space-y-3">
-                <Link 
+                <Link
                   href={category.link}
                   className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
                 >
                   <span className="text-gray-700 group-hover:text-blue-600">Browse Products</span>
                   <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
                 </Link>
-                <Link 
+                <Link
                   href="/resources"
                   className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
                 >
                   <span className="text-gray-700 group-hover:text-blue-600">Technical Resources</span>
                   <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
                 </Link>
-                <Link 
+                <Link
                   href="/contact"
                   className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
                 >

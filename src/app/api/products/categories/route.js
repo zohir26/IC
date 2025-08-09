@@ -16,10 +16,10 @@ export async function GET(request) {
     // Build the dynamic filter object
     const filter = {};
     if (category) {
-      filter.category = category;
+      filter.category = new RegExp(category, 'i');
     }
     if (brand) {
-      filter.brand = brand;
+      filter.brand = new RegExp(brand, 'i');
     }
     if (manufacturer) {
       filter.manufacturer = manufacturer;

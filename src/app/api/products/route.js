@@ -41,10 +41,11 @@ export async function GET(request) {
     const query = {};
 
     // Category filtering - exact match
-    if (category) {
-      query.category = category;
-      console.log('Category filter applied:', category);
-    }
+// Inside the GET function, replace the category filter logic
+if (category) {
+  query.category = { $regex: new RegExp(`^${category}$`, 'i') }; // Case-insensitive exact match
+  console.log('Category filter applied (case-insensitive):', category);
+}
 
     // Type filtering
     if (type) {
